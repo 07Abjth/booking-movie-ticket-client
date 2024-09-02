@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { DarkMode } from "./ui/DarkMode";
+import { DarkMode } from "../../ui/DarkMode";
 
 export const Header = () => {
   return (

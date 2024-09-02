@@ -3,24 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast'; 
 import { userLogin } from '../../services/userApi';
 
-
 export const LoginPage = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
     try {
       console.log(data, "====data");
-      const response = await userLogin(data)
+      const response = await userLogin(data);
       console.log(response);
       
-      toast.success('Login successful'); // Use toast here
-      navigate('/');
+      if (response.success) { // Ensure your response structure matches this check
+        toast.success('Login successful'); // Use toast here
+        navigate('/user');
+      } else {
+        toast.error(response.message || 'Login failed'); // Use appropriate message
+      }
 
     } catch (error) {
       if (error.response && error.response.data) {

@@ -1,34 +1,35 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { axiosInstance } from "../../config/axiosInstance";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 
-export const UserAuth = ({children}) => {
+export const UserAuth = ({ children }) => {
     
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const [user, setUser] = useState();
+    const location = useLocation();
 
 
     const checkUser= async ()=>{
-
         try {
-          
         const response = await axiosInstance({
           url: "/user/check-user/",
           method: "GET",
           withCredentials:true
-        })
-       
+        });
+
+       setUser(true)
         console.log(response, '====response');
     }catch (error){
-            console.log(error);
-            
+        navigate("/login")   
+        console.log(error);
         }
-        
-        };
+};
 
 useEffect(()=>{
     checkUser();
 
-}, []);
-return children;
+}, [location.pathname]);
+return user? children: null;
 };
