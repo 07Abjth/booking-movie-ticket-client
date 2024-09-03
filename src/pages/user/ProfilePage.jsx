@@ -20,11 +20,16 @@ export const ProfilePage = () => {
 
   const fetchUserProfile = async (userId) => {
     try {
-      const response = await axios({
-        url: `http://localhost:4000/api/v1/user/profile/${userId}`, // Adjust the URL as needed
+      // const response = await axios({
+      //   url: `http://localhost:4000/api/v1/user/profile/${userId}`, // Adjust the URL as needed
+      //   method: "GET",
+      //   withCredentials: true, // Include credentials if necessary
+      // });
+
+      const response = await axiosInstance({
+        url: `/user/profile/${userId}`,
         method: "GET",
-        withCredentials: true, // Include credentials if necessary
-      });
+      })
 
       setUser(response?.data?.data);
 
