@@ -2,8 +2,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../../services/userApi";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
-import axios from "axios";
-
+import { axiosInstance } from "../../config/axiosInstance";
+ 
 export const ProfilePage = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState({});
@@ -18,17 +18,12 @@ export const ProfilePage = () => {
     }
   };
 
-  const fetchUserProfile = async (userId) => {
+  const fetchUserProfile = async () => {
     try {
-      // const response = await axios({
-      //   url: `http://localhost:4000/api/v1/user/profile/${userId}`, // Adjust the URL as needed
-      //   method: "GET",
-      //   withCredentials: true, // Include credentials if necessary
-      // });
-
       const response = await axiosInstance({
-        url: `/user/profile/${userId}`,
+        url: `/user/profile/`,
         method: "GET",
+        withCredentials: true,
       })
 
       setUser(response?.data?.data);
@@ -41,8 +36,7 @@ export const ProfilePage = () => {
   };
 
   useEffect(() => {
-    const userId = "your-user-id"; // Replace with actual user ID
-    fetchUserProfile(userId);
+    fetchUserProfile();
   }, []);
 
   return (
