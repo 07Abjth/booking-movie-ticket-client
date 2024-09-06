@@ -47,7 +47,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/user",
+    path: "user",
     element: (
       <UserAuth>
         <UserLayout />

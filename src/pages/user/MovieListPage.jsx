@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
 import { MovieCard } from '../../components/ui/Cards';
-import { axiosInstance } from '../../config/axiosInstance';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-
 
 // Define MovieListPage
 const MovieListPage = () => {
@@ -19,28 +17,18 @@ const MovieListPage = () => {
     try {
       // Fetch upcoming movies
       const upcomingResponse = await axios.get('http://localhost:4000/api/v1/movie/upcoming');
-      console.log('Upcoming Movies:', upcomingMovies);
-
+      console.log('Upcoming Movies:', upcomingResponse.data.data);
       setUpcomingMovies(upcomingResponse.data.data);
 
-      // // Fetch trending movies
-      // const trendingResponse = await axiosInstance.get('/movie/trending');
-      // console.log('Trending Movies:', trendingMovies);
-
-      // setTrendingMovies(trendingResponse?.data?.data || []);
-
-
+      // Fetch trending movies
       const trendingResponse = await axios.get('http://localhost:4000/api/v1/movie/trending');
       console.log('Trending Movies:', trendingResponse.data.data);
       setTrendingMovies(trendingResponse.data.data);
-  
-
 
       // Fetch new releases
-      const newReleasesResponse = await axiosInstance.get('/movie/newReleases');
-      console.log('New Releases:', newReleases);
-
-      setNewReleases(newReleasesResponse?.data?.data || []);
+      const newReleasesResponse = await axios.get('http://localhost:4000/api/v1/movie/newReleases');
+      console.log('New Releases:', newReleasesResponse.data.data);
+      setNewReleases(newReleasesResponse.data.data);
 
     } catch (error) {
       console.error('Error fetching movies:', error);
@@ -61,22 +49,27 @@ const MovieListPage = () => {
 
   return (
     <div className="px-8 md:px-20 py-10 bg-gray-100 min-h-screen">
-       
-       <h1>Trending movies</h1>
-     {trendingMovies.map((value)=>(
-      <MovieCard key={value.id} movie={value}/>
-      ))}
-       <h1>Upcoming movies</h1>
-     {upcomingMovies.map((value)=>(
-      <MovieCard key={value.id} movie={value}/>
-      ))}
+      <h1 className='font-bold text-4xl my-5'>Trending Movies</h1>
+      <div className='grid grid-cols-3 gap-10'>
+        {trendingMovies.map((movie) => (
+          <MovieCard key={movie._id} movie={movie} />
+        ))}
+      </div>
 
-       {/* <h1>Trending movies</h1>
-     {trendingMovies.map((value)=>(
-      <MovieCard key={value.id} movie={value}/>
-      ))} */}
-     
-     </div>
+      <h1 className='font-bold text-4xl my-5'>Upcoming Movies</h1>
+      <div className='grid grid-cols-3 gap-10'>
+        {upcomingMovies.map((movie) => (
+          <MovieCard key={movie._id} movie={movie} />
+        ))}
+      </div>
+
+      <h1 className='font-bold text-4xl my-5'>New Releases</h1>
+      <div className='grid grid-cols-3 gap-10'>
+        {newReleases.map((movie) => (
+          <MovieCard key={movie._id} movie={movie} />
+        ))}
+      </div>
+    </div>
   );
 };
 
