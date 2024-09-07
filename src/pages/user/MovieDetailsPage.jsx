@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { axiosInstance } from "../../config/axiosInstance";
+// import { axiosInstance } from "../../config/axiosInstance";
 import toast from "react-hot-toast";
- 
+ import axios from "axios";
 
 export const MovieDetailsPage = () => {
   const { id } = useParams(); // Get the movie ID from the URL parameters
@@ -14,10 +14,10 @@ export const MovieDetailsPage = () => {
 
   const fetchMovieDetails = async () => {
     try {
-      console.log('Fetching movie details for ID:', id);
-      const response = await axiosInstance.get(`/movie/details/${id}`);
-      console.log('API Response:', response);
-      console.log('Response Data:', response.data);
+      // const response = await axiosInstance.get(`/movie/details/${id}`);
+      const response = await axios.get(`http://localhost:4000/api/v1/movie/details/${id}`);
+
+      console.log("API Response:", response.data); // Check the entire response
       setMovieDetails(response.data.data);
     } catch (error) {
       console.error('Error fetching movie details:', error);
@@ -27,8 +27,6 @@ export const MovieDetailsPage = () => {
       setLoading(false);
     }
   };
-  
-  
   
   
 
@@ -53,7 +51,7 @@ return (
       
       <div className="movie-details">
         <h1 className="text-3xl font-bold mb-4">{movieDetails.title || "Title not available"}</h1>
-        {/* <img src={movieDetails.image || "default-image.jpg"} alt={movieDetails.title} className="mb-4 w-full max-w-md" /> */}
+        <img src={movieDetails.image || "default-image.jpg"} alt={movieDetails.title} className="mb-4 w-full max-w-md" />
         <p className="mb-4">{movieDetails.description || "Description not available"}</p>
         <p className="mb-4"><strong>Release Date:</strong> {movieDetails.releaseDate ? new Date(movieDetails.releaseDate).toLocaleDateString() : "N/A"}</p>
         <p className="mb-4"><strong>Duration:</strong> {movieDetails.duration ? `${movieDetails.duration} minutes` : "N/A"}</p>

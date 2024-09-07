@@ -29,28 +29,15 @@ export const TheaterOwnerHeader = () => {
       {/* Dropdown Menu for Smaller Screens */}
       {menuOpen && (
         <div className="absolute top-20 right-8 bg-gray-800 text-white shadow-lg rounded-lg flex flex-col items-start p-4 space-y-2">
-          <Link to="/theaterowner/dashboard" className="text-lg" onClick={() => setMenuOpen(false)}>Dashboard</Link>
-          <Link to="/theaterowner/my-shows" className="text-lg" onClick={() => setMenuOpen(false)}>My Shows</Link>
-          <Link to="/theaterowner/seat-management" className="text-lg" onClick={() => setMenuOpen(false)}>Seat Management</Link>
-          <Link to="/theaterowner/profile" className="text-lg" onClick={() => setMenuOpen(false)}>Profile</Link>
-          <Link to="/theaterowner/settings" className="text-lg" onClick={() => setMenuOpen(false)}>Settings</Link>
+          <Link to="/theater-owner/theater-owner-dashboard/" className="text-lg" onClick={() => setMenuOpen(false)}>Dashboard</Link>
+          <Link to="/theater-owner/manage-theaters" className="text-lg" onClick={() => setMenuOpen(false)}>Manage Theaters</Link>
+
+          <Link to="/theater-owner/manage-shows" className="text-lg" onClick={() => setMenuOpen(false)}>My Shows</Link>
+          <Link to="/theater-owner/manage-seats" className="text-lg" onClick={() => setMenuOpen(false)}>Seat Management</Link>
+          <Link to="/theater-owner/theater-owner-settings" className="text-lg" onClick={() => setMenuOpen(false)}>Profile Settings</Link>
         </div>
       )}
     </div>
   );
 };
 
-// Sidebar Component for Larger Screens
-export const TheaterOwnerSidebar = () => {
-  return (
-    <div className="hidden md:block fixed top-0 left-0 h-full w-64 bg-gray-800 text-white shadow-lg p-6">
-      <nav className="flex flex-col space-y-4">
-        <Link to="/theaterowner/dashboard" className="text-lg">Dashboard</Link>
-        <Link to="/theaterowner/my-shows" className="text-lg">My Shows</Link>
-        <Link to="/theaterowner/seat-management" className="text-lg">Seat Management</Link>
-        <Link to="/theaterowner/profile" className="text-lg">Profile</Link>
-        <Link to="/theaterowner/settings" className="text-lg">Settings</Link>
-      </nav>
-    </div>
-  );
-};

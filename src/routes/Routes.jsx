@@ -20,20 +20,24 @@ import {LogoutPage} from '../pages/user/LogoutPage.jsx';
 
 
 import { UserAuth } from "./protectedRoutes/UserAuth.jsx"; // Middleware for general user authentication
-import { TheaterOwnerAuth } from "./protectedRoutes/TheaterOwnerAuth.jsx"; // Middleware for theater owner authentication
-import { AdminAuth } from "./protectedRoutes/AdminAuth.jsx"; // Middleware for admin authentication
+// import { TheaterOwnerAuth } from "./protectedRoutes/TheaterOwnerAuth.jsx"; // Middleware for theater owner authentication
+// import { AdminAuth } from "./protectedRoutes/AdminAuth.jsx"; // Middleware for admin authentication
 
 import { TheaterOwnerLayout } from "../components/layouts/theaterOwner/TheaterOwnerLayout.jsx";
-import {ManageTheaterOwnerPage} from "../pages/theaterOwner/ManageTheaterOwnerPage.jsx";
+import { TheaterOwnerSettingsPage} from "../pages/theaterOwner/TheaterOwnerSettingsPage.jsx";
+import { TheaterOwnerDashboard } from "../pages/theaterOwner/TheaterOwnerDashboard.jsx";
 import { ManageTheatersPage } from "../pages/theaterOwner/ManageTheatersPage.jsx";
+import { ManageMoviesPage } from "../pages/theaterOwner/ManageMoviesPage.jsx";
 import { ManageShowsPage } from "../pages/theaterOwner/ManageShowsPage.jsx";
 import { ManageSeatsPage } from "../pages/theaterOwner/ManageSeatsPage.jsx";
+
 
 import { AdminLayout } from "../components/layouts/admin/AdminLayout.jsx";
 import { AdminSettingsPage } from "../pages/admin/AdminSettingsPage.jsx";
 import { ManageUsersPage } from "../pages/admin/ManageUsersPage.jsx";
-import { ManageMoviesPage } from "../pages/admin/ManageMoviesPage.jsx";
- 
+// import { ManageMoviesPage } from "../pages/admin/ManageMoviesPage.jsx";
+import { AdminLoginPage } from "../pages/admin/AdminLogin.jsx";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -71,33 +75,39 @@ export const router = createBrowserRouter([
   {
     path: "/theater-owner",
     element: (
-      <TheaterOwnerAuth>
+      
         <TheaterOwnerLayout />
-      </TheaterOwnerAuth>
     ),
     children: [
-      { path: "manage-theater-owner", element: <ManageTheaterOwnerPage /> },
+      { path: "theater-owner-dashboard", element: <TheaterOwnerDashboard /> },
       { path: "manage-theaters", element: <ManageTheatersPage /> },
-      
+      { path: "manage-movies", element: <ManageMoviesPage /> },
       { path: "manage-shows", element: <ManageShowsPage /> },
       { path: "manage-seats", element: <ManageSeatsPage /> },
+      { path: "theater-owner-settings", element: <TheaterOwnerSettingsPage /> },
+    
     ],
   },
-  {
-    path: "/admin",
-    element: (
-      <AdminAuth>
-        <AdminLayout />
-      </AdminAuth>
-    ),
-    children: [
-      { path: "manage-users", element: <ManageUsersPage /> },
-      { path: "manage-movies", element: <ManageMoviesPage /> },
-      { path: "manage-theaters", element: <ManageTheatersPage /> },
-      { path: "manage-shows", element: <ManageShowsPage /> },
-      { path: "settings", element: <AdminSettingsPage /> },
-    ],
-  }
+  
+    {
+      path: "/admin-login",
+      element: <AdminLoginPage />,
+    },
+    {
+      path: "/admin",
+      element: (
+        
+          <AdminLayout />
+       
+      ),
+      children: [
+        { path: "manage-users", element: <ManageUsersPage /> },
+        { path: "manage-movies", element: <ManageMoviesPage /> },
+        { path: "manage-theaters", element: <ManageTheatersPage /> },
+        { path: "manage-shows", element: <ManageShowsPage /> },
+        { path: "settings", element: <AdminSettingsPage /> },
+      ],
+    }
 ]);
 
 

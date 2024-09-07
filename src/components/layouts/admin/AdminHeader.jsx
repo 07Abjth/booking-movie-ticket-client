@@ -30,9 +30,12 @@ export const AdminHeader = () => {
       {menuOpen && (
         <div className="absolute top-20 right-8 bg-gray-800 text-white shadow-lg rounded-lg flex flex-col items-start p-4 space-y-2">
           <Link to="/admin/dashboard" className="text-lg" onClick={() => setMenuOpen(false)}>Dashboard</Link>
-          <Link to="/admin/user-management" className="text-lg" onClick={() => setMenuOpen(false)}>User Management</Link>
-          <Link to="/admin/theater-management" className="text-lg" onClick={() => setMenuOpen(false)}>Theater Management</Link>
+          <Link to="/admin/manage-users" className="text-lg" onClick={() => setMenuOpen(false)}>Manage Users</Link>
+          <Link to="/admin/manage-movies" className="text-lg" onClick={() => setMenuOpen(false)}>Manage Movies</Link>
+          <Link to="/admin/manage-theaters" className="text-lg" onClick={() => setMenuOpen(false)}>Manage Theaters</Link>
+          <Link to="/admin/manage-shows" className="text-lg" onClick={() => setMenuOpen(false)}>Manage Shows</Link>
           <Link to="/admin/settings" className="text-lg" onClick={() => setMenuOpen(false)}>Settings</Link>
+
         </div>
       )}
     </div>
