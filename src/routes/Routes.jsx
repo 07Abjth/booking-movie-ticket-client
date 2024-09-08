@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { UserLayout } from '../components/layouts/user/UserLayout.jsx';
- import { BookingPage } from "../pages/user/BookingPage.jsx";
+import {UserHomePage} from "../pages/user/UserHomePage.jsx"; 
+import { BookingPage } from "../pages/user/BookingPage.jsx";
 import { ProfilePage } from "../pages/user/ProfilePage.jsx";
 import { MovieDetailsPage } from "../pages/user/MovieDetailsPage.jsx";
 import { PaymentPage } from "../pages/user/PaymentPage.jsx";
@@ -37,7 +38,7 @@ import { AdminSettingsPage } from "../pages/admin/AdminSettingsPage.jsx";
 import { ManageUsersPage } from "../pages/admin/ManageUsersPage.jsx";
 // import { ManageMoviesPage } from "../pages/admin/ManageMoviesPage.jsx";
 import { AdminLoginPage } from "../pages/admin/AdminLogin.jsx";
-
+ 
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -46,7 +47,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <HomePage /> },
       { path: "login", element: <LoginPage /> },
-      { path: "signup", element: <SignUpPage /> },
+      { path: "signUp", element: <SignUpPage /> },
       { path: "about", element: <AboutPage /> },
     ],
   },
@@ -58,6 +59,8 @@ export const router = createBrowserRouter([
       </UserAuth>
     ),
     children: [
+      { path: "user-homepage", element: <UserHomePage /> },            // My Bookings
+      
       { path: "my-bookings", element: <BookingPage /> },            // My Bookings
       { path: "profile", element: <ProfilePage /> },                // Profile
       { path: "movie-details/:id", element: <MovieDetailsPage /> }, // Movie Details

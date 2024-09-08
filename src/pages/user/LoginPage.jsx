@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast'; 
 import { userLogin } from '../../services/userApi';
 
@@ -63,6 +63,12 @@ export const LoginPage = () => {
             Log In
           </button>
         </div>
+        <p className="text-sm text-gray-600">
+        If haven't registered?{' '}
+          <Link to="/signup" className="text-blue-500 hover:text-blue-600">
+            Signup
+          </Link>
+        </p>
       </form>
     </div>
   );

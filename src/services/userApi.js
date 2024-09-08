@@ -1,5 +1,29 @@
 import axios from 'axios';
-import { axiosInstance } from '../config/axiosInstance';
+// import { axiosInstance } from '../config/axiosInstance';
+
+
+export const userSignUp = async (data) => {
+  try {
+    const response = await axios({
+      url: "http://localhost:4000/api/v1/user/register",
+      method: "POST",
+      data,
+      withCredentials: true,
+    });
+    return response?.data;
+  } catch (error) {
+    // Handle error response to bubble it up
+    if (error.response) {
+      // Return specific error response from the server
+      return { error: error.response.data };
+    } else {
+      // General error message
+      return { error: 'An error occurred during login' };
+    }
+  }
+}
+
+
 
 export const userLogin = async (data) => {
   try {
@@ -63,19 +87,19 @@ export const userLogout = async () => {
 // }
 
 
-export const userCheck= async ()=>{
+// export const userCheck= async ()=>{
 
-try {
+// try {
   
-const response = await axiosInstance({
-  url: "/user/user-check/",
-  method: "GET",
-})
-return response?.data;
+// const response = await axiosInstance({
+//   url: "/user/user-check/",
+//   method: "GET",
+// })
+// return response?.data;
 
-} catch (error) {
-  console.log(error);
+// } catch (error) {
+//   console.log(error);
   
-}
+// }
 
-}
+// }

@@ -12,7 +12,7 @@ export const Header = () => {
       </nav>
 
       <div className="flex items-center gap-8">
-        <Link to="/signup">
+        <Link to="/signUp">
           <button className="btn btn-active btn-primary">Join us</button>
         </Link>
       </div>

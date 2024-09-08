@@ -39,16 +39,4 @@ export const UserHeader = () => {
   );
 };
 
-// Sidebar Component for Larger Screens
-export const Sidebar = () => {
-  return (
-    <div className="hidden md:block fixed top-0 left-0 h-full w-64 bg-gray-800 text-white shadow-lg p-6">
-      <nav className="flex flex-col space-y-4">
-        <Link to={"/"} className="text-lg">Home</Link>
-        <Link to={"/user/my-bookings"} className="text-lg">My bookings</Link>
-        <Link to={"/user/profile"} className="text-lg">Profile</Link>
-        <Link to={"/user/settings"} className="text-lg">Settings</Link>
-      </nav>
-    </div>
-  );
-};
+ 
