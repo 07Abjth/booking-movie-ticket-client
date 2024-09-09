@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -8,6 +9,8 @@ export const Footer = () => {
     <a className="link link-hover">Design</a>
     <a className="link link-hover">Marketing</a>
     <a className="link link-hover">Advertisement</a>
+    <Link to="/theater-owner/login">Theater Owner Login</Link>
+
   </nav>
   <nav>
     <h6 className="footer-title">Company</h6>
