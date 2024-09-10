@@ -17,7 +17,7 @@ import { LoginPage } from "../pages/user/LoginPage.jsx";
 import { SignUpPage } from "../pages/user/SignUpPage.jsx";
 import { AboutPage } from "../pages/user/AboutPage.jsx";
 import { ErrorPage } from "../pages/user/ErrorPage.jsx";
-import {LogoutPage} from '../pages/user/LogoutPage.jsx';
+import { TheatersDetailsPage } from "../pages/theaterOwner/TheatersDetailsPage.jsx";
 
 
 import { UserAuth } from "./protectedRoutes/UserAuth.jsx"; // Middleware for general user authentication
@@ -65,9 +65,10 @@ export const router = createBrowserRouter([
       </UserAuth>
     ),
     children: [
-      { path: "homepage", element: <UserHomePage /> },
+      { path: "user-homepage", element: <UserHomePage /> },
       { path: "my-bookings", element: <BookingPage /> },
       { path: "profile", element: <ProfilePage /> },
+      { path: "theater-details", element: <TheatersDetailsPage /> },
       { path: "movie-details/:id", element: <MovieDetailsPage /> },
       { path: "payment", element: <PaymentPage /> },
       { path: "settings", element: <SettingsPage /> },
@@ -76,7 +77,6 @@ export const router = createBrowserRouter([
       { path: "reviews", element: <UserReviewsPage /> },
       { path: "support", element: <SupportPage /> },
       { path: "history", element: <HistoryPage /> },
-      { path: "logout", element: <LogoutPage /> },
     ],
   },
 

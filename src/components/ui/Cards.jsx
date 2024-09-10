@@ -65,7 +65,7 @@ export const MovieCard = ({ movie }) => {
         </div>
         <div className="card-actions justify-end">
           <Link to={linkPath}>
-            <button className="btn btn-primary">Book Ticket</button>
+            <button className="btn btn-primary">See More</button>
           </Link>
         </div>
       </div>

@@ -1,12 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import MovieListPage from './MovieListPage';
+ 
 
 export const HomePage = () => {
+
+  
   const navigate = useNavigate();
 
   return (
-    <div className="home-container text-center p-8">
+    <div className="home-container text-center p-8 px-20" >
       <h1 className="text-4xl font-bold mb-6">Welcome to CineTicketsBook</h1>
+
       <p className="text-lg mb-4">
         Your ultimate destination for booking movie tickets. Discover the latest movies and book your seats now!
       </p>

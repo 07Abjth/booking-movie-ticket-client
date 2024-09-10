@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 // import { axiosInstance } from "../../config/axiosInstance";
 import toast from "react-hot-toast";
@@ -68,6 +68,11 @@ return (
     ) : (
       <div className="text-center py-20 text-gray-500">Movie details not found</div>
     )}
+    <div className="card-actions justify-start">
+          <Link to="/theater-details">
+            <button className="btn btn-primary">Book Ticket</button>
+          </Link>
+        </div>
   </div>
 );
 
