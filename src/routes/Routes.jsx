@@ -17,7 +17,7 @@ import { LoginPage } from "../pages/user/LoginPage.jsx";
 import { SignUpPage } from "../pages/user/SignUpPage.jsx";
 import { AboutPage } from "../pages/user/AboutPage.jsx";
 import { ErrorPage } from "../pages/user/ErrorPage.jsx";
-import { TheatersDetailsPage } from "../pages/theaterOwner/TheatersDetailsPage.jsx";
+import { TheaterDetailsPage } from "../pages/theaterOwner/TheaterDetailsPage.jsx";
 
 
 import { UserAuth } from "./protectedRoutes/UserAuth.jsx"; // Middleware for general user authentication
@@ -68,7 +68,7 @@ export const router = createBrowserRouter([
       { path: "user-homepage", element: <UserHomePage /> },
       { path: "my-bookings", element: <BookingPage /> },
       { path: "profile", element: <ProfilePage /> },
-      { path: "theater-details", element: <TheatersDetailsPage /> },
+      { path: "theater-details", element: <TheaterDetailsPage /> },
       { path: "movie-details/:id", element: <MovieDetailsPage /> },
       { path: "payment", element: <PaymentPage /> },
       { path: "settings", element: <SettingsPage /> },

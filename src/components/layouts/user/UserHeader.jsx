@@ -44,11 +44,10 @@ export const UserHeader = () => {
       {/* Dropdown Menu for Mobile Screens */}
       {menuOpen && (
         <div className="absolute top-16 right-8 bg-white text-black shadow-lg rounded-lg flex flex-col items-start p-4 space-y-2">
-          <Link to="/user/homepage" className="text-lg" onClick={() => setMenuOpen(false)}>Home</Link>
+          <Link to="/user/user-homepage" className="text-lg" onClick={() => setMenuOpen(false)}>Home</Link>
           <Link to="/user/my-bookings" className="text-lg" onClick={() => setMenuOpen(false)}>My Bookings</Link>
-          <Link to="/user/profile" className="text-lg" onClick={() => setMenuOpen(false)}>Profile</Link>
           <Link to="/user/watch-list" className="text-lg" onClick={() => setMenuOpen(false)}>Watch List</Link>
-          <Link to="/user/settings" className="text-lg" onClick={() => setMenuOpen(false)}>Settings</Link>
+          <Link to="/user/settings" className="text-lg" onClick={() => setMenuOpen(false)}>Profile Settings</Link>
           <Link to="/user/notifications" className="text-lg" onClick={() => setMenuOpen(false)}>Notifications</Link>
           <button className="text-lg" onClick={handleLogout}>Logout</button>
         </div>

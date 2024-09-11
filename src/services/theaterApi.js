@@ -1,10 +1,11 @@
-import { axiosInstance } from '../config/axiosInstance';
+// import { axiosInstance } from '../config/axiosInstance';
+import axios from 'axios';
 
 // Get All Theaters
 export const getAllTheaters = async () => {
   try {
-    const response = await axiosInstance({
-      url: "/theaters",
+    const response = await axios({
+      url: "http://localhost:4000/api/v1/theaters/get-theaters",
       method: "GET",
       withCredentials: true,
     });
@@ -21,8 +22,8 @@ export const getAllTheaters = async () => {
 // Create a New Theater
 export const createTheater = async (data) => {
   try {
-    const response = await axiosInstance({
-      url: "/theaters",
+    const response = await axio({
+      url: "http://localhost:4000/api/v1/theater/theater/create-theater",
       method: "POST",
       data,
       withCredentials: true,

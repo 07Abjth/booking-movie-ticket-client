@@ -11,10 +11,8 @@ export const TheaterDetailsPage = () => {
 
   const fetchTheaterDetails = async () => {
     try {
-      // const response = await axiosInstance.get(`/theater/details/${id}`);
-      const response = await axios.get(`http://localhost:4000/api/v1/theater//get-theaters`);
-
-      console.log("API Response:", response.data); // Check the entire response
+      const response = await axios.get(`http://localhost:4000/api/v1/theater/details-by-:id/${id}`);
+      console.log("API Response:", response.data);
       setTheaterDetails(response.data.data);
     } catch (error) {
       console.error('Error fetching theater details:', error);
@@ -27,13 +25,10 @@ export const TheaterDetailsPage = () => {
 
   useEffect(() => {
     fetchTheaterDetails();
-  }, []);
+  }, [id]);
 
   if (loading) return <div className="text-center py-20 text-lg">Loading...</div>;
-
   if (error) return <div className="text-center py-20 text-red-500">{error}</div>;
-
-  console.log("Theater details ====", theaterDetails);
 
   return (
     <div className="px-8 md:px-20 py-10 bg-gray-100 min-h-screen">
@@ -47,16 +42,27 @@ export const TheaterDetailsPage = () => {
           <p className="mb-4"><strong>Seats Available:</strong> {theaterDetails.seatsAvailable || "N/A"}</p>
           <p className="mb-4"><strong>Opening Hours:</strong> {theaterDetails.openingHours || "N/A"}</p>
           <p className="mb-4"><strong>Facilities:</strong> {theaterDetails.facilities ? theaterDetails.facilities.join(', ') : "N/A"}</p>
-          <p className="mb-4"><strong>Upcoming Shows:</strong> {theaterDetails.upcomingShows ? theaterDetails.upcomingShows.join(', ') : "N/A"}</p>
+          <p className="mb-4"><strong>Upcoming Shows:</strong></p>
+          <ul>
+            {theaterDetails.screens.map((screen, index) => (
+              <li key={index} className="mb-4">
+                <h3 className="text-xl font-semibold">Screen {screen.screenNumber} - {screen.screenType}</h3>
+                <ul>
+                  {screen.showtimes.map((showtime, idx) => (
+                    <li key={idx} className="mb-2">
+                      <Link to={`/showtime/${showtime.id}`} className="text-blue-500 hover:underline">
+                        {showtime.movieTitle} - {new Date(showtime.time).toLocaleTimeString()}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
         </div>
       ) : (
         <div className="text-center py-20 text-gray-500">Theater details not found</div>
       )}
-      <div className="card-actions justify-start">
-        <Link to="/book-ticket">
-          <button className="btn btn-primary">Book Ticket</button>
-        </Link>
-      </div>
     </div>
   );
 };
