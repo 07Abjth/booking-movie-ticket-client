@@ -1,16 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
 import { UserLayout } from '../components/layouts/user/UserLayout.jsx';
-import {UserHomePage} from "../pages/user/UserHomePage.jsx"; 
+import { UserHomePage } from "../pages/user/UserHomePage.jsx"; 
 import { BookingPage } from "../pages/user/BookingPage.jsx";
 import { ProfilePage } from "../pages/user/ProfilePage.jsx";
-import { MovieDetailsPage } from "../pages/user/MovieDetailsPage.jsx";
 import { PaymentPage } from "../pages/user/PaymentPage.jsx";
-import {SettingsPage} from '../pages/user/SettingsPage.jsx';
-import {WatchListPage} from '../pages/user/WatchListPage.jsx';
-import {NotificationsPage} from '../pages/user/NotificationsPage.jsx';
-import {UserReviewsPage} from '../pages/user/UserReviewsPage.jsx';
-import {SupportPage} from '../pages/user/SupportPage.jsx';
-import {HistoryPage} from '../pages/user/HistoryPage.jsx';
+import { SettingsPage } from '../pages/user/SettingsPage.jsx';
+import { WatchListPage } from '../pages/user/WatchListPage.jsx';
+import { NotificationsPage } from '../pages/user/NotificationsPage.jsx';
+import { UserReviewsPage } from '../pages/user/UserReviewsPage.jsx';
+import { SupportPage } from '../pages/user/SupportPage.jsx';
+import { HistoryPage } from '../pages/user/HistoryPage.jsx';
 import { RootLayout } from "../components/layouts/RootLayout.jsx";
 import { HomePage } from "../pages/user/HomePage.jsx";
 import { LoginPage } from "../pages/user/LoginPage.jsx";
@@ -18,30 +17,25 @@ import { SignUpPage } from "../pages/user/SignUpPage.jsx";
 import { AboutPage } from "../pages/user/AboutPage.jsx";
 import { ErrorPage } from "../pages/user/ErrorPage.jsx";
 import { TheaterDetailsPage } from "../pages/theaterOwner/TheaterDetailsPage.jsx";
-
-
-import { UserAuth } from "./protectedRoutes/UserAuth.jsx"; // Middleware for general user authentication
-import { TheaterOwnerAuth } from "./protectedRoutes/TheaterOwnerAuth.jsx"; // Middleware for theater owner authentication
-import { AdminAuth } from "./protectedRoutes/AdminAuth.jsx"; // Middleware for admin authentication
-
 import { TheaterOwnerSignUpPage } from "../pages/theaterOwner/TheaterOwnerSignUpPage.jsx";
 import { TheaterOwnerLoginPage } from "../pages/theaterOwner/TheaterOwnerLoginPage.jsx";
 import { TheaterOwnerLayout } from "../components/layouts/theaterOwner/TheaterOwnerLayout.jsx";
-import { TheaterOwnerSettingsPage} from "../pages/theaterOwner/TheaterOwnerSettingsPage.jsx";
+import { TheaterOwnerSettingsPage } from "../pages/theaterOwner/TheaterOwnerSettingsPage.jsx";
 import { TheaterOwnerDashboard } from "../pages/theaterOwner/TheaterOwnerDashboard.jsx";
 import { ManageTheatersPage } from "../pages/theaterOwner/ManageTheatersPage.jsx";
 import { ManageMoviesPage } from "../pages/theaterOwner/ManageMoviesPage.jsx";
 import { ManageShowsPage } from "../pages/theaterOwner/ManageShowsPage.jsx";
 import { ManageSeatsPage } from "../pages/theaterOwner/ManageSeatsPage.jsx";
-
-
 import { AdminLayout } from "../components/layouts/admin/AdminLayout.jsx";
 import { AdminSettingsPage } from "../pages/admin/AdminSettingsPage.jsx";
 import { ManageUsersPage } from "../pages/admin/ManageUsersPage.jsx";
-// import { ManageMoviesPage } from "../pages/admin/ManageMoviesPage.jsx";
 import { AdminLoginPage } from "../pages/admin/AdminLogin.jsx";
 import { AdminDashboard } from "../pages/admin/AdminDashboard.jsx"; 
-
+import { SeatsSelectionPage } from "../pages/theater/SeatsSelectionPage.jsx";
+import { MovieInfoAndBookingPage } from "../pages/movie/MovieInfoAndBookingPage.jsx";
+import { UserAuth } from "./protectedRoutes/UserAuth.jsx";
+import { TheaterOwnerAuth } from "./protectedRoutes/TheaterOwnerAuth.jsx";
+import { AdminAuth } from "./protectedRoutes/AdminAuth.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -55,7 +49,7 @@ export const router = createBrowserRouter([
       { path: "about", element: <AboutPage /> },
     ],
   },
-
+  
   // User Routes
   {
     path: "/user",
@@ -66,10 +60,11 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: "user-homepage", element: <UserHomePage /> },
-      { path: "my-bookings", element: <BookingPage /> },
+      { path: "bookings", element: <BookingPage /> },
       { path: "profile", element: <ProfilePage /> },
-      { path: "theater-details", element: <TheaterDetailsPage /> },
-      { path: "movie-details/:id", element: <MovieDetailsPage /> },
+      { path: "theater-details/:theaterId", element: <TheaterDetailsPage /> },
+      { path: "seat-selection/:showId", element: <SeatsSelectionPage /> },
+      { path:"movie-info-and-booking/:movieId", element:<MovieInfoAndBookingPage />},
       { path: "payment", element: <PaymentPage /> },
       { path: "settings", element: <SettingsPage /> },
       { path: "watch-list", element: <WatchListPage /> },
@@ -82,11 +77,11 @@ export const router = createBrowserRouter([
 
   // Theater Owner Routes
   {
-    path: "/theater-owner/login", // Theater owner login
+    path: "/theater-owner/login",
     element: <TheaterOwnerLoginPage />,
   },
   {
-    path: "/theater-owner/signup", // Theater owner login
+    path: "/theater-owner/signup",
     element: <TheaterOwnerSignUpPage />,
   },
   {
@@ -98,17 +93,17 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: "dashboard", element: <TheaterOwnerDashboard /> },
-      { path: "manage-theaters", element: <ManageTheatersPage /> },
-      { path: "manage-movies", element: <ManageMoviesPage /> },
-      { path: "manage-shows", element: <ManageShowsPage /> },
-      { path: "manage-seats", element: <ManageSeatsPage /> },
+      { path: "manage/theaters", element: <ManageTheatersPage /> },
+      { path: "manage/movies", element: <ManageMoviesPage /> },
+      { path: "manage/shows", element: <ManageShowsPage /> },
+      { path: "manage/seats", element: <ManageSeatsPage /> },
       { path: "settings", element: <TheaterOwnerSettingsPage /> },
     ],
   },
 
   // Admin Routes
   {
-    path: "/admin/login", // Admin login
+    path: "/admin/login",
     element: <AdminLoginPage />,
   },
   {
@@ -120,10 +115,10 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: "dashboard", element: <AdminDashboard /> },
-      { path: "manage-users", element: <ManageUsersPage /> },
-      { path: "manage-movies", element: <ManageMoviesPage /> },
-      { path: "manage-theaters", element: <ManageTheatersPage /> },
-      { path: "manage-shows", element: <ManageShowsPage /> },
+      { path: "manage/users", element: <ManageUsersPage /> },
+      { path: "manage/movies", element: <ManageMoviesPage /> },
+      { path: "manage/theaters", element: <ManageTheatersPage /> },
+      { path: "manage/shows", element: <ManageShowsPage /> },
       { path: "settings", element: <AdminSettingsPage /> },
     ],
   },

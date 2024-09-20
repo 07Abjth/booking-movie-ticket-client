@@ -1,10 +1,12 @@
-import { axiosInstance } from '../config/axiosInstance';
+import axios from "axios";
+
+
 
 // Initiate Payment
 export const initiatePayment = async (data) => {
   try {
-    const response = await axiosInstance({
-      url: "/payments/initiate",
+    const response = await axios({
+      url: "http://localhost:4000/api/v1/payments/initiate",
       method: "POST",
       data,
       withCredentials: true,
@@ -22,8 +24,8 @@ export const initiatePayment = async (data) => {
 // Verify Payment
 export const verifyPayment = async (paymentId) => {
   try {
-    const response = await axiosInstance({
-      url: `/payments/verify/${paymentId}`,
+    const response = await axios({
+      url: `http://localhost:4000/api/v1/payments/verify/${paymentId}`,
       method: "POST",
       withCredentials: true,
     });

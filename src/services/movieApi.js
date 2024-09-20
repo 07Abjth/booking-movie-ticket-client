@@ -1,10 +1,13 @@
-import { axiosInstance } from '../config/axiosInstance';
+import axios from 'axios';
+
+// Base URL of your backend API
+const API_BASE_URL = 'http://localhost:4000/api/v1';
 
 // Get All Movies
 export const getAllMovies = async () => {
   try {
-    const response = await axiosInstance({
-      url: "/movies",
+    const response = await axios({
+      url: `${API_BASE_URL}/movies`,
       method: "GET",
       withCredentials: true,
     });
@@ -18,29 +21,22 @@ export const getAllMovies = async () => {
   }
 };
 
-// Get Movie Details
 export const getMovieDetails = async (movieId) => {
   try {
-    const response = await axiosInstance({
-      url: `/movies/${movieId}`,
-      method: "GET",
+    const response = await axios.get(`${API_BASE_URL}/movie/${movieId}`, {
       withCredentials: true,
     });
-    return response?.data;
+    return response.data;
   } catch (error) {
-    if (error.response) {
-      return { error: error.response.data };
-    } else {
-      return { error: 'An error occurred while fetching movie details' };
-    }
+    return { error: error.response?.data || 'An error occurred while fetching movie details' };
   }
 };
 
 // Add a New Movie
 export const addMovie = async (data) => {
   try {
-    const response = await axiosInstance({
-      url: "/movies",
+    const response = await axios({
+      url: `${API_BASE_URL}/movies`,
       method: "POST",
       data,
       withCredentials: true,
@@ -54,3 +50,6 @@ export const addMovie = async (data) => {
     }
   }
 };
+
+// // Fetch Theaters and ShowTimes for a Specific Movie
+ 

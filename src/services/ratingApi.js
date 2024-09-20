@@ -1,10 +1,12 @@
-import { axiosInstance } from '../config/axiosInstance';
+import axios from "axios";
+
+
 
 // Get Ratings for a Movie
 export const getRatings = async (movieId) => {
   try {
-    const response = await axiosInstance({
-      url: `/ratings/${movieId}`,
+    const response = await axios({
+      url: `http://localhost:4000/api/v1/ratings/${movieId}`,
       method: "GET",
       withCredentials: true,
     });
@@ -21,8 +23,8 @@ export const getRatings = async (movieId) => {
 // Submit a Rating
 export const submitRating = async (data) => {
   try {
-    const response = await axiosInstance({
-      url: "/ratings",
+    const response = await axios({
+      url: "http://localhost:4000/api/v1/ratings",
       method: "POST",
       data,
       withCredentials: true,

@@ -26,7 +26,7 @@ const MovieListPage = () => {
       setTrendingMovies(trendingResponse.data.data);
 
       // Fetch new releases
-      const newReleasesResponse = await axios.get('http://localhost:4000/api/v1/movie/newReleases');
+      const newReleasesResponse = await axios.get('http://localhost:4000/api/v1/movie/new-releases');
       console.log('New Releases:', newReleasesResponse.data.data);
       setNewReleases(newReleasesResponse.data.data);
 

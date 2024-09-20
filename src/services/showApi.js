@@ -1,56 +1,60 @@
-import { axiosInstance } from '../config/axiosInstance';
+import axios from 'axios';
 
-// Get All Shows
-export const getAllShows = async () => {
-  try {
-    const response = await axiosInstance({
-      url: "/shows",
-      method: "GET",
-      withCredentials: true,
-    });
-    return response?.data;
-  } catch (error) {
-    if (error.response) {
-      return { error: error.response.data };
-    } else {
-      return { error: 'An error occurred while fetching shows' };
-    }
-  }
-};
+// Base URL of your backend API
+const API_BASE_URL = 'http://localhost:4000/api/v1';
 
 // Create a New Show
 export const createShow = async (data) => {
   try {
-    const response = await axiosInstance({
-      url: "/shows",
-      method: "POST",
-      data,
+    const response = await axios.post(`${API_BASE_URL}/show/create-show`, data, {
       withCredentials: true,
     });
-    return response?.data;
+    return response.data;
   } catch (error) {
-    if (error.response) {
-      return { error: error.response.data };
-    } else {
-      return { error: 'An error occurred while creating the show' };
-    }
+    return { error: error.response?.data || 'An error occurred while creating the show' };
   }
 };
 
-// Delete a Show
+// Delete Show
 export const deleteShow = async (showId) => {
   try {
-    const response = await axiosInstance({
-      url: `/shows/${showId}`,
-      method: "DELETE",
+    const response = await axios.delete(`${API_BASE_URL}/show/${showId}`, {
       withCredentials: true,
     });
-    return response?.data;
+    return response.data;
   } catch (error) {
-    if (error.response) {
-      return { error: error.response.data };
-    } else {
-      return { error: 'An error occurred while deleting the show' };
-    }
+    return { error: error.response?.data || 'An error occurred while deleting the show' };
   }
 };
+
+// Create Multiple Shows
+export const createMultipleShows = async (movieId, theaterId, dates, times, price) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/show/create-multiple-shows`, {
+      movieId,
+      theaterId,
+      dates,
+      times,
+      price,
+    }, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error creating multiple shows:', error);
+    throw error;
+  }
+};
+
+
+
+// Fetch Shows by Movie ID
+export const getShowsByMovieId = async (movieId) => {
+  try {
+    const response = await axios.get(`http://localhost:4000/api/v1/show/movies/${movieId}`);
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data || 'An error occurred while fetching shows' };
+  }
+};
+

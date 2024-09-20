@@ -1,10 +1,10 @@
-import { axiosInstance } from '../config/axiosInstance';
+import axios from "axios";
 
 // Admin Login
 export const adminLogin = async (data) => {
   try {
-    const response = await axiosInstance({
-      url: "/admin/login",
+    const response = await axios({
+      url: "http://localhost:4000/api/v1/admin/login",
       method: "POST",
       data,
       withCredentials: true,
@@ -22,8 +22,8 @@ export const adminLogin = async (data) => {
 // Admin Logout
 export const adminLogout = async () => {
   try {
-    const response = await axiosInstance({
-      url: "/admin/logout",
+    const response = await axios({
+      url: "http://localhost:4000/api/v1/admin/logout",
       method: "POST",
       withCredentials: true,
     });
@@ -40,8 +40,8 @@ export const adminLogout = async () => {
 // Check Admin Authentication
 export const adminCheck = async () => {
   try {
-    const response = await axiosInstance({
-      url: "/admin/check-admin/",
+    const response = await axios({
+      url: "http://localhost:4000/api/v1/admin/check-admin/",
       method: "GET",
       withCredentials: true,
     });

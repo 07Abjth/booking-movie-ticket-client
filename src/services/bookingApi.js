@@ -1,10 +1,10 @@
-import { axiosInstance } from '../config/axiosInstance';
+import axios from 'axios';
 
 // Get All Bookings
 export const getAllBookings = async () => {
   try {
-    const response = await axiosInstance({
-      url: "/bookings",
+    const response = await axios({
+      url: "http://localhost:4000/api/v1/bookings",
       method: "GET",
       withCredentials: true,
     });
@@ -21,8 +21,8 @@ export const getAllBookings = async () => {
 // Create a Booking
 export const createBooking = async (data) => {
   try {
-    const response = await axiosInstance({
-      url: "/bookings",
+    const response = await axios({
+      url: "http://localhost:4000/api/v1/bookings",
       method: "POST",
       data,
       withCredentials: true,
@@ -40,8 +40,8 @@ export const createBooking = async (data) => {
 // Get Booking Details
 export const getBookingDetails = async (bookingId) => {
   try {
-    const response = await axiosInstance({
-      url: `/bookings/${bookingId}`,
+    const response = await axios({
+      url: `http://localhost:4000/api/v1/bookings/${bookingId}`,
       method: "GET",
       withCredentials: true,
     });
@@ -58,8 +58,8 @@ export const getBookingDetails = async (bookingId) => {
 // Cancel a Booking
 export const cancelBooking = async (bookingId) => {
   try {
-    const response = await axiosInstance({
-      url: `/bookings/${bookingId}/cancel`,
+    const response = await axios({
+      url: `http://localhost:4000/api/v1/bookings/${bookingId}/cancel`,
       method: "POST",
       withCredentials: true,
     });
