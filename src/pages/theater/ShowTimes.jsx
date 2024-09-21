@@ -1,32 +1,39 @@
 import React, { useState } from 'react';
 
-export const ShowTimes = ({ theater, showTimes }) => {
-  const [selectedShowtime, setSelectedShowtime] = useState(null);
+export const ShowTimes = ({ shows }) => {
+  const [selectedShowTime, setSelectedShowTime] = useState(null);
 
-  const handleShowtimeClick = (showtime) => {
-    setSelectedShowtime(showtime);
-    // Handle seat selection and booking logic here
+  const handleShowtimeClick = (show) => {
+    setSelectedShowTime(show);
+    // You can also trigger seat selection and booking logic here
   };
 
   return (
-    <div>
-      {showTimes.length > 0 ? (
-        showTimes.map((showtime) => (
-          <div key={showtime._id} className="mt-2">
+    <div className="flex flex-wrap mt-2">
+      {shows.length > 0 ? (
+        shows.map((show) => {
+          const showDate = new Date(`${show.date}T${show.time}`);
+          return (
             <button
-              className={`px-4 py-2 rounded-md ${selectedShowtime === showtime ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-              onClick={() => handleShowtimeClick(showtime)}
+              key={show._id}
+              className={`px-4 py-2 mr-2 rounded-md ${
+                selectedShowTime === show ? 'bg-blue-500 text-white' : 'bg-gray-200'
+              }`}
+              onClick={() => handleShowtimeClick(show)}
             >
-              {showtime.time}
+              {showDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
             </button>
-          </div>
-        ))
+          );
+        })
       ) : (
         <div>No showtimes available</div>
       )}
-      {selectedShowtime && (
+
+      {selectedShowTime && (
         <div className="mt-4">
-          {/* Display seat availability and booking options here */}
+          <h4 className="text-lg">
+            Selected Showtime: {selectedShowTime.time}`.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}
+          </h4>
         </div>
       )}
     </div>
