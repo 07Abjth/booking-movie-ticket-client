@@ -1,170 +1,225 @@
-// import { useState, useEffect } from 'react';
-// import { useParams } from 'react-router-dom';
-// import { getSeats, reserveSeats } from '../../services/seatApi.js';
-
-// export const SeatsSelectionPage = () => {
-//   const { showId } = useParams();
-//   const [seats, setSeats] = useState([]);
-//   const [selectedSeats, setSelectedSeats] = useState([]);
-
-//   useEffect(() => {
-//     const fetchSeats = async () => {
-//       const seatData = await getSeats(showId);
-//       setSeats(seatData);
-//     };
-//     fetchSeats();
-//   }, [showId]);
-
-//   const handleSeatSelection = (seat) => {
-//     if (selectedSeats.includes(seat._id)) {
-//       setSelectedSeats(selectedSeats.filter((s) => s !== seat._id));
-//     } else {
-//       setSelectedSeats([...selectedSeats, seat._id]);
-//     }
-//   };
-
-//   const handleReserveSeats = async () => {
-//     const reservationData = { seats: selectedSeats, showId };
-//     const response = await reserveSeats(showId, reservationData);
-//     if (response.success) {
-//       console.log('Seats reserved successfully');
-//     } else {
-//       console.error('Reservation failed:', response.error);
-//     }
-//   };
-
-//   return (
-//     <div className="p-5">
-//       <h1 className="text-2xl font-bold mb-4">Select Seats for Show</h1>
-
-//       {/* Seat Grid */}
-//       <div className="grid grid-cols-10 gap-4 mb-6">
-//         {seats.map((seat) => (
-//           <button
-//             key={seat._id}
-//             onClick={() => handleSeatSelection(seat)}
-//             className={`btn seat-btn ${selectedSeats.includes(seat._id) ? 'bg-yellow-500' : seat.reserved ? 'bg-red-500' : 'bg-green-500'} text-white p-4 rounded-lg`}
-//             disabled={seat.reserved}
-//           >
-//             {seat.number}
-//           </button>
-//         ))}
-//       </div>
-
-//       {/* Reserve Button */}
-//       <button
-//         onClick={handleReserveSeats}
-//         disabled={selectedSeats.length === 0}
-//         className="btn btn-primary"
-//       >
-//         Reserve {selectedSeats.length} Seat(s)
-//       </button>
-
-//       {/* Legend */}
-//       <div className="mt-6 flex justify-around">
-//         <div className="flex items-center">
-//           <div className="w-4 h-4 bg-green-500 mr-2 rounded"></div> Available
-//         </div>
-//         <div className="flex items-center">
-//           <div className="w-4 h-4 bg-yellow-500 mr-2 rounded"></div> Selected
-//         </div>
-//         <div className="flex items-center">
-//           <div className="w-4 h-4 bg-red-500 mr-2 rounded"></div> Reserved
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-
-// // SeatSelectionPage.jsx
-
 // import { useEffect, useState } from 'react';
-// import { getSeatsForShow } from '../../services/seatApi'; // API import
+// import { getSeatsForShow, reserveSeats, getSeatLayout } from '../../services/seatApi';
 // import { useParams } from 'react-router-dom';
 
 // export const SeatsSelectionPage = () => {
 //   const { showId } = useParams();
 //   const [seats, setSeats] = useState([]);
+//   const [layout, setLayout] = useState([]);
+//   const [selectedSeats, setSelectedSeats] = useState([]);
 //   const [loading, setLoading] = useState(true);
 //   const [error, setError] = useState(null);
+//   const [message, setMessage] = useState('');
 
 //   useEffect(() => {
-//     const fetchSeats = async () => {
-//       const seatData = await getSeatsForShow(showId);
-//       if (seatData.error) {
-//         setError(seatData.error);
-//       } else {
-//         setSeats(seatData.data);
+//     const fetchData = async () => {
+//       try {
+//         // Fetch seat layout
+//         const layoutData = await getSeatLayout(showId);
+//         setLayout(layoutData.data);
+
+//         // Fetch seats for the show
+//         const seatData = await getSeatsForShow(showId);
+//         if (seatData.error) {
+//           setError(seatData.error);
+//         } else {
+//           setSeats(seatData.data);
+//         }
+//       } catch (err) {
+//         setError('Failed to fetch data');
+//       } finally {
+//         setLoading(false);
 //       }
-//       setLoading(false);
 //     };
 
-//     fetchSeats();
+//     fetchData();
 //   }, [showId]);
 
-//   if (loading) return <div>Loading...</div>;
-//   if (error) return <div>{error}</div>;
+//   const handleSeatSelect = (seatId) => {
+//     if (selectedSeats.includes(seatId)) {
+//       setSelectedSeats(selectedSeats.filter(id => id !== seatId));
+//     } else {
+//       setSelectedSeats([...selectedSeats, seatId]);
+//     }
+//   };
+
+//   const handleBookSeats = async () => {
+//     if (!window.confirm('Are you sure you want to book these seats?')) {
+//       return;
+//     }
+
+//     try {
+//       const response = await reserveSeats(selectedSeats);
+//       if (response.error) {
+//         setMessage(`Error booking seats: ${response.error}`);
+//       } else {
+//         setMessage('Seats booked successfully!');
+//         setSeats(prevSeats => 
+//           prevSeats.map(seat => 
+//             selectedSeats.includes(seat._id) ? { ...seat, status: 'booked' } : seat
+//           )
+//         );
+//         setSelectedSeats([]);
+//       }
+//     } catch (err) {
+//       setMessage('Failed to book seats.');
+//     }
+//   };
+
+//   if (loading) return <div className="text-center mt-8">Loading...</div>;
+//   if (error) return <div className="alert alert-error text-white mt-4">{error}</div>;
+//   if (seats.length === 0) return <div className="text-center mt-4">No seats available.</div>;
 
 //   return (
-//     <div>
-//       <h1>Select Your Seat</h1>
-//       <ul>
-//         {seats.map(seat => (
-//           <li key={seat._id}>{seat.seatNumber} - {seat.price} - {seat.status}</li>
+//     <div className="container mx-auto p-6">
+//       <h1 className="text-2xl font-bold text-center mb-6">Select Your Seat</h1>
+//       <div className="grid grid-cols-8 gap-4 mb-6">
+//         {layout.map((row, rowIndex) => (
+//           <div key={rowIndex} className="flex">
+//             {row.map(seatId => {
+//               const seat = seats.find(seat => seat._id === seatId);
+//               return (
+//                 <div
+//                   key={seatId}
+//                   className={`seat ${
+//                     seat?.status === 'booked'
+//                       ? 'bg-red-600 cursor-not-allowed'
+//                       : selectedSeats.includes(seatId)
+//                         ? 'bg-yellow-400'
+//                         : 'bg-green-500'
+//                   } flex items-center justify-center rounded-lg p-4 text-white`}
+//                   onClick={() => seat?.status === 'available' && handleSeatSelect(seatId)}
+//                 >
+//                   {seat?.seatNumber}
+//                 </div>
+//               );
+//             })}
+//           </div>
 //         ))}
-//       </ul>
+//       </div>
+
+//       <button 
+//         onClick={handleBookSeats} 
+//         className="btn btn-primary" 
+//         disabled={selectedSeats.length === 0}
+//       >
+//         Book Selected Seats
+//       </button>
+
+//       {message && <div className="mt-4 text-center">{message}</div>}
 //     </div>
 //   );
 // };
 
- 
 
 import { useEffect, useState } from 'react';
-import { getSeatsForShow } from '../../services/seatApi'; // Make sure this API call works for fetching seats based on showId
+import { getSeatsForTheater, reserveSeats, getSeatLayout } from '../../services/seatApi'; // Adjusted to theater APIs
 import { useParams } from 'react-router-dom';
 
 export const SeatsSelectionPage = () => {
-  const { showId } = useParams(); // Retrieve the showId from the URL
-  const [seats, setSeats] = useState([]); // State to hold seat data
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const { theaterId } = useParams();  // Fetch theaterId from route params
+  const [seats, setSeats] = useState([]);  
+  const [layout, setLayout] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
-    const fetchSeats = async () => {
+    const fetchData = async () => {
       try {
-        const seatData = await getSeatsForShow(showId); // API call to get seats by showId
+        // Fetch seat layout for the theater
+        const layoutData = await getSeatLayout(theaterId); 
+        setLayout(layoutData.data);
+
+        // Fetch seats for the theater
+        const seatData = await getSeatsForTheater(theaterId);  // Updated to getSeatsForTheater
         if (seatData.error) {
-          setError(seatData.error); // Set error if the API returns an error
+          setError(seatData.error);
         } else {
-          setSeats(seatData.data); // Set seat data from API response
+          setSeats(seatData.data);
         }
       } catch (err) {
-        setError('Failed to fetch seat data'); // Catch any unexpected errors
+        setError('Failed to fetch data');
       } finally {
-        setLoading(false); // Set loading to false once data is fetched
+        setLoading(false);
       }
     };
 
-    fetchSeats(); // Fetch seats when component mounts or showId changes
-  }, [showId]);
+    fetchData();
+  }, [theaterId]);
 
-  // Show loading spinner while fetching data
-  if (loading) return <div>Loading...</div>;
+  const handleSeatSelect = (seatId) => {
+    if (selectedSeats.includes(seatId)) {
+      setSelectedSeats(selectedSeats.filter(id => id !== seatId));
+    } else {
+      setSelectedSeats([...selectedSeats, seatId]);
+    }
+  };
 
-  // Show error message if an error occurred
-  if (error) return <div>Error: {error}</div>;
+  const handleBookSeats = async () => {
+    if (!window.confirm('Are you sure you want to book these seats?')) {
+      return;
+    }
+
+    try {
+      const response = await reserveSeats(selectedSeats);
+      if (response.error) {
+        setMessage(`Error booking seats: ${response.error}`);
+      } else {
+        setMessage('Seats booked successfully!');
+        setSeats(prevSeats => 
+          prevSeats.map(seat => 
+            selectedSeats.includes(seat._id) ? { ...seat, status: 'booked' } : seat
+          )
+        );
+        setSelectedSeats([]);
+      }
+    } catch (err) {
+      setMessage('Failed to book seats.');
+    }
+  };
+
+  if (loading) return <div className="text-center mt-8">Loading...</div>;
+  if (error) return <div className="alert alert-error text-white mt-4">{error}</div>;
+  if (seats.length === 0) return <div className="text-center mt-4">No seats available.</div>;
 
   return (
-    <div>
-      <h1>Select Your Seat</h1>
-      <ul>
-        {seats.map(seat => (
-          <li key={seat._id}>
-            Seat: {seat.seatNumber} - Price: {seat.price} - Status: {seat.status === 'available' ? 'Available' : 'Booked'}
-          </li>
+    <div className="container mx-auto p-6">
+      <h1 className="text-2xl font-bold text-center mb-6">Select Your Seat</h1>
+      <div className="grid grid-cols-8 gap-4 mb-6">
+        {layout.map((row, rowIndex) => (
+          <div key={rowIndex} className="flex">
+            {row.map(seatId => {
+              const seat = seats.find(seat => seat._id === seatId);
+              return (
+                <div
+                  key={seatId}
+                  className={`seat ${
+                    seat?.status === 'booked'
+                      ? 'bg-red-600 cursor-not-allowed'
+                      : selectedSeats.includes(seatId)
+                        ? 'bg-yellow-400'
+                        : 'bg-green-500'
+                  } flex items-center justify-center rounded-lg p-4 text-white`}onClick={() => seat?.status === 'available' && handleSeatSelect(seatId)}
+                >
+                  {seat?.seatNumber}
+                </div>
+              );
+            })}
+          </div>
         ))}
-      </ul>
+      </div>
+
+      <button 
+        onClick={handleBookSeats} 
+        className="btn btn-primary" 
+        disabled={selectedSeats.length === 0}
+      >
+        Book Selected Seats
+      </button>
+
+      {message && <div className="mt-4 text-center">{message}</div>}
     </div>
   );
 };

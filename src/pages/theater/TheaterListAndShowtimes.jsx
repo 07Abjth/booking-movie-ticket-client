@@ -106,9 +106,11 @@ import { useNavigate } from 'react-router-dom';
 export const TheaterListAndShowtimes = ({ theaters, shows, selectedMovieId }) => {
   const navigate = useNavigate();
 
-  const handleShowtimeClick = (showId) => {
+  const handleShowtimeClick = (theaterId, showId) => {
+    console.log("Navigating to seats with showId:", theaterId, "and showId:", showId);
+
     // Navigate to the seat selection page with the selected showId
-    navigate(`/seats/${showId}`);
+    navigate(`/user/seats/${theaterId}/${showId}`);
   };
 
   if (!theaters.length) {
@@ -136,7 +138,7 @@ export const TheaterListAndShowtimes = ({ theaters, shows, selectedMovieId }) =>
                     <button
                       key={show._id}
                       className="px-4 py-2 mr-2 mb-2 rounded-md bg-gray-200"
-                      onClick={() => handleShowtimeClick(show._id)} // Click handler
+                      onClick={() => handleShowtimeClick(theater._id,show._id)} // Click handler
                     >
                       {`${formattedDate} - ${show.time}`} {/* Format date and show time */}
                     </button>
