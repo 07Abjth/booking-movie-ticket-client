@@ -40,46 +40,6 @@ export const deleteSeats = async (seatIds) => {
   }
 };
 
-// Get all available seats for a specific theater
-export const getSeatsForTheater = async (theaterId) => {
-  try {
-    const response = await axios.get(`http://localhost:4000/api/v1/seat/theater/${theaterId}`, {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching seats:', error);
-    return { error: error.response ? error.response.data : 'Error fetching seats' };
-  }
-};
-
-// Fetch Seat Layout for a specific theater
-export const getSeatLayout = async (theaterId) => {
-  try {
-    const response = await axios.get(`http://localhost:4000/api/v1/seat/layout/theater/${theaterId}`, {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching seat layout:', error);
-    return { error: error.response ? error.response.data : 'Error fetching seat layout' };
-  }
-};
-
-// Fetch Seat Layout for a specific theater and show
-export const fetchSeatLayout = async (theaterId, showId) => {
-  try {
-    const response = await axios.get(`http://localhost:4000/api/v1/theater/${theaterId}/seats`, {
-      params: { showId }, // Send showId as a query parameter
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching seat layout:', error);
-    return { error: error.response ? error.response.data : 'Error fetching seat layout' };
-  }
-};
-
 // Reserve seats for booking
 export const reserveSeats = async (seats) => {
   try {
@@ -92,3 +52,5 @@ export const reserveSeats = async (seats) => {
     return { error: error.response ? error.response.data : 'Error reserving seats' };
   }
 };
+
+ 
