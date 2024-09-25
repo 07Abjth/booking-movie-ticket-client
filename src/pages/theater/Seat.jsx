@@ -1,76 +1,53 @@
-//  import React from 'react';
-
-// export const Seat = ({ seatNumber, status }) => {
-//   const statusClasses = {
-//     available: 'bg-green-500 hover:bg-green-600',
-//     reserved: 'bg-yellow-500 hover:bg-yellow-600',
-//     booked: 'bg-red-500 hover:bg-red-600',
-//   };
-
-//   return (
-//     <div
-//       className={`w-10 h-10 flex items-center justify-center text-white font-bold rounded ${statusClasses[status]}`}
-//       title={seatNumber}
-//     >
-//       {seatNumber}
-//     </div>
-//   );
-// };
-
  
+
 // // Seat.jsx
 // import React from 'react';
 
-// export const Seat = ({ seatNumber, status, onClick }) => {
-//   const getSeatClass = () => {
-//     if (status === 'available') return 'bg-green-500';
-//     if (status === 'reserved') return 'bg-red-500';
-//     return 'bg-gray-400'; // or some default for unavailable
+// export const Seat = ({ seatNumber, status, onSelect, isSelected }) => {
+//   // Define seat styles based on status
+//   const seatStyle = {
+//     available: 'bg-green-500 hover:bg-green-400',
+//     booked: 'bg-red-500 cursor-not-allowed',
+//     selected: 'bg-blue-500 hover:bg-blue-400',
 //   };
 
-//   return (
-//     <div
-//       className={`m-2 p-4 text-center ${getSeatClass()} cursor-pointer`}
-//       onClick={status === 'available' ? () => onClick(seatNumber) : undefined}
-//     >
-//       {seatNumber}
-//     </div>
-//   );
-// };
+
+// // Determine if the seat is selected and apply a different class
+// const appliedStyle = isSelected ? 'bg-blue-500 hover:bg-blue-400' : seatStyle[status] || 'bg-gray-300' ;
 
 
-// // Seat.jsx
-// import React from 'react';
 
-// export const Seat = ({ seatNumber, status, onSelect }) => {
+//   // Handle seat click
 //   const handleClick = () => {
-//     if (status === 'available') { // Check if the seat is available
-//       onSelect(seatNumber); // Notify the parent component
+//     if (status === 'available') {
+//       onSelect(seatNumber);
 //     }
 //   };
 
 //   return (
-//     <div 
-//       className={`seat ${status}`} 
-//       onClick={handleClick} 
-//       role="button"
-//       tabIndex={0}
+//     <div
+//       className={`m-2 p-2 rounded-md cursor-pointer ${appliedStyle}`}
+//       onClick={handleClick}
+//       title={`Seat ${seatNumber} - ${status}`}
 //     >
 //       {seatNumber}
 //     </div>
 //   );
 // };
 
-// Seat.jsx
+
 import React from 'react';
 
-export const Seat = ({ seatNumber, status, onSelect }) => {
+export const Seat = ({ seatNumber, status, onSelect, isSelected }) => {
   // Define seat styles based on status
   const seatStyle = {
     available: 'bg-green-500 hover:bg-green-400',
     booked: 'bg-red-500 cursor-not-allowed',
-    selected: 'bg-blue-500 hover:bg-blue-400'
+    selected: 'bg-blue-500 hover:bg-blue-400',
   };
+
+  // Determine if the seat is selected and apply a different class
+  const appliedStyle = isSelected ? 'bg-blue-500 hover:bg-blue-400' : seatStyle[status] || 'bg-gray-300';
 
   // Handle seat click
   const handleClick = () => {
@@ -81,9 +58,10 @@ export const Seat = ({ seatNumber, status, onSelect }) => {
 
   return (
     <div
-      className={`m-2 p-2 rounded-md cursor-pointer ${seatStyle[status]}`}
+      className={`flex items-center justify-center m-2 p-4 rounded-md cursor-pointer ${appliedStyle} text-center text-sm`} // Updated padding for a better appearance
       onClick={handleClick}
       title={`Seat ${seatNumber} - ${status}`}
+      style={{ width: '60px', height: '60px' }} // Set uniform width and height for all seats
     >
       {seatNumber}
     </div>
