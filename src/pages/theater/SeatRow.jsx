@@ -1,20 +1,35 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { Seat } from './Seat';
 
-export const SeatRow = ({ seats, onSelect, selectedSeats }) => {
+const SeatSelection = () => {
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
+  const seats = [
+    { seatNumber: 1, status: 'available' },
+    { seatNumber: 2, status: 'booked' },
+    { seatNumber: 3, status: 'available' },
+  ];
+
+  const handleSelect = (seatNumber) => {
+    setSelectedSeats((prev) =>
+      prev.includes(seatNumber)
+        ? prev.filter((seat) => seat !== seatNumber) // Deselect if already selected
+        : [...prev, seatNumber]
+    );
+  };
+
   return (
-    <div className="flex justify-center seat-row">
+    <div>
       {seats.map((seat) => (
         <Seat
           key={seat.seatNumber}
           seatNumber={seat.seatNumber}
           status={seat.status}
-          onSelect={onSelect}
+          onSelect={handleSelect}
           isSelected={selectedSeats.includes(seat.seatNumber)}
         />
       ))}
     </div>
   );
 };
-
- 

@@ -1,162 +1,459 @@
- 
 
 
-// import { useEffect, useState } from 'react';
-// import { getSeatsForShow } from '../../services/seatApi.js';
-// import { Seat } from './Seat.jsx';
+// import { useEffect, useState } from "react";
+// import { getSeatsForTheater } from "../../services/seatApi.js";
 
-// export const SeatsGrid = ({ showId, onSelect }) => {
+// export const SeatsGrid = ({ theaterId, onSeatSelect, selectedSeats }) => {
 //   const [seats, setSeats] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
 
 //   useEffect(() => {
 //     const fetchSeats = async () => {
-//       console.log(`Fetching seats for show ID: ${showId}`);
-//       const data = await getSeatsForShow(showId);
-//       console.log('Fetched data in SeatsGrid:', data); // Log fetched data
+//       try {
+//         const response = await getSeatsForTheater(theaterId);
+//         console.log("Fetched Seats Data:", response);
 
-//       if (data.error) {
-//         console.error('Error fetching seats in SeatsGrid:', data.error);
-//         setError(data.error);
-//       } else {
-//         setSeats(data.seats);
-//         console.log('Seats received in SeatsGrid:', data.seats); // Log the seats
+//         const uniqueSeats = Array.from(
+//           new Set(response.seats.map((seat) => seat.seatNumber))
+//         ).map((seatNumber) =>
+//           response.seats.find((seat) => seat.seatNumber === seatNumber)
+//         );
+
+//         setSeats(uniqueSeats);
+//       } catch (error) {
+//         console.error("Error fetching seats:", error);
 //       }
-//       setLoading(false);
 //     };
 
 //     fetchSeats();
-//   }, [showId]);
+//   }, [theaterId]);
 
-//   if (loading) {
-//     return <div className="text-center">Loading seats...</div>;
-//   }
+//   const groupSeatsByRow = () => {
+//     return seats.reduce((rows, seat) => {
+//       const { row } = seat;
+//       if (!rows[row]) {
+//         rows[row] = [];
+//       }
+//       rows[row].push(seat);
+//       return rows;
+//     }, {});
+//   };
 
-//   if (error) {
-//     return <div className="text-red-500 text-center">{error}</div>;
-//   }
+//   const seatRows = groupSeatsByRow();
+
+//   // Split rows into two blocks (left and right) for each row to create aisles
+//   const splitRow = (rowSeats, blockSize) => {
+//     const leftBlock = rowSeats.slice(0, blockSize);
+//     const rightBlock = rowSeats.slice(blockSize);
+//     return [leftBlock, rightBlock];
+//   };
 
 //   return (
-//     <div className="flex flex-wrap justify-center">
-//       {seats.map((seat) => (
-//         <Seat 
-//           key={seat.seatNumber} 
-//           seatNumber={seat.seatNumber} 
-//           status={seat.status} 
-//           onSelect={onSelect}  // Pass onSelect to Seat
-//         />
-//       ))}
+//     <div className="p-4 bg-gray-800">
+//       {Object.keys(seatRows).length > 0 ? (
+//         <div className="space-y-4">
+//           {Object.keys(seatRows).map((row) => {
+//             const rowSeats = seatRows[row];
+//             const [leftBlock, rightBlock] = splitRow(
+//               rowSeats,
+//               Math.ceil(rowSeats.length / 2)
+//             ); // Split each row into 2 blocks
+
+//             return (
+//               <div key={row} className="flex flex-col items-center space-y-2">
+//                 <div className="flex justify-center space-x-2">
+//                   <span className="font-bold text-white">{row}</span>{" "}
+//                   {/* Row Label */}
+//                   <div className="flex gap-1">
+//                     {" "}
+//                     {/* Left block */}
+//                     {leftBlock.map((seat) => (
+//                       <button
+//                         key={seat.seatNumber}
+//                         className={`w-8 h-8 sm:w-6 sm:h-6 rounded border-2 transition duration-200 
+//                                                     ${
+//                                                       selectedSeats.includes(
+//                                                         seat.seatNumber
+//                                                       )
+//                                                         ? "bg-blue-600 text-white border-blue-800"
+//                                                         : seat.type === "Luxury"
+//                                                         ? "bg-yellow-500 hover:bg-yellow-400 border-yellow-700"
+//                                                         : seat.type ===
+//                                                           "Premium"
+//                                                         ? "bg-green-500 hover:bg-green-400 border-green-700"
+//                                                         : "bg-gray-300 hover:bg-gray-200 border-gray-600 hover:border-gray-500"
+//                                                     }`}
+//                         onClick={() => onSeatSelect(seat.seatNumber)}
+//                       >
+//                         {seat.seatNumber}
+//                       </button>
+//                     ))}
+//                   </div>
+//                   <div className="w-8"></div> {/* Empty div for aisle */}
+//                   <div className="flex gap-1">
+//                     {" "}
+//                     {/* Right block */}
+//                     {rightBlock.map((seat) => (
+//                       <button
+//                         key={seat.seatNumber}
+//                         className={`w-8 h-8 sm:w-6 sm:h-6 rounded border-2 transition duration-200 
+//                                                     ${
+//                                                       selectedSeats.includes(
+//                                                         seat.seatNumber
+//                                                       )
+//                                                         ? "bg-blue-600 text-white border-blue-800"
+//                                                         : seat.type === "Luxury"
+//                                                         ? "bg-yellow-500 hover:bg-yellow-400 border-yellow-700"
+//                                                         : seat.type ===
+//                                                           "Premium"
+//                                                         ? "bg-green-500 hover:bg-green-400 border-green-700"
+//                                                         : "bg-gray-300 hover:bg-gray-200 border-gray-600 hover:border-gray-500"
+//                                                     }`}
+//                         onClick={() => onSeatSelect(seat.seatNumber)}
+//                       >
+//                         {seat.seatNumber}
+//                       </button>
+//                     ))}
+//                   </div>
+//                 </div>
+//               </div>
+//             );
+//           })}
+//         </div>
+//       ) : (
+//         <p className="text-white">No seats available.</p>
+//       )}
 //     </div>
 //   );
 // };
 
 
 
-// // SeatsGrid.jsx
-// import { useEffect, useState } from 'react';
-// import { getSeatsForShow } from '../../services/seatApi.js';
-//  import { Seat } from './Seat.jsx';
+// import { useEffect, useState } from "react";
+// import { getSeatsForTheater } from "../../services/seatApi.js";
 
-// export const SeatsGrid = ({ showId, onSeatSelect }) => {
- 
+// export const SeatsGrid = ({ theaterId, onSeatSelect, selectedSeats }) => {
 //   const [seats, setSeats] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
 
 //   useEffect(() => {
 //     const fetchSeats = async () => {
-//       console.log(`Fetching seats for show ID: ${showId}`);
-//       const data = await getSeatsForShow(showId);
-//       console.log('Fetched data in SeatsGrid:', data);
+//       try {
+//         const response = await getSeatsForTheater(theaterId);
+//         console.log("Fetched Seats Data:", response);
 
-//       if (data.error) {
-//         console.error('Error fetching seats in SeatsGrid:', data.error);
-//         setError(data.error);
-//       } else {
-//         setSeats(data.seats);
-//         console.log('Seats received in SeatsGrid:', data.seats);
+//         const uniqueSeats = Array.from(
+//           new Set(response.seats.map((seat) => seat.seatNumber))
+//         ).map((seatNumber) =>
+//           response.seats.find((seat) => seat.seatNumber === seatNumber)
+//         );
+
+//         setSeats(uniqueSeats);
+//       } catch (error) {
+//         console.error("Error fetching seats:", error);
 //       }
-//       setLoading(false);
 //     };
-//     console.log(`showId changed to: ${showId}`); // This should log every time the showId changes
 
 //     fetchSeats();
-//     console.log(`Fetching seats for show ID: ${showId}`);
+//   }, [theaterId]);
 
-//   }, [showId]);
+//   const groupSeatsByRow = () => {
+//     return seats.reduce((rows, seat) => {
+//       const { row } = seat;
+//       if (!rows[row]) {
+//         rows[row] = [];
+//       }
+//       rows[row].push(seat);
+//       return rows;
+//     }, {});
+//   };
 
-//   if (loading) {
-//     return <div className="text-center">Loading seats...</div>;
-//   }
+//   const seatRows = groupSeatsByRow();
 
-//   if (error) {
-//     return <div className="text-red-500 text-center">{error}</div>;
-//   }
+//   const splitRow = (rowSeats, blockSize) => {
+//     const leftBlock = rowSeats.slice(0, blockSize);
+//     const rightBlock = rowSeats.slice(blockSize);
+//     return [leftBlock, rightBlock];
+//   };
 
 //   return (
-//     <div className="flex flex-wrap justify-center">
-//       {seats.map((seat) => (
-//         <Seat
-//           key={seat.seatNumber}
-//           seatNumber={seat.seatNumber}
-//           status={seat.status}
-//           onSelect={onSeatSelect}  
-//         />
-//       ))}
+//     <div className="p-4 bg-gray-800">
+//       {Object.keys(seatRows).length > 0 ? (
+//         <div className="space-y-4">
+//           {Object.keys(seatRows).map((row) => {
+//             const rowSeats = seatRows[row];
+//             const [leftBlock, rightBlock] = splitRow(
+//               rowSeats,
+//               Math.ceil(rowSeats.length / 2)
+//             );
+
+//             return (
+//               <div key={row} className="flex flex-col items-center space-y-2">
+//                 <div className="flex justify-center space-x-2">
+//                   <span className="font-bold text-white">{row}</span>
+//                   <div className="flex gap-1">
+//                     {leftBlock.map((seat) => (
+//                       <button
+//                         key={seat.seatNumber}
+//                         className={`w-8 h-8 sm:w-6 sm:h-6 rounded border-2 transition duration-200 text-sm ${selectedSeats.includes(seat.seatNumber) ? "bg-blue-600 text-white border-blue-800" : seat.type === "Luxury" ? "bg-yellow-500 hover:bg-yellow-400 border-yellow-700" : seat.type === "Premium" ? "bg-green-500 hover:bg-green-400 border-green-700" : "bg-gray-300 hover:bg-gray-200 border-gray-600 hover:border-gray-500"}`}
+//                         onClick={() => onSeatSelect(seat.seatNumber)}
+//                       >
+//                         {seat.seatNumber}
+//                       </button>
+//                     ))}
+//                   </div>
+//                   <div className="w-8"></div>
+//                   <div className="flex gap-1">
+//                     {rightBlock.map((seat) => (
+//                       <button
+//                         key={seat.seatNumber}
+//                         className={`w-8 h-8 sm:w-6 sm:h-6 rounded border-2 transition duration-200 text-sm ${selectedSeats.includes(seat.seatNumber) ? "bg-blue-600 text-white border-blue-800" : seat.type === "Luxury" ? "bg-yellow-500 hover:bg-yellow-400 border-yellow-700" : seat.type === "Premium" ? "bg-green-500 hover:bg-green-400 border-green-700" : "bg-gray-300 hover:bg-gray-200 border-gray-600 hover:border-gray-500"}`}
+//                         onClick={() => onSeatSelect(seat.seatNumber)}
+//                       >
+//                         {seat.seatNumber}
+//                       </button>
+//                     ))}
+//                   </div>
+//                 </div>
+//               </div>
+//             );
+//           })}
+//         </div>
+//       ) : (
+//         <p className="text-white">No seats available.</p>
+//       )}
 //     </div>
 //   );
 // };
 
-// SeatsGrid.jsx
-import { useEffect, useState } from 'react';
-import { getSeatsForShow } from '../../services/seatApi.js';
-import {SeatRow} from './SeatRow.jsx';
 
-export const SeatsGrid = ({ showId, onSeatSelect, selectedSeats }) => {
+
+// import { useEffect, useState } from "react";
+// import { getSeatsForTheater } from "../../services/seatApi.js";
+
+// export const SeatsGrid = ({ theaterId, onSeatSelect, selectedSeats }) => {
+//   const [seats, setSeats] = useState([]);
+
+//   useEffect(() => {
+//     const fetchSeats = async () => {
+//       try {
+//         const response = await getSeatsForTheater(theaterId);
+//         console.log("Fetched Seats Data:", response);
+
+//         const uniqueSeats = Array.from(
+//           new Set(response.seats.map((seat) => seat.seatNumber))
+//         ).map((seatNumber) =>
+//           response.seats.find((seat) => seat.seatNumber === seatNumber)
+//         );
+
+//         setSeats(uniqueSeats);
+//       } catch (error) {
+//         console.error("Error fetching seats:", error);
+//       }
+//     };
+
+//     fetchSeats();
+//   }, [theaterId]);
+
+//   const groupSeatsByRow = () => {
+//     return seats.reduce((rows, seat) => {
+//       const { row } = seat;
+//       if (!rows[row]) {
+//         rows[row] = [];
+//       }
+//       rows[row].push(seat);
+//       return rows;
+//     }, {});
+//   };
+
+//   const seatRows = groupSeatsByRow();
+
+//   const splitRow = (rowSeats, blockSize) => {
+//     const leftBlock = rowSeats.slice(0, blockSize);
+//     const rightBlock = rowSeats.slice(blockSize);
+//     return [leftBlock, rightBlock];
+//   };
+
+//   return (
+//     <div className="p-4 bg-gray-800">
+//       {Object.keys(seatRows).length > 0 ? (
+//         <div className="space-y-4">
+//           {Object.keys(seatRows).map((row) => {
+//             const rowSeats = seatRows[row];
+//             const [leftBlock, rightBlock] = splitRow(
+//               rowSeats,
+//               Math.ceil(rowSeats.length / 2)
+//             );
+
+//             return (
+//               <div key={row} className="flex flex-col items-center space-y-2">
+//                 <div className="flex justify-center space-x-2">
+//                   <span className="font-bold text-white">{row}</span>
+//                   <div className="flex gap-1">
+//                     {leftBlock.map((seat) => (
+//                       <button
+//                         key={seat.seatNumber}
+//                         className={`w-8 h-8 sm:w-6 sm:h-6 rounded border-2 transition duration-200 text-xs ${
+//                           selectedSeats.includes(seat.seatNumber)
+//                             ? "bg-blue-600 text-white border-blue-800"
+//                             : seat.type === "Luxury"
+//                             ? "bg-yellow-500 hover:bg-yellow-400 border-yellow-700"
+//                             : seat.type === "Premium"
+//                             ? "bg-green-500 hover:bg-green-400 border-green-700"
+//                             : "bg-gray-300 hover:bg-gray-200 border-gray-600 hover:border-gray-500"
+//                         }`}
+//                         onClick={() => onSeatSelect(seat.seatNumber)}
+//                       >
+//                         {seat.seatNumber}
+//                       </button>
+//                     ))}
+//                   </div>
+//                   <div className="w-8"></div>
+//                   <div className="flex gap-1">
+//                     {rightBlock.map((seat) => (
+//                       <button
+//                         key={seat.seatNumber}
+//                         className={`w-8 h-8 sm:w-6 sm:h-6 rounded border-2 transition duration-200 text-xs ${
+//                           selectedSeats.includes(seat.seatNumber)
+//                             ? "bg-blue-600 text-white border-blue-800"
+//                             : seat.type === "Luxury"
+//                             ? "bg-yellow-500 hover:bg-yellow-400 border-yellow-700"
+//                             : seat.type === "Premium"
+//                             ? "bg-green-500 hover:bg-green-400 border-green-700"
+//                             : "bg-gray-300 hover:bg-gray-200 border-gray-600 hover:border-gray-500"
+//                         }`}
+//                         onClick={() => onSeatSelect(seat.seatNumber)}
+//                       >
+//                         {seat.seatNumber}
+//                       </button>
+//                     ))}
+//                   </div>
+//                 </div>
+//               </div>
+//             );
+//           })}
+//         </div>
+//       ) : (
+//         <p className="text-white">No seats available.</p>
+//       )}
+//     </div>
+//   );
+// };
+
+
+
+import { useEffect, useState } from "react";
+import { getSeatsForTheater } from "../../services/seatApi.js";
+
+export const SeatsGrid = ({ theaterId, onSeatSelect, selectedSeats }) => {
   const [seats, setSeats] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchSeats = async () => {
       try {
-        const data = await getSeatsForShow(showId);
-        if (data.error) {
-          throw new Error(data.error);
-        }
-        setSeats(data.seats);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+        const response = await getSeatsForTheater(theaterId);
+        console.log("Fetched Seats Data:", response);
+
+        const uniqueSeats = Array.from(
+          new Set(response.seats.map((seat) => seat.seatNumber))
+        ).map((seatNumber) =>
+          response.seats.find((seat) => seat.seatNumber === seatNumber)
+        );
+
+        setSeats(uniqueSeats);
+      } catch (error) {
+        console.error("Error fetching seats:", error);
       }
     };
 
     fetchSeats();
-  }, [showId]);
+  }, [theaterId]);
 
-  if (loading) return <div className="text-center">Loading seats...</div>;
-  if (error) return <div className="text-red-500 text-center">{error}</div>;
+  const groupSeatsByRow = () => {
+    return seats.reduce((rows, seat) => {
+      const { row } = seat;
+      if (!rows[row]) {
+        rows[row] = [];
+      }
+      rows[row].push(seat);
+      return rows;
+    }, {});
+  };
 
-  const groupedSeats = groupSeatsByRow(seats); // Assume you have a function to group seats
+  const seatRows = groupSeatsByRow();
+
+  const splitRow = (rowSeats, blockSize) => {
+    const leftBlock = rowSeats.slice(0, blockSize);
+    const rightBlock = rowSeats.slice(blockSize);
+    return [leftBlock, rightBlock];
+  };
 
   return (
-    <div className="flex flex-wrap justify-center">
-      {groupedSeats.map((rowSeats, index) => (
-        <SeatRow
-          key={index}
-          seats={rowSeats}
-          onSelect={onSeatSelect}
-          selectedSeats={selectedSeats}
-        />
-      ))}
+    <div className="p-4 bg-gray-800">
+      {Object.keys(seatRows).length > 0 ? (
+        <div className="space-y-4">
+          {Object.keys(seatRows).map((row) => {
+            const rowSeats = seatRows[row];
+            const [leftBlock, rightBlock] = splitRow(
+              rowSeats,
+              Math.ceil(rowSeats.length / 2)
+            );
+
+            return (
+              <div key={row} className="flex flex-col items-center space-y-2">
+                <div className="flex justify-center space-x-2">
+                <span className="font-bold text-white">{row}</span>
+                  <div className="flex gap-1">
+                    {leftBlock.map((seat) => {
+                      const seatNumber = seat.seatNumber.replace(/[A-Za-z]/g, ''); // Remove alphabets
+                      return (
+                        <button
+                          key={seat.seatNumber}
+                          className={`w-8 h-8 sm:w-6 sm:h-6 rounded border-2 transition duration-200 text-xs ${
+                            selectedSeats.includes(seat.seatNumber)
+                              ? "bg-blue-600 text-white border-blue-800"
+                              : seat.type === "Luxury"
+                              ? "bg-yellow-500 hover:bg-yellow-400 border-yellow-700"
+                              : seat.type === "Premium"
+                              ? "bg-green-500 hover:bg-green-400 border-green-700"
+                              : "bg-gray-300 hover:bg-gray-200 border-gray-600 hover:border-gray-500"
+                          }`}
+                          onClick={() => onSeatSelect(seat.seatNumber)}
+                        >
+                          {seatNumber} {/* Display only the number part */}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <div className="w-8"></div>
+                  <div className="flex gap-1">
+                    {rightBlock.map((seat) => {
+                      const seatNumber = seat.seatNumber.replace(/[A-Za-z]/g, ''); // Remove alphabets
+                      return (
+                        <button
+                          key={seat.seatNumber}
+                          className={`w-8 h-8 sm:w-6 sm:h-6 rounded border-2 transition duration-200 text-xs ${
+                            selectedSeats.includes(seat.seatNumber)
+                              ? "bg-blue-600 text-white border-blue-800"
+                              : seat.type === "Luxury"
+                              ? "bg-yellow-500 hover:bg-yellow-400 border-yellow-700"
+                              : seat.type === "Premium"
+                              ? "bg-green-500 hover:bg-green-400 border-green-700"
+                              : "bg-gray-300 hover:bg-gray-200 border-gray-600 hover:border-gray-500"
+                          }`}
+                          onClick={() => onSeatSelect(seat.seatNumber)}
+                        >
+                          {seatNumber} {/* Display only the number part */}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <p className="text-white">No seats available.</p>
+      )}
     </div>
   );
-};
-
-// Helper function to group seats by row (modify as per your data structure)
-const groupSeatsByRow = (seats) => {
-  // Implement your logic to group seats by row here
-  return [seats]; // Placeholder for demonstration
 };

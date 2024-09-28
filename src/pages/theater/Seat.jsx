@@ -1,55 +1,17 @@
- 
-
-// // Seat.jsx
-// import React from 'react';
-
-// export const Seat = ({ seatNumber, status, onSelect, isSelected }) => {
-//   // Define seat styles based on status
-//   const seatStyle = {
-//     available: 'bg-green-500 hover:bg-green-400',
-//     booked: 'bg-red-500 cursor-not-allowed',
-//     selected: 'bg-blue-500 hover:bg-blue-400',
-//   };
-
-
-// // Determine if the seat is selected and apply a different class
-// const appliedStyle = isSelected ? 'bg-blue-500 hover:bg-blue-400' : seatStyle[status] || 'bg-gray-300' ;
-
-
-
-//   // Handle seat click
-//   const handleClick = () => {
-//     if (status === 'available') {
-//       onSelect(seatNumber);
-//     }
-//   };
-
-//   return (
-//     <div
-//       className={`m-2 p-2 rounded-md cursor-pointer ${appliedStyle}`}
-//       onClick={handleClick}
-//       title={`Seat ${seatNumber} - ${status}`}
-//     >
-//       {seatNumber}
-//     </div>
-//   );
-// };
-
-
 import React from 'react';
 
 export const Seat = ({ seatNumber, status, onSelect, isSelected }) => {
-  // Define seat styles based on status
+  // Define seat styles based on status using DaisyUI button classes
   const seatStyle = {
-    available: 'bg-green-500 hover:bg-green-400',
-    booked: 'bg-red-500 cursor-not-allowed',
-    selected: 'bg-blue-500 hover:bg-blue-400',
+    available: 'bg-green-500 hover:bg-green-400 text-white',
+    booked: 'bg-red-500 cursor-not-allowed text-white',
+    selected: 'bg-blue-500 hover:bg-blue-400 text-white',
   };
 
-  // Determine if the seat is selected and apply a different class
-  const appliedStyle = isSelected ? 'bg-blue-500 hover:bg-blue-400' : seatStyle[status] || 'bg-gray-300';
+  // Apply selected seat style or fallback to default status style
+  const appliedStyle = isSelected ? seatStyle['selected'] : seatStyle[status] || 'bg-gray-300 text-black';
 
-  // Handle seat click
+  // Handle seat click (only if available)
   const handleClick = () => {
     if (status === 'available') {
       onSelect(seatNumber);
@@ -57,13 +19,14 @@ export const Seat = ({ seatNumber, status, onSelect, isSelected }) => {
   };
 
   return (
-    <div
-      className={`flex items-center justify-center m-2 p-4 rounded-md cursor-pointer ${appliedStyle} text-center text-sm`} // Updated padding for a better appearance
+    <button
+      className={`btn btn-sm m-1 rounded-md cursor-pointer ${appliedStyle}`}
       onClick={handleClick}
+      disabled={status === 'booked'} // Disable button for booked seats
       title={`Seat ${seatNumber} - ${status}`}
-      style={{ width: '60px', height: '60px' }} // Set uniform width and height for all seats
+      style={{ width: '10px', height: '10px' }} // Fixed size for each seat
     >
       {seatNumber}
-    </div>
+    </button>
   );
 };

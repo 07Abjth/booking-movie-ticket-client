@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-// Get all available seats for a specific show
-export const getSeatsForShow = async (showId) => {
+// Get all available seats for a specific theater
+export const getSeatsForTheater = async (theaterId) => {
   try {
-    const response = await axios.get(`http://localhost:4000/api/v1/seat/show/${showId}`, {
+    const response = await axios.get(`http://localhost:4000/api/v1/seat/get-seats-by-theater-id/${theaterId}`, {
       withCredentials: true,
     });
     return response.data;
