@@ -1,173 +1,3 @@
- // // SeatsSelectionPage.jsx
-// import { useState } from 'react';
-// import { useParams } from 'react-router-dom'; 
-// import { SeatsGrid } from './SeatsGrid.jsx';
-
-// export const SeatsSelectionPage = () => {
-//   const { showId } = useParams();  
-//   const [selectedSeats, setSelectedSeats] = useState([]);
-
-//   const handleSeatSelect = (seatNumber) => {
-//     setSelectedSeats((prev) => {
-//       if (prev.includes(seatNumber)) {
-//         return prev.filter((seat) => seat !== seatNumber);
-//       }
-//       return [...prev, seatNumber];
-//     });
-//   };
-
-//   return (
-//     <div className="p-5">
-//       <h1 className="text-2xl font-bold text-center">Select Your Seats</h1>
-//       <SeatsGrid showId={showId} onSeatSelect={handleSeatSelect} /> {/* Pass correct function */}
-//       <div className="mt-4 text-center">
-//         <h2 className="text-xl">Selected Seats:</h2>
-//         <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
-//         <button
-//           className={`mt-2 p-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`}
-//           disabled={selectedSeats.length === 0}
-//         >
-//           Proceed to Payment
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-
-// // SeatsSelectionPage.jsx
-// import { useState } from 'react';
-// import { useParams,useNavigate } from 'react-router-dom'; 
-// import { SeatsGrid } from './SeatsGrid.jsx';
-
-// export const SeatsSelectionPage = () => {
-//   const { showId } = useParams();  
-//   const [selectedSeats, setSelectedSeats] = useState([]);
-//   const navigate = useNavigate(); // Initialize useNavigate
-
-
-//   const handleSeatSelect = (seatNumber) => {
-//     setSelectedSeats((prev) => {
-//       if (prev.includes(seatNumber)) {
-//         return prev.filter((seat) => seat !== seatNumber);
-//       }
-//       return [...prev, seatNumber];
-//     });
-//   };
-//   const handleProceedToPayment = () => {
-//     if (selectedSeats.length > 0) {
-//       navigate(`/user/payment`, { state: { selectedSeats, showId } }); // Navigate to payment page with selected seats and showId
-//     }
-//   };
-//   return (
-//     <div className="p-5">
-//       <h1 className="text-2xl font-bold text-center">Select Your Seats</h1>
-//       <SeatsGrid showId={showId} onSeatSelect={handleSeatSelect} selectedSeats={selectedSeats} /> {/* Pass selectedSeats */}
-//       <div className="mt-4 text-center">
-//         <h2 className="text-xl">Selected Seats:</h2>
-//         <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
-//         <button
-//           className={`mt-2 p-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`}
-//           disabled={selectedSeats.length === 0}
-//           onClick={handleProceedToPayment} // Add onClick handler
-
-//         >
-//           Proceed to Payment
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-
-// // SeatsSelectionPage.jsx
-// import { useState } from 'react';
-// import { useParams, useNavigate } from 'react-router-dom'; 
-// import { SeatsGrid } from './SeatsGrid.jsx';
-
-// export const SeatsSelectionPage = () => {
-//   const { theaterId } = useParams();  // Assuming you're getting theaterId instead of showId
-//   const [selectedSeats, setSelectedSeats] = useState([]);
-//   const navigate = useNavigate();
-
-//   const handleSeatSelect = (seatNumber) => {
-//     setSelectedSeats((prev) => {
-//       if (prev.includes(seatNumber)) {
-//         return prev.filter((seat) => seat !== seatNumber);
-//       }
-//       return [...prev, seatNumber];
-//     });
-//   };
-
-//   const handleProceedToPayment = () => {
-//     if (selectedSeats.length > 0) {
-//       navigate(`/user/payment`, { state: { selectedSeats, theaterId } }); // Update if necessary
-//     }
-//   };
-
-//   return (
-//     <div className="p-5">
-//       <h1 className="text-2xl font-bold text-center">Select Your Seats</h1>
-//       <SeatsGrid theaterId={theaterId} onSeatSelect={handleSeatSelect} selectedSeats={selectedSeats} /> {/* Update the prop name if needed */}
-//       <div className="mt-4 text-center">
-//         <h2 className="text-xl">Selected Seats:</h2>
-//         <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
-//         <button
-//           className={`mt-2 p-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`}
-//           disabled={selectedSeats.length === 0}
-//           onClick={handleProceedToPayment}
-//         >
-//           Proceed to Payment
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-
-// import { useState } from 'react';
-// import { useParams, useNavigate } from 'react-router-dom'; 
-// import { SeatsGrid } from './SeatsGrid.jsx';
-
-// export const SeatsSelectionPage = () => {
-//     const { theaterId } = useParams();  // Changed to theaterId
-//     const [selectedSeats, setSelectedSeats] = useState([]);
-//     const navigate = useNavigate();
-
-//     const handleSeatSelect = (seatNumber) => {
-//         setSelectedSeats((prev) => {
-//             if (prev.includes(seatNumber)) {
-//                 return prev.filter((seat) => seat !== seatNumber);
-//             }
-//             return [...prev, seatNumber];
-//         });
-//     };
-
-//     const handleProceedToPayment = () => {
-//         if (selectedSeats.length > 0) {
-//             navigate(`/user/payment`, { state: { selectedSeats, theaterId } });
-//         }
-//     };
-
-//     return (
-//         <div className="p-5">
-//             <h1 className="text-2xl font-bold text-center">Select Your Seats</h1>
-//             <SeatsGrid theaterId={theaterId} onSeatSelect={handleSeatSelect} selectedSeats={selectedSeats} />
-//             <div className="mt-4 text-center">
-//                 <h2 className="text-xl">Selected Seats:</h2>
-//                 <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
-//                 <button
-//                     className={`mt-2 p-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`}
-//                     disabled={selectedSeats.length === 0}
-//                     onClick={handleProceedToPayment}
-//                 >
-//                     Proceed to Payment
-//                 </button>
-//             </div>
-//         </div>
-//     );
-// };
-
 
 // import { useState } from 'react';
 // import { useParams, useNavigate } from 'react-router-dom'; 
@@ -181,10 +11,10 @@
 //     const handleSeatSelect = (seatNumber) => {
 //         setSelectedSeats((prev) => {
 //             if (prev.includes(seatNumber)) {
-//                 // If the seat is already selected, deselect it
+//                 // Deselect the seat
 //                 return prev.filter((seat) => seat !== seatNumber);
 //             }
-//             // Otherwise, select it
+//             // Select the seat
 //             return [...prev, seatNumber];
 //         });
 //     };
@@ -199,7 +29,7 @@
 //         <div className="p-5">
 //             <h1 className="text-2xl font-bold text-center">Select Your Seats</h1>
 //             <SeatsGrid theaterId={theaterId} onSeatSelect={handleSeatSelect} selectedSeats={selectedSeats} />
-//             <div className="mt-4 text-center">
+//             <div className="mt-4 text-center" aria-live="polite">
 //                 <h2 className="text-xl">Selected Seats:</h2>
 //                 <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
 //                 <button
@@ -215,29 +45,258 @@
 // };
 
 
-import { useState } from 'react';
+// import { useState, useEffect } from 'react';
+// import { useParams, useNavigate } from 'react-router-dom'; 
+// import { SeatsGrid } from './SeatsGrid.jsx';
+// import { getSeatPricesForShowtime} from '../../services/seatApi.js'; // Adjust the path accordingly
+
+// export const SeatsSelectionPage = () => {
+//     const { theaterId } = useParams(); 
+//     const [selectedSeats, setSelectedSeats] = useState([]);
+//     const [seatPrices, setSeatPrices] = useState([]); // State for seat prices
+//     const navigate = useNavigate();
+
+//     useEffect(() => {
+//         const fetchSeatPrices = async () => {
+//             const prices = await getSeatPricesForShowtime(theaterId);
+//             if (!prices.error) {
+//                 setSeatPrices(prices); // Update state with fetched prices
+//             } else {
+//                 console.error(prices.error); // Handle error if needed
+//             }
+//         };
+
+//         fetchSeatPrices();
+//     }, [theaterId]);
+
+//     const handleSeatSelect = (seatNumber) => {
+//         setSelectedSeats((prev) => {
+//             if (prev.includes(seatNumber)) {
+//                 // Deselect the seat
+//                 return prev.filter((seat) => seat !== seatNumber);
+//             }
+//             // Select the seat
+//             return [...prev, seatNumber];
+//         });
+//     };
+
+//     const handleProceedToPayment = () => {
+//         if (selectedSeats.length > 0) {
+//             navigate(`/user/payment`, { state: { selectedSeats, theaterId, seatPrices } });
+//         }
+//     };
+
+//     return (
+//         <div className="p-5">
+//             <h1 className="text-2xl font-bold text-center">Select Your Seats</h1>
+//             <SeatsGrid theaterId={theaterId} onSeatSelect={handleSeatSelect} selectedSeats={selectedSeats} />
+//             <div className="mt-4 text-center" aria-live="polite">
+//                 <h2 className="text-xl">Selected Seats:</h2>
+//                 <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
+//                 <h2 className="text-xl">Seat Prices:</h2>
+//                 <p>
+//                     {seatPrices.length > 0 
+//                         ? seatPrices.map(seat => `Seat ${seat.seatNumber}: $${seat.price}`).join(', ')
+//                         : 'Prices not available'}
+//                 </p>
+//                 <button
+//                     className={`mt-2 p-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`}
+//                     disabled={selectedSeats.length === 0}
+//                     onClick={handleProceedToPayment}
+//                 >
+//                     Proceed to Payment
+//                 </button>
+//             </div>
+//         </div>
+//     );
+// };
+
+
+// import { useState, useEffect } from 'react';
+// import { useParams, useNavigate } from 'react-router-dom'; 
+// import { SeatsGrid } from './SeatsGrid.jsx';
+// import { getSeatPricesForShowtime } from '../../services/seatApi.js'; // Adjust the path accordingly
+
+// export const SeatsSelectionPage = () => {
+//     const { theaterId, showId } = useParams();  // Retrieve both theaterId and showId from URL params
+//     const [selectedSeats, setSelectedSeats] = useState([]);
+//     const [seatPrices, setSeatPrices] = useState([]); // State for seat prices
+//     const navigate = useNavigate();
+
+//     useEffect(() => {
+//         const fetchSeatPrices = async () => {
+//             try {
+//                 const prices = await getSeatPricesForShowtime(theaterId, showId);
+//                 if (!prices.error) {
+//                     setSeatPrices(prices); 
+//                 }
+//             } catch (error) {
+//                 console.error('Error fetching seat prices:', error.message);
+//                 // You can also display a user-friendly message or redirect if necessary
+//             }
+//         };
+//         fetchSeatPrices();
+//     }, [theaterId, showId]);
+    
+
+//     const handleSeatSelect = (seatNumber) => {
+//         setSelectedSeats((prev) => {
+//             if (prev.includes(seatNumber)) {
+//                 // Deselect the seat
+//                 return prev.filter((seat) => seat !== seatNumber);
+//             }
+//             // Select the seat
+//             return [...prev, seatNumber];
+//         });
+//     };
+
+//     const handleProceedToPayment = () => {
+//         if (selectedSeats.length > 0) {
+//             navigate(`/user/payment`, { state: { selectedSeats, theaterId, seatPrices } });
+//         }
+//     };
+
+//     return (
+//         <div className="p-5">
+//             <h1 className="text-2xl font-bold text-center">Select Your Seats</h1>
+//             <SeatsGrid theaterId={theaterId} onSeatSelect={handleSeatSelect} selectedSeats={selectedSeats} />
+//             <div className="mt-4 text-center" aria-live="polite">
+//                 <h2 className="text-xl">Selected Seats:</h2>
+//                 <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
+//                 <h2 className="text-xl">Seat Prices:</h2>
+//                 <p>
+//                     {seatPrices.length > 0 
+//                         ? seatPrices.map(seat => `Seat ${seat.seatNumber}: $${seat.price}`).join(', ')
+//                         : 'Prices not available'}
+//                 </p>
+//                 <button
+//                     className={`mt-2 p-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`}
+//                     disabled={selectedSeats.length === 0}
+//                     onClick={handleProceedToPayment}
+//                 >
+//                     Proceed to Payment
+//                 </button>
+//             </div>
+//         </div>
+//     );
+// };
+
+
+// import { useState, useEffect } from 'react';
+// import { useParams, useNavigate } from 'react-router-dom'; 
+// import { SeatsGrid } from './SeatsGrid.jsx';
+// import { getSeatPricesByTheater } from '../../services/seatApi.js'; // Adjust the path accordingly
+
+// export const SeatsSelectionPage = () => {
+//     const { theaterId } = useParams();  // Retrieve only theaterId from URL params
+//     const [selectedSeats, setSelectedSeats] = useState([]);
+//     const [seatPrices, setSeatPrices] = useState([]); // State for seat prices
+//     const navigate = useNavigate();
+
+//     useEffect(() => {
+//         const fetchSeatPrices = async () => {
+//             try {
+//                 const prices = await getSeatPricesByTheater(theaterId);  // Fetch seat prices by theaterId only
+//                 if (!prices.error) {
+//                     setSeatPrices(prices); 
+//                 }
+//             } catch (error) {
+//                 console.error('Error fetching seat prices:', error.message);
+//                 // You can also display a user-friendly message or redirect if necessary
+//             }
+//         };
+//         fetchSeatPrices();
+//     }, [theaterId]);
+    
+
+//     const handleSeatSelect = (seatNumber) => {
+//         setSelectedSeats((prev) => {
+//             if (prev.includes(seatNumber)) {
+//                 // Deselect the seat
+//                 return prev.filter((seat) => seat !== seatNumber);
+//             }
+//             // Select the seat
+//             return [...prev, seatNumber];
+//         });
+//     };
+
+//     const handleProceedToPayment = () => {
+//         if (selectedSeats.length > 0) {
+//             navigate(`/user/payment`, { state: { selectedSeats, theaterId, seatPrices } });
+//         }
+//     };
+
+//     return (
+//         <div className="p-5">
+//             <h1 className="text-2xl font-bold text-center">Select Your Seats</h1>
+//             <SeatsGrid theaterId={theaterId} onSeatSelect={handleSeatSelect} selectedSeats={selectedSeats} />
+//             <div className="mt-4 text-center" aria-live="polite">
+//                 <h2 className="text-xl">Selected Seats:</h2>
+//                 <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
+//                 <h2 className="text-xl">Seat Prices:</h2>
+//                 <p>
+//                     {seatPrices.length > 0 
+//                         ? seatPrices.map(seat => `Seat ${seat.seatNumber}: $${seat.price}`).join(', ')
+//                         : 'Prices not available'}
+//                 </p>
+//                 <button
+//                     className={`mt-2 p-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`}
+//                     disabled={selectedSeats.length === 0}
+//                     onClick={handleProceedToPayment}
+//                 >
+//                     Proceed to Payment
+//                 </button>
+//             </div>
+//         </div>
+//     );
+// };
+
+
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; 
 import { SeatsGrid } from './SeatsGrid.jsx';
+import { getSeatPricesByTheater } from '../../services/seatApi.js'; // Adjust the path accordingly
 
 export const SeatsSelectionPage = () => {
-    const { theaterId } = useParams(); 
+    const { theaterId } = useParams();  // Retrieve only theaterId from URL params
     const [selectedSeats, setSelectedSeats] = useState([]);
+    const [seatPrices, setSeatPrices] = useState([]); // State for seat prices
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchSeatPrices = async () => {
+            try {
+                const prices = await getSeatPricesByTheater(theaterId);  // Fetch seat prices by theaterId only
+                
+                // Log the prices to see what you are getting
+                console.log('Seat prices response:', prices);
+                
+                if (Array.isArray(prices)) {
+                    setSeatPrices(prices); 
+                } else {
+                    console.error('Seat prices data is not an array:', prices);
+                }
+            } catch (error) {
+                console.error('Error fetching seat prices:', error.message);
+            }
+        };
+        fetchSeatPrices();
+    }, [theaterId]);
 
     const handleSeatSelect = (seatNumber) => {
         setSelectedSeats((prev) => {
             if (prev.includes(seatNumber)) {
-                // If the seat is already selected, deselect it
+                // Deselect the seat
                 return prev.filter((seat) => seat !== seatNumber);
             }
-            // Otherwise, select it
+            // Select the seat
             return [...prev, seatNumber];
         });
     };
 
     const handleProceedToPayment = () => {
         if (selectedSeats.length > 0) {
-            navigate(`/user/payment`, { state: { selectedSeats, theaterId } });
+            navigate(`/user/payment`, { state: { selectedSeats, theaterId, seatPrices } });
         }
     };
 
@@ -245,9 +304,15 @@ export const SeatsSelectionPage = () => {
         <div className="p-5">
             <h1 className="text-2xl font-bold text-center">Select Your Seats</h1>
             <SeatsGrid theaterId={theaterId} onSeatSelect={handleSeatSelect} selectedSeats={selectedSeats} />
-            <div className="mt-4 text-center">
+            <div className="mt-4 text-center" aria-live="polite">
                 <h2 className="text-xl">Selected Seats:</h2>
                 <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
+                <h2 className="text-xl">Seat Prices:</h2>
+                <p>
+                    {Array.isArray(seatPrices) && seatPrices.length > 0 
+                        ? seatPrices.map(seat => `Seat ${seat.seatNumber}: $${seat.price}`).join(', ')
+                        : 'Prices not available'}
+                </p>
                 <button
                     className={`mt-2 p-2 rounded ${selectedSeats.length > 0 ? 'bg-blue-500 text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`}
                     disabled={selectedSeats.length === 0}

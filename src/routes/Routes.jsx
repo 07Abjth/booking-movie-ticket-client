@@ -3,7 +3,7 @@ import { UserLayout } from '../components/layouts/user/UserLayout.jsx';
 import { UserHomePage } from "../pages/user/UserHomePage.jsx"; 
 import { BookingPage } from "../pages/user/BookingPage.jsx";
 import { ProfilePage } from "../pages/user/ProfilePage.jsx";
-// import { PaymentPage } from "../pages/user/PaymentPage.jsx";
+import { PaymentPage } from "../pages/user/PaymentPage.jsx";
 import { SettingsPage } from '../pages/user/SettingsPage.jsx';
 import { WatchListPage } from '../pages/user/WatchListPage.jsx';
 import { NotificationsPage } from '../pages/user/NotificationsPage.jsx';
@@ -36,9 +36,7 @@ import { MovieInfoAndBookingPage } from "../pages/movie/MovieInfoAndBookingPage.
 import { UserAuth } from "./protectedRoutes/UserAuth.jsx";
 import { TheaterOwnerAuth } from "./protectedRoutes/TheaterOwnerAuth.jsx";
 import { AdminAuth } from "./protectedRoutes/AdminAuth.jsx";
-import { SuccessPage } from "../pages/payment/SuccessPage.jsx";
-import { CheckOutForm} from "../pages/payment/CheckOutForm.jsx";
-import { PaymentPage } from "../pages/payment/PaymentPage.jsx";
+import { CheckOutForm} from "../pages/user/CheckOutForm.jsx";
 
 
 export const router = createBrowserRouter([
@@ -68,11 +66,10 @@ export const router = createBrowserRouter([
       { path: "profile", element: <ProfilePage /> },
       { path: "theater-details/:theaterId", element: <TheaterDetailsPage /> },
       { path: "/user/seats/:theaterId/:showId", element: <SeatsSelectionPage /> },
-      { path:"payment", element:<PaymentPage />},
+      // { path:"payment", element:<PaymentPage />},
       { path:"check-out", element:<CheckOutForm />},
-      {path:"success", element:<SuccessPage />},
       { path:"movie-info-and-booking/:movieId", element:<MovieInfoAndBookingPage />},
-      // { path: "payment", element: <PaymentPage /> },
+      { path: "payment", element: <PaymentPage /> },
       { path: "settings", element: <SettingsPage /> },
       { path: "watch-list", element: <WatchListPage /> },
       { path: "notifications", element: <NotificationsPage /> },
