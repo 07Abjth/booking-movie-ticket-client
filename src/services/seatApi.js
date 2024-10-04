@@ -13,6 +13,39 @@ export const getSeatsForTheater = async (theaterId) => {
   }
 };
 
+
+
+
+
+
+
+ 
+
+export const getSeatPricesForShow = async (showId) => {
+  try {
+    const response = await axios.get(`http://localhost:4000/api/v1/seat/seats/prices/${showId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching seat prices:", error);
+    return { error: "Failed to fetch seat prices" }; // Modify this message to match the frontend.
+  }
+};
+
+
+
+
+
+export const fetchSeatPrice = async (showSeatId) => {
+  try {
+    const response = await axios.get(`/api/v1/seat/seats/price/${showSeatId}`);
+    console.log('Seat price:', response.data);
+  } catch (error) {
+    console.error('Error fetching seat price:', error);
+  }
+};
+
+
+
 // Create seats in bulk for a show
 export const createSeats = async (data) => {
   try {
@@ -55,33 +88,20 @@ export const reserveSeats = async (seats) => {
 
 
 
-// // Fetch seat prices based on theaterId and showtimeId
-// export const getSeatPricesForShowtime = async (theaterId, showId) => {
-//   try {
-//     // Make the GET request to the API endpoint
-//     const response = await axios.get(`http://localhost:4000/api/v1/seat/get-seat-prices/${showId}`, {
-//       withCredentials: true, // Ensure CORS settings are correct on the backend for this to work
-//     });
 
-//     // Return the response data (seat prices)
-//     return response.data; // Ensure this returns the expected format
-//   } catch (error) {
-//     // Log the error for debugging
-//     console.error('Error fetching seat prices:', error);
 
-//     // Return an error object, either from Axios or a custom message
-//     return {
-//       error: error.response ? error.response.data : 'Error fetching seat prices',
-//     };
-//   }
-// };
 
-export const getSeatPricesByTheater = async (theaterId) => {
+// Get price of a specific seat
+export const getSeatPrices = async (seatId) => {
   try {
-      const response = await axios.get(`/api/v1/seat/get-seat-prices/${theaterId}`);
-      return response.data; 
+    const response = await axios.get(`http://localhost:4000/api/v1/seat/price/${seatId}`, {
+      withCredentials: true,
+    });
+    return response.data;
   } catch (error) {
-      console.error("Error fetching seat prices:", error);
-      throw error;
+    console.error('Error fetching seat price:', error);
+    return { error: error.response ? error.response.data : 'Error fetching seat price' };
   }
 };
+
+

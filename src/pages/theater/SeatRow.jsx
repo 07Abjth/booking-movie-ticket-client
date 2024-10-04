@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Seat } from './Seat';
 
-const SeatSelection = () => {
+export const SeatSelection = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
 
   const seats = [
