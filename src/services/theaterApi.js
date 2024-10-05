@@ -80,3 +80,19 @@ export const getTheatersByIds = async (theaterIds) => {
     return { error: error.response?.data || 'An error occurred while fetching theaters' };
   }
 };
+
+
+// Fetch theater details by ID
+export const getTheaterDetails = async (theaterId) => {
+
+  try {
+    if (!theaterId) throw new Error('theater ID is required');
+
+    const response = await axios.get(`http://localhost:4000/api/v1/theater/details/${theaterId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    return { error: error.response?.data || 'An error occurred while fetching theater details' };
+  }
+};

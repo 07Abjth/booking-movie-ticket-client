@@ -21,9 +21,13 @@ export const getAllMovies = async () => {
   }
 };
 
+//Get movie details
 export const getMovieDetails = async (movieId) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/movie/${movieId}`, {
+    if (!movieId) throw new Error('Movie ID is required');
+
+    const response = await axios.get(`http://localhost:4000/api/v1/movie/${movieId}`, {
+      
       withCredentials: true,
     });
     return response.data;

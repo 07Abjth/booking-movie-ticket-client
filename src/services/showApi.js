@@ -66,15 +66,6 @@ export const getShowsByMovieId = async (movieId) => {
 //   }
 // };
 
-// // Fetch Show by ID
-// export const getShowById = async (showId) => {
-//   try {
-//     const response = await axios.get(`${API_BASE_URL}/show/${showId}`);
-//     return response.data;
-//   } catch (error) {
-//     return { error: error.response?.data || 'An error occurred while fetching the show' };
-//   }
-// };
 
 // // Update Show Details
 // export const updateShow = async (showId, data) => {
@@ -129,6 +120,22 @@ export const createShow = async (data) => {
 export const deleteShow = async (showId) => {
   try {
     const response = await axios.delete(`${API_BASE_URL}/show/${showId}`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error deleting show:", error); // Log the error for debugging
+    return { error: error.response?.data || 'An error occurred while deleting the show' };
+  }
+};
+
+
+
+// Fetch Show by ID
+export const getShowById = async (showId) => {
+
+  try {
+    const response = await axios.get(`${API_BASE_URL}/show/${showId}`, {
       withCredentials: true,
     });
     return response.data;

@@ -105,3 +105,15 @@ export const getSeatPrices = async (seatId) => {
 };
 
 
+// // Get prices of seats for a specific show and theater
+// export const getSeatPrices = async (theaterId, showId) => {
+//   try {
+//     const response = await axios.get(`http://localhost:4000/api/v1/seats/prices/${theaterId}/${showId}`, {
+//       withCredentials: true,
+//     });
+//     return response.data; // Ensure this returns an array of seat prices
+//   } catch (error) {
+//     console.error('Error fetching seat prices:', error);
+//     return { error: error.response ? error.response.data : 'Error fetching seat prices' };
+//   }
+// };

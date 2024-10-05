@@ -1,14 +1,12 @@
 import axios from "axios";
 
-
-
 // Initiate Payment
 export const initiatePayment = async (data) => {
   try {
     const response = await axios.post(
       "http://localhost:4000/api/v1/payment/initiate",
-      {amount:data}
-     );
+      { amount: data }
+    );
     return response?.data;
   } catch (error) {
     if (error.response) {
@@ -19,18 +17,12 @@ export const initiatePayment = async (data) => {
   }
 };
 
-
 // Create Order
 export const createPaymentOrder = async (amount) => {
   try {
     const response = await axios.post('http://localhost:4000/api/v1/payment/create-order', 
-      {amount:amount}
-    )
-    //   {
-    //   {amount:data}
-
-    //   amount: amount * 100, // Convert to paise
-    // });
+      { amount: amount }
+    );
     return response.data; // Assuming the response structure is { orderId, currency, amount }
   } catch (error) {
     throw error.response ? error.response.data : new Error('An error occurred while creating the order');
@@ -41,7 +33,7 @@ export const createPaymentOrder = async (amount) => {
 export const verifyPayment = async (paymentId) => {
   try {
     const response = await axios({
-      url: `http://localhost:4000/api/v1/payments/verify/${paymentId}`,
+      url: `http://localhost:4000/api/v1/payment/verify/${paymentId}`,
       method: "POST",
       withCredentials: true,
     });
