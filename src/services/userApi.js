@@ -17,7 +17,7 @@ export const userSignUp = async (data) => {
 // User login function
 export const userLogin = async (data) => {
   try {
-    const response = await axios.post(`${BASE_URL}/login`, data, {
+    const response = await axios.post(`http://localhost:4000/api/v1/user/login`, data, {
       withCredentials: true,
     });
     return response?.data;

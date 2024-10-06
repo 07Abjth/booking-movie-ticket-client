@@ -36,7 +36,7 @@ import { MovieInfoAndBookingPage } from "../pages/movie/MovieInfoAndBookingPage.
 import { UserAuth } from "./protectedRoutes/UserAuth.jsx";
 import { TheaterOwnerAuth } from "./protectedRoutes/TheaterOwnerAuth.jsx";
 import { AdminAuth } from "./protectedRoutes/AdminAuth.jsx";
-import { CheckOutForm} from "../pages/user/CheckOutForm.jsx";
+// import { CheckOutForm} from "../pages/user/CheckOutForm.jsx";
 
 
 export const router = createBrowserRouter([
@@ -67,7 +67,7 @@ export const router = createBrowserRouter([
       { path: "theater-details/:theaterId", element: <TheaterDetailsPage /> },
       { path: "/user/seats/:theaterId/:showId", element: <SeatsSelectionPage /> },
       // { path:"payment", element:<PaymentPage />},
-      { path:"check-out", element:<CheckOutForm />},
+      // { path:"check-out", element:<CheckOutForm />},
       { path:"movie-info-and-booking/:movieId", element:<MovieInfoAndBookingPage />},
       { path: "payment", element: <PaymentPage /> },
       { path: "settings", element: <SettingsPage /> },
