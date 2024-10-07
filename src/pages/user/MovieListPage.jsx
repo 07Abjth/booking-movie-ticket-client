@@ -90,7 +90,7 @@ import axios from 'axios';
 const apiUrl = import.meta.env.VITE_API_URL || 'https://cineticketsbook-server.vercel.app';
 
 // Define MovieListPage
-const MovieListPage = () => {
+export const MovieListPage = () => {
   const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [newReleases, setNewReleases] = useState([]);
@@ -159,4 +159,4 @@ const MovieListPage = () => {
   );
 };
 
-export default MovieListPage;
+ 
