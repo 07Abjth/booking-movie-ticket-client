@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast'; 
-import { userLogin } from '../../services/userApi';
+import { userLogin } from '../../services/userApi.js';
 
 export const LoginPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
