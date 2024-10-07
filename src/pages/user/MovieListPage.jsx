@@ -78,16 +78,10 @@
 //   );
 // };
 
-// export default MovieListPage;
-
-
-import { useState, useEffect } from 'react';
+ import { useState, useEffect } from 'react';
 import { MovieCard } from '../../components/ui/Cards';
 import toast from 'react-hot-toast';
-import axios from 'axios';
-
-// Use the dynamic API URL from environment variables, with a default fallback
-const apiUrl = import.meta.env.VITE_API_URL || 'https://cineticketsbook-server.vercel.app';
+import { axiosInstance } from '../../config/axiosInstance.js';  // Import the axios instance
 
 // Define MovieListPage
 const MovieListPage = () => {
@@ -102,17 +96,17 @@ const MovieListPage = () => {
     setLoading(true);
     try {
       // Fetch upcoming movies
-      const upcomingResponse = await axios.get(`${apiUrl}/api/v1/movie/upcoming`);
+      const upcomingResponse = await axiosInstance.get('/movie/upcoming');
       console.log('Upcoming Movies:', upcomingResponse.data.data);
       setUpcomingMovies(upcomingResponse.data.data);
 
       // Fetch trending movies
-      const trendingResponse = await axios.get(`${apiUrl}/api/v1/movie/trending`);
+      const trendingResponse = await axiosInstance.get('/movie/trending');
       console.log('Trending Movies:', trendingResponse.data.data);
       setTrendingMovies(trendingResponse.data.data);
 
       // Fetch new releases
-      const newReleasesResponse = await axios.get(`${apiUrl}/api/v1/movie/new-releases`);
+      const newReleasesResponse = await axiosInstance.get('/movie/new-releases');
       console.log('New Releases:', newReleasesResponse.data.data);
       setNewReleases(newReleasesResponse.data.data);
 
