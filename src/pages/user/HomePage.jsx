@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import MovieListPage from './MovieListPage';
+import {MovieListPage} from './MovieListPage.jsx';
  
 
 export const HomePage = () => {
