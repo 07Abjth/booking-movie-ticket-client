@@ -17,8 +17,7 @@ export const userSignUp = async (data) => {
 // User login function
 export const userLogin = async (data) => {
   try {
-    const response = await axios.post(`https://booking-movie-ticket-server.vercel.app/api/v1/user/login
-`, data, {
+    const response = await axios.post(`http://localhost:4000/api/v1/user/login`, data, {
       withCredentials: true,
     });
     return response?.data;
