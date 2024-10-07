@@ -1,8 +1,10 @@
  import axios from 'axios';
 
 const BASE_URL = "http://localhost:4000/api/v1/user";
+const apiUrl = import.meta.env.VITE_API_URL 
+// || 'https://booking-movie-ticket-server.vercel.app/api/v1';
 
-const apiUrl = import.meta.env.VITE_API_URL;
+
 
 // User signup function
 export const userSignUp = async (data) => {
