@@ -84,16 +84,14 @@
 // };
 
 
-
 import { useNavigate } from 'react-router-dom';
 import MovieListPage from './MovieListPage';
- 
-export const HomePage = () => {
 
+export const HomePage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="home-container text-center p-8 px-20" >
+    <div className="home-container text-center p-8 px-20">
       <h1 className="text-4xl font-bold mb-6">Welcome to CineTicketsBook</h1>
 
       <p className="text-lg mb-4">
@@ -118,9 +116,9 @@ export const HomePage = () => {
       <div className="carousel w-full">
         <div id="slide1" className="carousel-item relative w-full">
           <img
-            src="https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwMC00ZjQ5LWJjZjMtOWUwMGVmNmViZTE2XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg"
+            src="https://images.unsplash.com/photo-1491458981945-2c8ed45c6a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fG1vdmllfGVufDB8fHx8MTY4NTg5ODI1Mg&ixlib=rb-1.2.1&q=80&w=1080"
             className="w-full"
-            alt="The Godfather"
+            alt="Movie Scene 1"
           />
           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
             <a href="#slide4" className="btn btn-circle">❮</a>
@@ -129,9 +127,9 @@ export const HomePage = () => {
         </div>
         <div id="slide2" className="carousel-item relative w-full">
           <img
-            src="https://m.media-amazon.com/images/M/MV5BMTUxMDQwMzUyNF5BMl5BanBnXkFtZTgwMzU2NjQxMTE@._V1_.jpg"
+            src="https://images.unsplash.com/photo-1496781431441-dc6ecdf6f147?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDczfHxtb3ZpZXxlbnwwfHx8fDE2ODU4OTgyNTY&ixlib=rb-1.2.1&q=80&w=1080"
             className="w-full"
-            alt="Inception"
+            alt="Movie Scene 2"
           />
           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
             <a href="#slide1" className="btn btn-circle">❮</a>
@@ -140,9 +138,9 @@ export const HomePage = () => {
         </div>
         <div id="slide3" className="carousel-item relative w-full">
           <img
-            src="https://m.media-amazon.com/images/M/MV5BMTYwODI0MzQ2OV5BMl5BanBnXkFtZTgwNjUxODI1MDE@._V1_.jpg"
+            src="https://images.unsplash.com/photo-1542631876-3c8cd60b5ed8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDI3fHxtb3ZpZXxlbnwwfHx8fDE2ODU4OTgyNjA&ixlib=rb-1.2.1&q=80&w=1080"
             className="w-full"
-            alt="Interstellar"
+            alt="Movie Scene 3"
           />
           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
             <a href="#slide2" className="btn btn-circle">❮</a>
@@ -151,9 +149,9 @@ export const HomePage = () => {
         </div>
         <div id="slide4" className="carousel-item relative w-full">
           <img
-            src="https://m.media-amazon.com/images/M/MV5BMGI1NzMwYTgtZGUwOC00MmI4LWE1ZGQtNDA2MWY2NzNhNTgwXkEyXkFqcGdeQXVyNDY5MjMyNTg@._V1_.jpg"
+            src="https://images.unsplash.com/photo-1519491974734-c507ac8cc37f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDIyfHxsb2dpY2FsaXplZCUyMGJpbGxlJTIwbG9uZ3xlbnwwfHx8fDE2ODU4OTgyNzE&ixlib=rb-1.2.1&q=80&w=1080"
             className="w-full"
-            alt="The Dark Knight"
+            alt="Movie Scene 4"
           />
           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
             <a href="#slide3" className="btn btn-circle">❮</a>
