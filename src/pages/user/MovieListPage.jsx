@@ -95,10 +95,11 @@ const MovieListPage = () => {
   const fetchMovies = async () => {
     setLoading(true);
     try {
-      // Fetch upcoming movies
-      const upcomingResponse = await axiosInstance.get('/movie/upcoming');
-      console.log('Upcoming Movies:', upcomingResponse.data.data);
-      setUpcomingMovies(upcomingResponse.data.data);
+
+      // // Fetch upcoming movies
+      // const upcomingResponse = await axiosInstance.get('/movie/upcoming');
+      // console.log('Upcoming Movies:', upcomingResponse.data.data);
+      // setUpcomingMovies(upcomingResponse.data.data);
 
       // Fetch trending movies
       const trendingResponse = await axiosInstance.get('/movie/trending');
@@ -129,6 +130,15 @@ const MovieListPage = () => {
 
   return (
     <div className="px-8 md:px-20 py-10 bg-gray-100 min-h-screen">
+
+
+{/* <h1 className='font-bold text-4xl my-5'>Upcoming Movies</h1>
+      <div className='grid grid-cols-3 gap-10'>
+        {upcomingMovies.map((movie) => (
+          <MovieCard key={movie._id} movie={movie} />
+        ))}
+      </div> */}
+
       <h1 className='font-bold text-4xl my-5'>Trending Movies</h1>
       <div className='grid grid-cols-3 gap-10'>
         {trendingMovies.map((movie) => (
@@ -136,12 +146,6 @@ const MovieListPage = () => {
         ))}
       </div>
 
-      <h1 className='font-bold text-4xl my-5'>Upcoming Movies</h1>
-      <div className='grid grid-cols-3 gap-10'>
-        {upcomingMovies.map((movie) => (
-          <MovieCard key={movie._id} movie={movie} />
-        ))}
-      </div>
 
       <h1 className='font-bold text-4xl my-5'>New Releases</h1>
       <div className='grid grid-cols-3 gap-10'>
