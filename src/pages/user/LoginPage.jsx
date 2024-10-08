@@ -13,11 +13,11 @@ export const LoginPage = () => {
       const response = await userLogin(data);
       console.log(response);
       
-      if (response.success) { // Ensure your response structure matches this check
-        toast.success('Login successful'); // Use toast here
+      if (response.success) {  
+        toast.success('Login successful');  
         navigate('/user/user-homepage');
       } else {
-        toast.error(response.message || 'Login failed'); // Use appropriate message
+        toast.error(response.message || 'Login failed');  
       }
 
     } catch (error) {
