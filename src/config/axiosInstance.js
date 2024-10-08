@@ -1,9 +1,10 @@
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL || 'https://cineticketsbook-server.vercel.app'}/api/v1`,
-  withCredentials: true, // Include credentials if needed for cookies, sessions
+  baseURL: `${(import.meta.env.VITE_API_URL || 'https://cineticketsbook-server.vercel.app').replace(/\/+$/, '')}/api/v1`,
+  withCredentials: true,
 });
+
 
 axiosInstance.interceptors.response.use(
   response => response,
