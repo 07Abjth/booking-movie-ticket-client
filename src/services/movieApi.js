@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 // Base URL of your backend API
-const API_BASE_URL = 'http://localhost:4000/api/v1';
+const bakEndUrl = "https://cine-ticket-book-server.vercel.app/api/v1"
 
 // Get All Movies
 export const getAllMovies = async () => {
   try {
     const response = await axios({
-      url: `${API_BASE_URL}/movie/moviesList`,
+      url: `${bakEndUrl}/movie/moviesList`,
       method: "GET",
       withCredentials: true,
     });

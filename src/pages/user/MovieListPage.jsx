@@ -81,7 +81,13 @@
  import { useState, useEffect } from 'react';
 import { MovieCard } from '../../components/ui/Cards';
 import toast from 'react-hot-toast';
-import { axiosInstance } from '../../config/axiosInstance.js';  // Import the axios instance
+// import { axiosInstance } from '../../config/axiosInstance.js';  
+import axios from 'axios';
+
+
+
+const bakEndUrl = "https://cine-ticket-book-server.vercel.app/api/v1"
+
 
 // Define MovieListPage
 const MovieListPage = () => {
@@ -96,17 +102,17 @@ const MovieListPage = () => {
     setLoading(true);
     try {
       // Fetch upcoming movies
-      const upcomingResponse = await axiosInstance.get('/movie/upcoming');
+      const upcomingResponse = await axios.get(`${bakEndUrl}/movie/upcoming`);
       console.log('Upcoming Movies:', upcomingResponse.data.data);
       setUpcomingMovies(upcomingResponse.data.data);
 
       // Fetch trending movies
-      const trendingResponse = await axiosInstance.get('/movie/trending');
+      const trendingResponse = await axios.get(`${bakEndUrl}/movie/trending`);
       console.log('Trending Movies:', trendingResponse.data.data);
       setTrendingMovies(trendingResponse.data.data);
 
       // Fetch new releases
-      const newReleasesResponse = await axiosInstance.get('/movie/new-releases');
+      const newReleasesResponse = await axios.get(`${bakEndUrl}/movie/new-releases`);
       console.log('New Releases:', newReleasesResponse.data.data);
       setNewReleases(newReleasesResponse.data.data);
 

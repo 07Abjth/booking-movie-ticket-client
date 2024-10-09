@@ -1,5 +1,12 @@
 import { axiosInstance } from '../config/axiosInstance';
 
+import axios from 'axios';
+
+
+
+const bakEndUrl = "https://cine-ticket-book-server.vercel.app/api/v1"
+
+
 // User signup function
 export const userSignUp = async (data) => {
   try {
@@ -13,7 +20,7 @@ export const userSignUp = async (data) => {
 // User login function
 export const userLogin = async (data) => {
   try {
-    const response = await axiosInstance.post('/user/login', data);
+    const response = await axios.post(`${bakEndUrl}/user/login`, data);
     return response?.data;
   } catch (error) {
     return { error: error.response ? error.response.data : 'An error occurred during login' };
