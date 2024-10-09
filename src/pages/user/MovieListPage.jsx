@@ -81,8 +81,7 @@
  import { useState, useEffect } from 'react';
 import { MovieCard } from '../../components/ui/Cards';
 import toast from 'react-hot-toast';
-// import { axiosInstance } from '../../config/axiosInstance.js';  
-import axios from 'axios';
+ import axios from 'axios';
 
 
 
