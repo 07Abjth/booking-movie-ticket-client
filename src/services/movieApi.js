@@ -7,7 +7,7 @@ const API_BASE_URL = 'http://localhost:4000/api/v1';
 export const getAllMovies = async () => {
   try {
     const response = await axios({
-      url: `${API_BASE_URL}/movies`,
+      url: `${API_BASE_URL}/movie/moviesList`,
       method: "GET",
       withCredentials: true,
     });
