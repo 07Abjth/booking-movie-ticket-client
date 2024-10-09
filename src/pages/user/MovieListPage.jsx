@@ -86,7 +86,7 @@ import axios from 'axios';
 
 
 
-const bakEndUrl = "https://cine-ticket-book-server.vercel.app/api/v1"
+const bakEndUrl = import.meta.env.VITE_API_URL
 
 
 // Define MovieListPage

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL of your backend API
-const bakEndUrl = "https://cine-ticket-book-server.vercel.app/api/v1"
+const bakEndUrl = import.meta.env.VITE_API_URL
 
 // Get All Movies
 export const getAllMovies = async () => {
