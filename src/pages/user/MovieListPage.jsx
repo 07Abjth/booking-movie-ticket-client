@@ -89,6 +89,10 @@ import toast from 'react-hot-toast';
 
 // Define MovieListPage
 const MovieListPage = () => {
+
+  console.log('VITE_API_URL:', import.meta.env.VITE_API_URL); // Debugging log
+
+
   const [upcomingMovies, setUpcomingMovies] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [newReleases, setNewReleases] = useState([]);
