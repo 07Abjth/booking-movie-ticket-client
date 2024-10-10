@@ -53,11 +53,9 @@
 
 import { axiosInstance } from '../config/axiosInstance';
 
-import axios from 'axios';
+ 
 
 
-
-const bakEndUrl = import.meta.env.VITE_API_URL
 
 
 // User signup function
@@ -73,7 +71,7 @@ export const userSignUp = async (data) => {
 // User login function
 export const userLogin = async (data) => {
   try {
-    const response = await axios.post(`${bakEndUrl}/user/login`, data);
+    const response = await axiosInstance.post(`/user/login`, data);
     return response?.data;
   } catch (error) {
     return { error: error.response ? error.response.data : 'An error occurred during login' };

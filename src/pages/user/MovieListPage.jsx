@@ -81,12 +81,11 @@
  import { useState, useEffect } from 'react';
 import { MovieCard } from '../../components/ui/Cards';
 import toast from 'react-hot-toast';
- import axios from 'axios';
+ import { axiosInstance } from '../../config/axiosInstance.js';
 
 
 
-const bakEndUrl = import.meta.env.VITE_API_URL
-
+ 
 
 // Define MovieListPage
 const MovieListPage = () => {
@@ -101,17 +100,17 @@ const MovieListPage = () => {
     setLoading(true);
     try {
       // Fetch upcoming movies
-      const upcomingResponse = await axios.get(`${bakEndUrl}/movie/upcoming`);
+      const upcomingResponse = await axiosInstance.get(`/movie/upcoming`);
       console.log('Upcoming Movies:', upcomingResponse.data.data);
       setUpcomingMovies(upcomingResponse.data.data);
 
       // Fetch trending movies
-      const trendingResponse = await axios.get(`${bakEndUrl}/movie/trending`);
+      const trendingResponse = await axiosInstance.get(`/movie/trending`);
       console.log('Trending Movies:', trendingResponse.data.data);
       setTrendingMovies(trendingResponse.data.data);
 
       // Fetch new releases
-      const newReleasesResponse = await axios.get(`${bakEndUrl}/movie/new-releases`);
+      const newReleasesResponse = await axiosInstance.get(`/movie/new-releases`);
       console.log('New Releases:', newReleasesResponse.data.data);
       setNewReleases(newReleasesResponse.data.data);
 

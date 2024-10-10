@@ -1,13 +1,10 @@
-import axios from 'axios';
-
-// Base URL of your backend API
-const bakEndUrl = import.meta.env.VITE_API_URL
+import { axiosInstance } from "../config/axiosInstance";
 
 // Get All Movies
 export const getAllMovies = async () => {
   try {
-    const response = await axios({
-      url: `${bakEndUrl}/movie/moviesList`,
+    const response = await axiosInstance({
+      url: `/movie/moviesList`,
       method: "GET",
       withCredentials: true,
     });
@@ -26,7 +23,7 @@ export const getMovieDetails = async (movieId) => {
   try {
     if (!movieId) throw new Error('Movie ID is required');
 
-    const response = await axios.get(`http://localhost:4000/api/v1/movie/${movieId}`, {
+    const response = await axiosInstance.get(`movie/${movieId}`, {
       
       withCredentials: true,
     });
