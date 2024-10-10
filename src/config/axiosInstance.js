@@ -7,3 +7,4 @@ export const axiosInstance = axios.create({
   baseURL: `${baseURL}/api/v1`,
   withCredentials: true,
 });
+

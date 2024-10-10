@@ -56,7 +56,7 @@
  
 
 
-import { axiosInstance } from "../config/axiosInstance";
+import { axiosInstance } from "../config/axiosInstance.js";
 
 // Get All Movies
 export const getAllMovies = async () => {
