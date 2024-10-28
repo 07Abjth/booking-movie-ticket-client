@@ -1,74 +1,155 @@
-// import axios from "axios";
+//  import { loadStripe } from "@stripe/stripe-js";
+//  import { axiosInstance } from "../config/axiosInstance";
+ 
+ 
+ 
 
-// // Initiate Payment
-// export const initiatePayment = async (data) => {
-//   try {
-//     const response = await axios.post(
-//       "http://localhost:4000/api/v1/payment/initiate",
-//       { amount: data }
-//     );
-//     return response?.data;
-//   } catch (error) {
-//     if (error.response) {
-//       return { error: error.response.data };
-//     } else {
-//       return { error: 'An error occurred while initiating the payment' };
-//     }
-//   }
-// };
 
-// // Create Order
-// export const createPaymentOrder = async (amount) => {
-//   try {
-//     const response = await axios.post('http://localhost:4000/api/v1/payment/create-order', 
-//       { amount: amount }
-//     );
-//     return response.data; // Assuming the response structure is { orderId, currency, amount }
-//   } catch (error) {
-//     throw error.response ? error.response.data : new Error('An error occurred while creating the order');
-//   }
-// };
+// // Make Payment Function 
 
-// // Verify Payment
-// export const verifyPayment = async (paymentId) => {
+// export const makePayment = async (selectedSeats, selectedShow) => {
 //   try {
-//     const response = await axios({
-//       url: `http://localhost:4000/api/v1/payment/verify/${paymentId}`,
+//     const stripe = await loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+    
+//     const products = selectedSeats.map(seat => ({
+//       name: `${selectedShow.movie.title} - ${selectedShow.theater.name}`,
+//       image: selectedShow.movie.image,
+//       price: seat.price,
+//       quantity: 1,  // Assuming each seat is one quantity
+//     }));
+
+//     const response = await axiosInstance({
+//       url: "/payment/create-checkout-session",
 //       method: "POST",
-//       withCredentials: true,
+//       data: { products },  // Send selected show and seat details
 //     });
-//     return response?.data;
-//   } catch (error) {
-//     if (error.response) {
-//       return { error: error.response.data };
-//     } else {
-//       return { error: 'An error occurred while verifying the payment' };
+
+//     const sessionId = response?.data?.sessionId;
+//     const result = await stripe.redirectToCheckout({ sessionId });
+
+//     if (result.error) {
+//       console.error(result.error.message);
 //     }
+//   } catch (error) {
+//     console.error("Payment failed:", error);
 //   }
 // };
 
 
-import axios from "axios";
+
+
+// // Function to create a payment intent
+// export const createPaymentIntent = async (paymentData) => {
+//   try {
+//     // Make a POST request to your backend API to create a payment intent
+//     const response = await axiosInstance.post('payment/create-intent', paymentData);
+
+//     // Return the response data from the server
+//     return response.data;
+//   } catch (error) {
+//     // Handle errors appropriately
+//     console.error('Error creating payment intent:', error);
+//     throw error; // Rethrow the error for further handling in your component
+//   }
+// };
+
+// import { loadStripe } from "@stripe/stripe-js";
+// import { axiosInstance } from "../config/axiosInstance";
+
+// // Make Payment Function
+// // Make Payment Function
+// export const makePayment = async (selectedSeats, selectedShow) => {
+//   try {
+//       const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
+
+//       if (!stripe) {
+//           throw new Error("Stripe failed to initialize. Please check the key.");
+//       }
+
+//       // Log selected seats to verify their structure
+//       console.log("Selected Seats:", selectedSeats);
+
+//       // Prepare the products based on selected seats and selected show
+//       const products = selectedSeats.map(seat => {
+//           // Assuming each seat has a price attribute
+//           const seatPrice = seat.price; // Adjust this if necessary to fetch the correct price
+
+//           // if (seatPrice === null || seatPrice === undefined) {
+//           //     throw new Error(`Invalid price for seat ID: ${seat.id}`);
+//           // }
+
+//           return {
+//               name: `${selectedShow.movie.title} - ${selectedShow.theater.name}`,
+//               image: selectedShow.movie.image, // Ensure this is defined
+//               price: seatPrice * 100, // Price in cents
+//               quantity: 1, // Assuming each seat is one quantity
+//           };
+//       });
+
+//       // Check if all products have valid prices
+//       for (const product of products) {
+//           if (product.price <= 0) {
+//               throw new Error(`Invalid price for product: ${product.name}`);
+//           }
+//       }
+
+//       // Proceed to create a checkout session
+//       const response = await axiosInstance.post("/payment/create-checkout-session", { products });
+//       const sessionId = response?.data?.sessionId;
+
+//       if (!sessionId) {
+//           throw new Error("Failed to create checkout session.");
+//       }
+
+//       const result = await stripe.redirectToCheckout({ sessionId });
+
+//       if (result.error) {
+//           console.error(result.error.message);
+//       }
+//   } catch (error) {
+//       console.error("Payment failed:", error.message);
+//       throw error; // Optionally re-throw error for further handling
+//   }
+// };
 
 
 
-// Fetch PayU hash and merchant key
-export const fetchPaymentData = async ({ transactionId, amount, productInfo, firstname, email, phone }) => {
-  try {
-      const response = await axios.post('http://localhost:4000/api/v1/payment/getPayUHash', {
-          txnid: transactionId,
-          amount: amount,
-          productinfo: productInfo,
-          firstname: firstname,
-          email: email,
-          phone: phone,
-          surl: 'https://your-success-url.com', // You can also consider passing this as a parameter
-          furl: 'https://your-failure-url.com', // Same as above
-      });
 
-      return response.data; // Return the data received from the API
-  } catch (error) {
-      console.error("Error fetching payment data:", error);
-      throw error; // Rethrow the error for the component to handle it if necessary
-  }
+
+
+
+import { loadStripe } from "@stripe/stripe-js";
+import { axiosInstance } from "../config/axiosInstance";
+
+export const makePayment = async (selectedSeats, selectedShow) => {
+    try {
+        const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
+
+        if (!stripe) {
+            throw new Error("Stripe failed to initialize.");
+        }
+
+        const products = selectedSeats.map(seat => ({
+            name: `${selectedShow.movie.title} - ${selectedShow.theater.name}`,
+            image: selectedShow.movie.image,
+            price: seat.price * 100, // Ensure price is in cents
+            quantity: 1,
+        }));
+
+        const response = await axiosInstance.post("/payment/create-checkout-session", { products });
+        const sessionId = response?.data?.sessionId;
+
+        if (!sessionId) {
+            throw new Error("Failed to create checkout session.");
+        }
+
+        const result = await stripe.redirectToCheckout({ sessionId });
+
+        if (result.error) {
+            console.error(result.error.message);
+        }
+    } catch (error) {
+        console.error("Payment failed:", error.message);
+        throw error;
+    }
 };

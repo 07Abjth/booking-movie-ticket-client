@@ -3,7 +3,7 @@ import { DarkMode } from "../../ui/DarkMode";
 import { BriefcaseBusiness, CircleUserRound, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../../../services/userApi";
-import { toast } from 'react-hot-toast'; // Assuming you're using react-hot-toast for notifications
+import { toast } from 'react-hot-toast';  
 
 export const UserHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);

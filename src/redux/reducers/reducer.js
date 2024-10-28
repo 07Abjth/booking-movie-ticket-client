@@ -1,7 +1,5 @@
-// src/redux/store.js
-import { createStore } from 'redux';
+// src/redux/reducer.js
 
-// Initial state with added movie, theater, and show details
 const initialState = {
     selectedSeats: [],
     seatPrices: {},
@@ -10,7 +8,6 @@ const initialState = {
     showDetails: {},
 };
 
-// Reducer function to manage state updates
 function seatReducer(state = initialState, action) {
     switch (action.type) {
         case 'SELECT_SEAT':
@@ -47,7 +44,3 @@ function seatReducer(state = initialState, action) {
             return state;
     }
 }
-
-// Create and export the Redux store
-const store = createStore(seatReducer);
-export default store;

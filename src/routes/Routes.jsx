@@ -37,6 +37,9 @@ import { UserAuth } from "./protectedRoutes/UserAuth.jsx";
 import { TheaterOwnerAuth } from "./protectedRoutes/TheaterOwnerAuth.jsx";
 import { AdminAuth } from "./protectedRoutes/AdminAuth.jsx";
 // import { CheckOutForm} from "../pages/user/CheckOutForm.jsx";
+import {PaymentSuccessPage} from '../pages/payment/PaymentSuccessPage.jsx'
+import {PaymentCancelPage} from '../pages/payment/PaymentCancelPage.jsx'
+
 
 
 export const router = createBrowserRouter([
@@ -65,9 +68,12 @@ export const router = createBrowserRouter([
       { path: "bookings", element: <BookingPage /> },
       { path: "profile", element: <ProfilePage /> },
       { path: "theater-details/:theaterId", element: <TheaterDetailsPage /> },
-      { path: "/user/seats/:theaterId/:showId", element: <SeatsSelectionPage /> },
+      { path: "seats/:theaterId/:showId/:movieId", element: <SeatsSelectionPage /> },
       // { path:"payment", element:<PaymentPage />},
       // { path:"check-out", element:<CheckOutForm />},
+      {path: "success", element:<PaymentSuccessPage/>},
+      {path: "cancel", element:<PaymentCancelPage/>},
+
       { path:"movie-info-and-booking/:movieId", element:<MovieInfoAndBookingPage />},
       { path: "payment", element: <PaymentPage /> },
       { path: "settings", element: <SettingsPage /> },
