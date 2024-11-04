@@ -74,8 +74,6 @@
 //     </div>
 //   );
 // };
-
-
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -90,20 +88,8 @@ export const TheaterListAndShowtimes = ({ theaters, shows, selectedMovieId }) =>
   };
 
   useEffect(() => {
-    const fetchShows = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        // Fetch logic for theaters and shows from your backend here
-      } catch (err) {
-        setError('Failed to fetch data');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    // Uncomment this line if fetchShows has API logic:
-    // fetchShows();
+    // If you need to fetch additional shows or theaters, you can implement it here
+    // Otherwise, this effect can be removed if shows and theaters are always passed as props
   }, [selectedMovieId]);
 
   if (loading) {
@@ -140,7 +126,7 @@ export const TheaterListAndShowtimes = ({ theaters, shows, selectedMovieId }) =>
                       key={show._id}
                       aria-label={`Showtime on ${showDate} at ${showTime}`}
                       className="px-6 py-3 mr-2 mb-2 rounded-lg bg-green-500 text-white font-semibold hover:bg-green-600 transition duration-200"
-                      onClick={() => handleShowtimeClick(theater._id, show._id)}
+                      onClick={() => handleShowtimeClick(theater._id, show._id, selectedMovieId)} // Pass movieId correctly
                     >
                       {`${showDate} - ${showTime}`}
                     </button>

@@ -1,5 +1,5 @@
 // src/redux/store.js
-import { createStore } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 
 // Initial state with added movie, theater, and show details
 const initialState = {
@@ -48,6 +48,9 @@ function seatReducer(state = initialState, action) {
     }
 }
 
-// Create and export the Redux store
-const store = createStore(seatReducer);
+// Create and export the Redux store using configureStore
+const store = configureStore({
+    reducer: seatReducer,
+});
+
 export default store;

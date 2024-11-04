@@ -19,9 +19,9 @@ export const getAllMovies = async () => {
  
 
 // Detailed movie info by ID
-export const fetchMovieDetails = async (movieId) => {
+export const getMovieDetails = async (movieId) => {
   try {
-    const response = await axiosInstance.get(`/movie/${movieId}/details`, { withCredentials: true });
+    const response = await axiosInstance.get(`/movie/details/${movieId}`, { withCredentials: true });
     return response.data;
   } catch (error) {
     return { error: error.response?.data || 'Failed to fetch movie details' };

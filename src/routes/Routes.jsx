@@ -75,7 +75,7 @@ export const router = createBrowserRouter([
       {path: "cancel", element:<PaymentCancelPage/>},
 
       { path:"movie-info-and-booking/:movieId", element:<MovieInfoAndBookingPage />},
-      { path: "payment", element: <PaymentPage /> },
+      { path: "seats/:theaterId/:showId/:movieId/payment", element: <PaymentPage /> },
       { path: "settings", element: <SettingsPage /> },
       { path: "watch-list", element: <WatchListPage /> },
       { path: "notifications", element: <NotificationsPage /> },

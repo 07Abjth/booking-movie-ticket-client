@@ -542,18 +542,16 @@
 
 
 
-
 // import { useState, useEffect } from 'react';
 // import { useParams, useNavigate } from 'react-router-dom';
 // import { SeatsGrid } from './SeatsGrid.jsx';
 // import { getSeatPrices } from '../../services/seatApi.js';
-// import {fetchMovieDetails} from '../../services/movieApi.js'
-//  import {getTheaterDetails} from '../../services/theaterApi.js'
-// import {getShowById} from '../../services/showApi.js'
-
+// import { getMovieDetails } from '../../services/movieApi.js';
+// import { getTheaterDetails } from '../../services/theaterApi.js';
+// import { getShowById } from '../../services/showApi.js';
 
 // export const SeatsSelectionPage = () => {
-//     const { theaterId, showId, movieId} = useParams();
+//     const { theaterId, showId, movieId } = useParams();
 //     const [selectedSeats, setSelectedSeats] = useState([]);
 //     const [seatPrices, setSeatPrices] = useState([]);
 //     const [fetchedPrices, setFetchedPrices] = useState(new Set());
@@ -566,7 +564,7 @@
 //     useEffect(() => {
 //         const fetchInitialData = async () => {
 //             try {
-//                 const movie = await fetchMovieDetails(movieId);
+//                 const movie = await getMovieDetails(movieId);
 //                 const theater = await getTheaterDetails(theaterId);
 //                 const show = await getShowById(showId);
 
@@ -616,7 +614,7 @@
 
 //     const handleProceedToPayment = () => {
 //         if (selectedSeats.length > 0) {
-//             navigate(`/user/payment`, {
+//             navigate(`/user/seats/${theaterId}/${showId}/${movieId}/payment`, {
 //                 state: {
 //                     selectedSeats,
 //                     movieDetails,
@@ -625,6 +623,8 @@
 //                     totalAmount,
 //                 }
 //             });
+//         } else {
+//             setError("Please select at least one seat.");
 //         }
 //     };
 
@@ -649,225 +649,142 @@
 // };
 
 
-// // src/components/SeatsSelectionPage.jsx
-// import React, { useState, useEffect } from 'react';
-// import { useParams, useNavigate } from 'react-router-dom';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { SeatsGrid } from './SeatsGrid';
-// import { selectSeat, removeSeat, setSeatPrice } from '../../redux/actions/action.js';
-// import { getSeatPrices } from '../../services/seatApi';
-// import { fetchMovieDetails } from '../../services/movieApi';
-// import { getTheaterDetails } from '../../services/theaterApi';
-// import { getShowById } from '../../services/showApi';
 
-// export const SeatsSelectionPage = () => {
-//     const { theaterId, showId, movieId } = useParams();
-//     const dispatch = useDispatch();
-//     const navigate = useNavigate();
-
-//     const selectedSeats = useSelector(state => state.selectedSeats);
-//     const seatPrices = useSelector(state => state.seatPrices);
-//     const [error, setError] = useState(null);
-//     const [movieDetails, setMovieDetails] = useState({});
-//     const [theaterDetails, setTheaterDetails] = useState({});
-//     const [showDetails, setShowDetails] = useState({});
-
-//     useEffect(() => {
-//         const fetchInitialData = async () => {
-//             try {
-//                 const movie = await fetchMovieDetails(movieId);
-//                 const theater = await getTheaterDetails(theaterId);
-//                 const show = await getShowById(showId);
-
-//                 setMovieDetails(movie);
-//                 setTheaterDetails(theater);
-//                 setShowDetails(show);
-//             } catch (err) {
-//                 setError("Failed to load initial data. Please try again.");
-//                 console.error("Error fetching initial data:", err);
-//             }
-//         };
-//         fetchInitialData();
-//     }, [theaterId, showId, movieId]);
-
-//     const fetchSeatPrice = async (seatId) => {
-//         if (seatPrices[seatId] !== undefined) return; // Avoid fetching if price is already available
-//         try {
-//             const response = await getSeatPrices(seatId);
-//             if (response.success) {
-//                 dispatch(setSeatPrice(seatId, response.price));
-//             } else {
-//                 setError(response.message || 'Error fetching seat price.');
-//             }
-//         } catch (error) {
-//             setError('Error fetching seat price. Please try again later.');
-//             console.error('Error fetching seat price:', error);
-//         }
-//     };
-
-//     const handleSeatSelect = (seatId) => {
-//         if (selectedSeats.includes(seatId)) {
-//             dispatch(removeSeat(seatId));
-//         } else {
-//             dispatch(selectSeat(seatId));
-//             fetchSeatPrice(seatId); // Fetch price only when seat is selected
-//         }
-//     };
-
-//     const totalAmount = selectedSeats.reduce((total, seatId) => total + (seatPrices[seatId] || 0), 0);
-
-//     const handleProceedToPayment = () => {
-//         if (selectedSeats.length > 0) {
-//             const paymentData = {
-//                 selectedSeats,
-//                 movieTitle: movieDetails.title || 'N/A',
-//                 theaterName: theaterDetails.name || 'N/A',
-//                 showTime: showDetails.time || 'N/A',
-//                 totalAmount,
-//             };
-
-//             console.log("Navigating with data:", paymentData);
-
-//             // Ensure all required data is present before navigating
-//             if (Object.values(paymentData).some(field => field === undefined || field === null)) {
-//                 setError("Incomplete data. Please try again.");
-//                 console.warn("Incomplete data for navigation.");
-//                 return;
-//             }
-
-//             navigate(`/user/payment`, { state: paymentData });
-//         }
-//     };
-
-//     return (
-//         <div className="p-5">
-//             <h1 className="text-2xl font-bold text-center">Select Your Seats</h1>
-//             {error && <div className="text-red-500">{error}</div>}
-//             <SeatsGrid
-//                 theaterId={theaterId}
-//                 showId={showId}
-//                 onSeatSelect={handleSeatSelect}
-//                 selectedSeats={selectedSeats}
-//             />
-//             <div className="mt-4 text-center" aria-live="polite">
-//                 <h2 className="text-xl">Selected Seats:</h2>
-//                 <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
-//             </div>
-//             <button
-//                 onClick={handleProceedToPayment}
-//                 disabled={selectedSeats.length === 0}
-//                 className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
-//             >
-//                 Proceed to Payment {totalAmount > 0 && ` - ₹${totalAmount}`}
-//             </button>
-//         </div>
-//     );
-// };
-
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { SeatsGrid } from './SeatsGrid';
-import { selectSeat, removeSeat, setSeatPrice, setMovieDetails, setTheaterDetails, setShowDetails } from '../../redux/actions/action.js'; // Ensure this path is correct
-import { getSeatPrices } from '../../services/seatApi';
-import { fetchMovieDetails } from '../../services/movieApi';
-import { getTheaterDetails } from '../../services/theaterApi';
-import { getShowById } from '../../services/showApi';
+import { SeatsGrid } from './SeatsGrid.jsx';
+import { getSeatPrices } from '../../services/seatApi.js';
+import { getMovieDetails } from '../../services/movieApi.js';
+import { getTheaterDetails } from '../../services/theaterApi.js';
+import { getShowById } from '../../services/showApi.js';
 
 export const SeatsSelectionPage = () => {
     const { theaterId, showId, movieId } = useParams();
-    const dispatch = useDispatch();
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [seatPrices, setSeatPrices] = useState([]);
+    const [fetchedPrices, setFetchedPrices] = useState(new Set());
+    const [error, setError] = useState(null);
+    const [movieDetails, setMovieDetails] = useState({});
+    const [theaterDetails, setTheaterDetails] = useState({});
+    const [showDetails, setShowDetails] = useState({});
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
-    const selectedSeats = useSelector(state => state.selectedSeats);
-    const seatPrices = useSelector(state => state.seatPrices);
-    const movieDetails = useSelector(state => state.movieDetails);
-    const theaterDetails = useSelector(state => state.theaterDetails);
-    const showDetails = useSelector(state => state.showDetails);
-    const [error, setError] = useState(null);
-
+    // Fetch initial movie, theater, and show data
     useEffect(() => {
         const fetchInitialData = async () => {
+            setLoading(true);
             try {
-                const movie = await fetchMovieDetails(movieId);
-                const theater = await getTheaterDetails(theaterId);
-                const show = await getShowById(showId);
-        
-                // Dispatching the actions to set details
-                dispatch(setMovieDetails(movie));
-                dispatch(setTheaterDetails(theater));
-                dispatch(setShowDetails(show));
+                const [movie, theater, show] = await Promise.all([
+                    getMovieDetails(movieId),
+                    getTheaterDetails(theaterId),
+                    getShowById(showId),
+                ]);
+
+                if (movie.success) setMovieDetails(movie.data);
+                if (theater.success) setTheaterDetails(theater.data);
+                if (show.success) setShowDetails(show.data); // Ensure show.data has the required structure
             } catch (err) {
                 setError("Failed to load initial data. Please try again.");
                 console.error("Error fetching initial data:", err);
+            } finally {
+                setLoading(false);
             }
         };
-        
         fetchInitialData();
-    }, [theaterId, showId, movieId, dispatch]);
+    }, [theaterId, showId, movieId]);
 
-    const fetchSeatPrice = async (seatId) => {
-        try {
-            const response = await getSeatPrices(seatId);
-            if (response.success) {
-                dispatch(setSeatPrice(seatId, response.price));
-            } else {
-                setError(response.message || 'Error fetching seat price.');
+    // Fetch seat prices for selected seats
+    useEffect(() => {
+        const fetchSeatPrices = async (seatId) => {
+            if (!seatId || fetchedPrices.has(seatId)) return;
+            try {
+                const response = await getSeatPrices(seatId);
+                if (response.success) {
+                    setFetchedPrices((prev) => new Set(prev).add(seatId));
+                    setSeatPrices((prev) => [...prev, { seatId, price: response.price }]);
+                } else {
+                    setError(response.message || 'Error fetching seat price.');
+                }
+            } catch (error) {
+                setError('Error fetching seat price. Please try again later.');
+                console.error('Error fetching seat price:', error);
             }
-        } catch (error) {
-            setError('Error fetching seat price. Please try again later.');
-            console.error('Error fetching seat price:', error);
-        }
-    };
+        };
 
+        selectedSeats.forEach(seatId => fetchSeatPrices(seatId));
+    }, [selectedSeats, fetchedPrices]);
+
+    // Handle seat selection
     const handleSeatSelect = (seatId) => {
-        if (selectedSeats.includes(seatId)) {
-            dispatch(removeSeat(seatId));
-        } else {
-            dispatch(selectSeat(seatId));
-            fetchSeatPrice(seatId);
-        }
+        setSelectedSeats((prev) => {
+            const newSelectedSeats = prev.includes(seatId)
+                ? prev.filter((seat) => seat !== seatId)
+                : [...prev, seatId];
+            return newSelectedSeats;
+        });
     };
 
-    const totalAmount = selectedSeats.reduce((total, seatId) => total + (seatPrices[seatId] || 0), 0);
+    // Calculate total amount based on selected seats
+    const totalAmount = seatPrices
+        .filter(({ seatId }) => selectedSeats.includes(seatId))
+        .reduce((total, { price }) => total + price, 0);
 
+    // Handle navigation to the payment page
     const handleProceedToPayment = () => {
         if (selectedSeats.length > 0) {
-            const paymentData = {
-                selectedSeats,
-                movieTitle: movieDetails.title,
-                theaterName: theaterDetails.name,
-                showTime: showDetails.time,
-                totalAmount,
-            };
-
-            console.log("Navigating with data:", paymentData);
-
-            navigate(`/user/payment`, { state: paymentData });
+            navigate(`/user/seats/${theaterId}/${showId}/${movieId}/payment`, {
+                state: {
+                    selectedSeats,
+                    movieDetails,
+                    theaterDetails,
+                    showTime: showDetails.time || 'N/A', // Ensure showDetails has a 'time' property
+                    totalAmount,
+                }
+            });
+        } else {
+            setError("Please select at least one seat.");
         }
     };
 
     return (
         <div className="p-5">
             <h1 className="text-2xl font-bold text-center">Select Your Seats</h1>
-            {error && <div className="text-red-500">{error}</div>}
-            <SeatsGrid
-                theaterId={theaterId}
-                showId={showId}
-                onSeatSelect={handleSeatSelect}
-                selectedSeats={selectedSeats}
-            />
-            <div className="mt-4 text-center" aria-live="polite">
-                <h2 className="text-xl">Selected Seats:</h2>
-                <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
-            </div>
-            <button
-                onClick={handleProceedToPayment}
-                disabled={selectedSeats.length === 0}
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
-            >
-                Proceed to Payment {totalAmount > 0 && ` - ₹${totalAmount}`}
-            </button>
+            {loading ? (
+                <p>Loading...</p>
+            ) : (
+                <>
+                    <div className="mb-4 text-center">
+                        <h2 className="text-xl">{movieDetails.title || 'Movie Title Not Available'}</h2>
+                        <p>{theaterDetails.name || 'Theater Name Not Available'}</p>
+                        <p>{showDetails.time ? `Show Time: ${showDetails.time}` : 'Show Time: N/A'}</p>
+                    </div>
+                    <SeatsGrid theaterId={theaterId} showId={showId} onSeatSelect={handleSeatSelect} selectedSeats={selectedSeats} />
+                    <div className="mt-4 text-center" aria-live="polite">
+                        <h2 className="text-xl">Selected Seats:</h2>
+                        <p>{selectedSeats.length > 0 ? selectedSeats.join(', ') : 'None selected'}</p>
+                        <p>Total Amount: ₹{totalAmount > 0 ? totalAmount : '0.00'}</p>
+                    </div>
+                    <button 
+                        onClick={handleProceedToPayment} 
+                        disabled={selectedSeats.length === 0} 
+                        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+                    >
+                        Proceed to Payment {totalAmount > 0 && ` - ₹${totalAmount}`}
+                    </button>
+                    {error && <div className="text-red-500">{error}</div>}
+                </>
+            )}
         </div>
     );
 };
+
+
+
+
+
+
+
+
+
+

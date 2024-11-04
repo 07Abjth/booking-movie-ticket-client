@@ -116,16 +116,14 @@
 //   );
 // };
 
-
-
 // import { useState, useEffect } from 'react';
 // import { useParams } from 'react-router-dom';
 // import toast from 'react-hot-toast';
 // import { getMovieDetails } from '../../services/movieApi.js';
 // import { getShowsByMovieId } from '../../services/showApi.js';
 // import { getTheatersByIds } from '../../services/theaterApi.js';
-// import { TheaterListAndShowtimes } from '../theater/TheaterListAndShowtimes.jsx'; // Updated import
-// import { MovieDetails } from '../movie/MovieDetails.jsx';
+// import { TheaterListAndShowtimes } from '../theater/TheaterListAndShowtimes.jsx';
+// import { MovieDetails } from '../movie/MovieDetails.jsx'; // Ensure this import is present
 
 // export const MovieInfoAndBookingPage = () => {
 //   const { movieId } = useParams();
@@ -137,22 +135,20 @@
 
 //   const fetchData = async () => {
 //     try {
-//       // Fetch movie details
 //       const movieData = await getMovieDetails(movieId);
 //       if (movieData.error) throw new Error(movieData.error);
 //       setMovieDetails(movieData);
-  
-//       // Fetch shows to get theaters, handle 404 error for no shows
+
 //       const showsData = await getShowsByMovieId(movieId);
 //       if (showsData.error && showsData.error.status === 404) {
-//         setTheaters([]); // No shows available
+//         setTheaters([]);
 //         toast.info('No shows available for this movie.');
 //       } else if (showsData.length > 0) {
 //         const theaterIds = [...new Set(showsData.map(show => show.theater))];
 //         const theatersData = await getTheatersByIds(theaterIds);
 //         if (theatersData.error) throw new Error(theatersData.error);
 //         setTheaters(theatersData);
-//         setShows(showsData); // Store the shows for later use
+//         setShows(showsData);
 //       }
 //     } catch (error) {
 //       toast.error('Failed to fetch movie details or theaters.');
@@ -172,7 +168,7 @@
 //   return (
 //     <div className="px-8 md:px-20 py-10 bg-gray-100 min-h-screen">
 //       {movieDetails && <MovieDetails movie={movieDetails} />}
-//       <TheaterListAndShowtimes theaters={theaters} shows={shows} selectedMovieId={movieId} /> {/* Pass shows here */}
+//       <TheaterListAndShowtimes theaters={theaters} shows={shows} selectedMovieId={movieId} />
 //     </div>
 //   );
 // };
@@ -397,7 +393,7 @@
 // import { useState, useEffect } from 'react';
 // import { useParams, useNavigate } from 'react-router-dom';
 // import toast from 'react-hot-toast';
-// import { getMovieDetails } from '../../services/movieApi.js';
+// import { fetchMovieDetails } from '../../services/movieApi.js';
 // import { getShowsByMovieId } from '../../services/showApi.js';
 // import { getTheatersByIds } from '../../services/theaterApi.js';
 // import { TheaterListAndShowtimes } from '../theater/TheaterListAndShowtimes.jsx';
@@ -415,7 +411,7 @@
 
 //     const fetchData = async () => {
 //         try {
-//             const movieData = await getMovieDetails(movieId);
+//             const movieData = await fetchMovieDetails(movieId);
 //             if (movieData.error) throw new Error(movieData.error);
 //             setMovieDetails(movieData);
 
@@ -484,106 +480,106 @@
 
 
 
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { fetchMovieDetails } from '../../services/movieApi.js';
-import { getShowsByMovieId } from '../../services/showApi.js';
-import { getTheatersByIds } from '../../services/theaterApi.js';
-import { TheaterListAndShowtimes } from '../theater/TheaterListAndShowtimes.jsx';
-import { MovieDetails } from '../movie/MovieDetails.jsx';
+// import { useState, useEffect } from 'react';
+// import { useParams, useNavigate } from 'react-router-dom';
+// import toast from 'react-hot-toast';
+// import { fetchMovieDetails } from '../../services/movieApi.js';
+// import { getShowsByMovieId } from '../../services/showApi.js';
+// import { getTheatersByIds } from '../../services/theaterApi.js';
+// import { TheaterListAndShowtimes } from '../theater/TheaterListAndShowtimes.jsx';
+// import { MovieDetails } from '../movie/MovieDetails.jsx';
 
-export const MovieInfoAndBookingPage = () => {
-    const { movieId } = useParams();
-    const navigate = useNavigate();
-    const [movieDetails, setMovieDetails] = useState();
-    const [theaters, setTheaters] = useState([]);
-    const [shows, setShows] = useState([]);
-    const [selectedSeats, setSelectedSeats] = useState([]); // Track selected seats
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+// export const MovieInfoAndBookingPage = () => {
+//     const { movieId } = useParams();
+//     const navigate = useNavigate();
+//     const [movieDetails, setMovieDetails] = useState();
+//     const [theaters, setTheaters] = useState([]);
+//     const [shows, setShows] = useState([]);
+//     const [selectedSeats, setSelectedSeats] = useState([]); // Track selected seats
+//     const [loading, setLoading] = useState(true);
+//     const [error, setError] = useState(null);
 
-    const fetchData = async () => {
-        try {
-            console.log('Fetching movie details for ID:', movieId);
-            const movieData = await fetchMovieDetails(movieId);
-            if (movieData.error) throw new Error(movieData.error);
-            setMovieDetails(movieData);
-            console.log('Movie details fetched:', movieData);
+//     const fetchData = async () => {
+//         try {
+//             console.log('Fetching movie details for ID:', movieId);
+//             const movieData = await fetchMovieDetails(movieId);
+//             if (movieData.error) throw new Error(movieData.error);
+//             setMovieDetails(movieData);
+//             console.log('Movie details fetched:', movieData);
 
-            const showsData = await getShowsByMovieId(movieId);
-            console.log('Fetched shows data:', showsData);
-            if (showsData.error && showsData.error.status === 404) {
-                setTheaters([]);
-                toast.info('No shows available for this movie.');
-            } else if (showsData.length > 0) {
-                const theaterIds = [...new Set(showsData.map(show => show.theater))];
-                console.log('Theater IDs to fetch:', theaterIds);
-                const theatersData = await getTheatersByIds(theaterIds);
-                if (theatersData.error) throw new Error(theatersData.error);
-                setTheaters(theatersData);
-                setShows(showsData);
-                console.log('Theaters and shows set:', { theatersData, showsData });
-            }
-        } catch (error) {
-            toast.error('Failed to fetch movie details or theaters.');
-            console.error('Error fetching data:', error);
-            setError(error.message || 'Failed to load data. Please try again later.');
-        } finally {
-            setLoading(false);
-        }
-    };
+//             const showsData = await getShowsByMovieId(movieId);
+//             console.log('Fetched shows data:', showsData);
+//             if (showsData.error && showsData.error.status === 404) {
+//                 setTheaters([]);
+//                 toast.info('No shows available for this movie.');
+//             } else if (showsData.length > 0) {
+//                 const theaterIds = [...new Set(showsData.map(show => show.theater))];
+//                 console.log('Theater IDs to fetch:', theaterIds);
+//                 const theatersData = await getTheatersByIds(theaterIds);
+//                 if (theatersData.error) throw new Error(theatersData.error);
+//                 setTheaters(theatersData);
+//                 setShows(showsData);
+//                 console.log('Theaters and shows set:', { theatersData, showsData });
+//             }
+//         } catch (error) {
+//             toast.error('Failed to fetch movie details or theaters.');
+//             console.error('Error fetching data:', error);
+//             setError(error.message || 'Failed to load data. Please try again later.');
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
 
-    useEffect(() => {
-        fetchData();
-    }, [movieId]);
+//     useEffect(() => {
+//         fetchData();
+//     }, [movieId]);
 
-    const handleSeatSelection = (seats) => {
-        setSelectedSeats(seats); // This function gets selected seats from the child component
-        console.log('Selected seats updated:', seats);
-    };
+//     const handleSeatSelection = (seats) => {
+//         setSelectedSeats(seats); // This function gets selected seats from the child component
+//         console.log('Selected seats updated:', seats);
+//     };
 
-    const proceedToPayment = () => {
-        if (selectedSeats.length === 0) {
-            toast.error('Please select at least one seat.');
-            return;
-        }
+//     const proceedToPayment = () => {
+//         if (selectedSeats.length === 0) {
+//             toast.error('Please select at least one seat.');
+//             return;
+//         }
     
-        // Ensure we have both selectedShow and movie details
-        const selectedShow = shows.find(show => show.id === selectedShowId); // assuming selectedShowId from child component
-        if (!movieDetails || !selectedShow) {
-            toast.error('Could not retrieve movie or show details.');
-            return;
-        }
+//         // Ensure we have both selectedShow and movie details
+//         const selectedShow = shows.find(show => show.id === selectedShowId); // assuming selectedShowId from child component
+//         if (!movieDetails || !selectedShow) {
+//             toast.error('Could not retrieve movie or show details.');
+//             return;
+//         }
     
-        navigate('/payment', {
-            state: {
-                movieTitle: movieDetails.title,
-                theaterName: selectedShow?.theater?.name || 'N/A',
-                showTime: selectedShow?.time || 'N/A',
-                selectedSeats: selectedSeats,
-                totalAmount: selectedSeats.length * (selectedShow.price || 0),
-            },
-        });
-    };
+//         navigate('/payment', {
+//             state: {
+//                 movieTitle: movieDetails.title,
+//                 theaterName: selectedShow?.theater?.name || 'N/A',
+//                 showTime: selectedShow?.time || 'N/A',
+//                 selectedSeats: selectedSeats,
+//                 totalAmount: selectedSeats.length * (selectedShow.price || 0),
+//             },
+//         });
+//     };
     
     
-    if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
-    if (error) return <div className="text-center text-red-500">{error}</div>;
+//     if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+//     if (error) return <div className="text-center text-red-500">{error}</div>;
 
-    return (
-        <div className="px-8 md:px-20 py-10 bg-gray-100 min-h-screen">
-            {movieDetails && <MovieDetails movie={movieDetails} />}
-            <TheaterListAndShowtimes 
-                theaters={theaters} 
-                shows={shows} 
-                selectedMovieId={movieId} 
-                onSeatSelection={handleSeatSelection} // Pass seat selection handler
-            />
-            <button className="btn-primary" onClick={proceedToPayment}>Proceed to Payment</button>
-        </div>
-    );
-};
+//     return (
+//         <div className="px-8 md:px-20 py-10 bg-gray-100 min-h-screen">
+//             {movieDetails && <MovieDetails movie={movieDetails} />}
+//             <TheaterListAndShowtimes 
+//                 theaters={theaters} 
+//                 shows={shows} 
+//                 selectedMovieId={movieId} 
+//                 onSeatSelection={handleSeatSelection} // Pass seat selection handler
+//             />
+//             <button className="btn-primary" onClick={proceedToPayment}>Proceed to Payment</button>
+//         </div>
+//     );
+// };
 
 // import { useState, useEffect } from 'react';
 // import { useParams, useNavigate } from 'react-router-dom';
@@ -718,3 +714,95 @@ export const MovieInfoAndBookingPage = () => {
 //         </div>
 //     );
 // };
+
+
+
+
+
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { getMovieDetails } from '../../services/movieApi.js';
+import { getShowsByMovieId } from '../../services/showApi.js';
+import { getTheatersByIds } from '../../services/theaterApi.js';
+import { TheaterListAndShowtimes } from '../theater/TheaterListAndShowtimes.jsx';
+import { MovieDetails } from '../movie/MovieDetails.jsx';
+
+export const MovieInfoAndBookingPage = () => {
+    const { movieId } = useParams();
+    const navigate = useNavigate();
+    const [movieDetails, setMovieDetails] = useState();
+    const [theaters, setTheaters] = useState([]);
+    const [shows, setShows] = useState([]);
+    const [selectedSeats, setSelectedSeats] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    const fetchData = async () => {
+        try {
+            const movieData = await getMovieDetails(movieId);
+            if (movieData.error) throw new Error(movieData.error);
+            setMovieDetails(movieData);
+
+            const showsData = await getShowsByMovieId(movieId);
+            if (showsData.error && showsData.error.status === 404) {
+                setTheaters([]);
+                toast.info('No shows available for this movie.');
+            } else if (showsData.length > 0) {
+                const theaterIds = [...new Set(showsData.map(show => show.theater))];
+                const theatersData = await getTheatersByIds(theaterIds);
+                if (theatersData.error) throw new Error(theatersData.error);
+                setTheaters(theatersData);
+                setShows(showsData);
+            }
+        } catch (error) {
+            toast.error('Failed to fetch movie details or theaters.');
+            setError(error.message || 'Failed to load data. Please try again later.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+    }, [movieId]);
+
+    const handleSeatSelection = (seats) => {
+        setSelectedSeats(seats);
+    };
+
+    const proceedToPayment = () => {
+        if (selectedSeats.length === 0) {
+            toast.error('Please select at least one seat.');
+            return;
+        }
+
+        const selectedShow = shows.find(show => show.movie === movieId);
+
+        navigate('/payment', {
+            state: {
+                movieTitle: movieDetails.title,
+                theaterName: selectedShow?.theater?.name || 'N/A',
+                showTime: selectedShow?.time || 'N/A',
+                selectedSeats: selectedSeats,
+                totalAmount: selectedSeats.length * selectedShow.price,
+            },
+        });
+    };
+
+    if (loading) return <div className="flex justify-center items-center h-screen">Loading...</div>;
+    if (error) return <div className="text-center text-red-500">{error}</div>;
+
+    return (
+        <div className="px-8 md:px-20 py-10 bg-gray-100 min-h-screen">
+            {movieDetails && <MovieDetails movie={movieDetails} />}
+            <TheaterListAndShowtimes 
+                theaters={theaters} 
+                shows={shows} 
+                selectedMovieId={movieId} 
+                onSeatSelection={handleSeatSelection}
+            />
+            <button className="btn-primary" onClick={proceedToPayment}>Proceed to Payment</button>
+        </div>
+    );
+}; 
