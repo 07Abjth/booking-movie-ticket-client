@@ -57,49 +57,47 @@
   
 
 
-import { loadStripe } from "@stripe/stripe-js";
-import { axiosInstance } from "../config/axiosInstance";
-import { useNavigate } from "react-router-dom";
+// import { loadStripe } from "@stripe/stripe-js";
+// import { axiosInstance } from "../config/axiosInstance";
+// import { useNavigate } from "react-router-dom";
 
-export const makePayment = async (selectedSeats, seatPrices) => {
-    const seatPriceMap = seatPrices.reduce((acc, seat) => {
-        acc[seat.seatId] = seat.price;
-        return acc;
-    }, {});
+// export const makePayment = async (selectedSeats, seatPrices) => {
+//     const seatPriceMap = seatPrices.reduce((acc, seat) => {
+//         acc[seat.seatId] = seat.price;
+//         return acc;
+//     }, {});
 
-    let totalAmount = 0;
-    for (const seat of selectedSeats) {
-        const price = seatPriceMap[seat];
-        if (price === undefined) {
-            console.error(`Seat price is undefined for seat: ${seat}`);
-            throw new Error(`Seat price is undefined for seat: ${seat}`);
-        }
-        totalAmount += price;
-        console.log(`Processing seat ${seat}: Price - ₹${price}`);
-    }
+//     let totalAmount = 0;
+//     for (const seat of selectedSeats) {
+//         const price = seatPriceMap[seat];
+//         if (price === undefined) {
+//             console.error(`Seat price is undefined for seat: ${seat}`);
+//             throw new Error(`Seat price is undefined for seat: ${seat}`);
+//         }
+//         totalAmount += price;
+//         console.log(`Processing seat ${seat}: Price - ₹${price}`);
+//     }
 
-    console.log(`Total Amount for payment: ₹${totalAmount}`);
+//     console.log(`Total Amount for payment: ₹${totalAmount}`);
 
-    const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
-    if (!stripe) throw new Error("Stripe failed to initialize.");
+//     const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
+//     if (!stripe) throw new Error("Stripe failed to initialize.");
 
-    try {
-        const response = await axiosInstance.post("/api/payment/create", { amount: totalAmount });
-        const { clientSecret } = response.data;
+//     try {
+//         const response = await axiosInstance.post("/payment/create-checkout-session", { amount: totalAmount });
+//         const { clientSecret } = response.data;
 
-        const { error } = await stripe.redirectToCheckout({ clientSecret });
-        if (error) {
-            console.error("Stripe checkout error:", error);
-            throw new Error("Payment failed, please try again.");
-        }
+//         const { error } = await stripe.redirectToCheckout({ clientSecret });
+//         if (error) {
+//             console.error("Stripe checkout error:", error);
+//             throw new Error("Payment failed, please try again.");
+//         }
 
-    } catch (error) {
-        console.error("Payment error:", error);
-        throw new Error("Payment failed, please try again.");
-    }
-};
-
-
+//     } catch (error) {
+//         console.error("Payment error:", error);
+//         throw new Error("Payment failed, please try again.");
+//     }
+// };
 
 
 
@@ -112,6 +110,96 @@ export const makePayment = async (selectedSeats, seatPrices) => {
 
 
 
+// import { loadStripe } from "@stripe/stripe-js";
+// import { axiosInstance } from "../config/axiosInstance";
+
+// export const makePayment = async (selectedSeats, seatPrices) => {
+//     const seatPriceMap = seatPrices.reduce((acc, seat) => {
+//         acc[seat.seatId] = seat.price;
+//         return acc;
+//     }, {});
+
+//     const products = selectedSeats.map(seatId => {
+//         const price = seatPriceMap[seatId];
+//         if (price === undefined) {
+//             console.error(`Seat price is undefined for seat: ${seatId}`);
+//             throw new Error(`Seat price is undefined for seat: ${seatId}`);
+//         }
+//         return { id: seatId, price };
+//     });
+
+//     console.log("Products for payment:", products);
+
+//     const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
+//     if (!stripe) throw new Error("Stripe failed to initialize.");
+
+//     try {
+//         const response = await axiosInstance.post("/payment/create-checkout-session", { products });
+//         const { id } = response.data;
+
+//         const { error } = await stripe.redirectToCheckout({ sessionId: id });
+//         if (error) {
+//             console.error("Stripe checkout error:", error);
+//             throw new Error("Payment failed, please try again.");
+//         }
+//     } catch (error) {
+//         console.error("Payment error:", error);
+//         throw new Error("Payment failed, please try again.");
+//     }
+// };
+
+
+
+
+// import { loadStripe } from "@stripe/stripe-js";
+// import { axiosInstance } from "../config/axiosInstance.js";
+
+// export const makePayment = async (selectedSeats, seatPrices) => {
+//     // Create a map of seat prices for quick lookup
+//     const seatPriceMap = seatPrices.reduce((acc, seat) => {
+//         acc[seat.seatId] = seat.price;
+//         return acc;
+//     }, {});
+
+//     console.log("Seat price map:", JSON.stringify(seatPriceMap, null, 2));  // Log the seat price map
+
+//     // Create the products array to send to the backend
+//     const products = selectedSeats.map(seatId => {
+//         const price = seatPriceMap[seatId];
+//         if (price === undefined) {
+//             console.error(`Seat price is undefined for seat: ${seatId}`);
+//             throw new Error(`Seat price is undefined for seat: ${seatId}`);
+//         }
+//         return { id: seatId, price };
+//     });
+
+//     console.log("Products for payment:", JSON.stringify(products, null, 2));  // Log the products being passed
+
+//     // Load the Stripe script and create a Stripe instance
+//     const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
+//     if (!stripe) {
+//         console.error("Stripe failed to initialize.");
+//         throw new Error("Stripe failed to initialize.");
+//     }
+
+//     try {
+//         // Call the backend to create a Stripe checkout session
+//         const response = await axiosInstance.post("/payment/create-checkout-session", { products });
+//         const { id } = response.data;
+
+//         console.log("Received session ID from backend:", id);  // Log the session ID received from the backend
+
+//         // Redirect the user to Stripe's checkout page
+//         const { error } = await stripe.redirectToCheckout({ sessionId: id });
+//         if (error) {
+//             console.error("Stripe checkout error:", error);
+//             throw new Error("Payment failed, please try again guys.");
+//         }
+//     } catch (error) {
+//         console.error("Payment error:", error);
+//         throw new Error("Payment failed, please try again.");
+//     }
+// };
 
 
 
@@ -283,3 +371,94 @@ export const makePayment = async (selectedSeats, seatPrices) => {
 //         throw error;
 //     }
 // };
+
+// export const makePayment = async ()=>{
+
+// try {
+//         const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
+// const response = await axiosInstance({
+//     url:"/payment/create-checkout-session",
+//     method:"POST",
+//     data: {products},
+// })
+
+// const sessionId = response.data?.sessionId;
+
+// console.log(session, "=======session");
+// const result = stripe.redirectToCheckout({
+//     sessionId:  sessionId,
+// });
+    
+// } catch (error) {
+//     console.log(error);
+    
+// }
+
+
+// }
+
+
+// import { loadStripe } from "@stripe/stripe-js";
+// import { axiosInstance } from "../config/axiosInstance";
+
+// export const makePayment = async (products) => {
+//     try {
+//         const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
+
+//         const response = await axiosInstance({
+//             url: "/payment/create-checkout-session",
+//             method: "POST",
+//             data: { products },
+//         });
+
+//         const sessionId = response.data?.sessionId;
+
+//         console.log(sessionId, "======= sessionId");
+
+//         if (stripe) {
+//             const result = await stripe.redirectToCheckout({
+//                 sessionId: sessionId,
+//             });
+
+//             if (result.error) {
+//                 console.error("Stripe checkout error:", result.error.message);
+//             }
+//         }
+//     } catch (error) {
+//         console.error("Error during makePayment:", error);
+//     }
+// };
+
+
+
+
+
+// Frontend - Payment API Service
+import { loadStripe } from "@stripe/stripe-js";
+import { axiosInstance } from "../config/axiosInstance";
+
+export const makePayment = async (products) => {
+    try {
+        const stripe = await loadStripe(import.meta.env.VITE_STRIPE_Publishable_key);
+
+        const response = await axiosInstance({
+            url: "/payment/create-checkout-session",
+            method: "POST",
+            data: { products },
+        });
+
+        const sessionId = response.data?.sessionId;
+
+        console.log(sessionId, "======= sessionId");
+
+        if (stripe) {
+            const result = await stripe.redirectToCheckout({ sessionId });
+
+            if (result.error) {
+                console.error("Stripe checkout error:", result.error.message);
+            }
+        }
+    } catch (error) {
+        console.error("Error during makePayment:", error);
+    }
+};

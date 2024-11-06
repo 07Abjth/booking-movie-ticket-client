@@ -231,6 +231,63 @@
 
 
 
+// import { useState } from 'react';
+// import { useLocation } from 'react-router-dom';
+// import { toast } from 'react-hot-toast';
+// import { makePayment } from '../../services/paymentApi.js';
+
+// export const PaymentPage = () => {
+//     const location = useLocation();
+//     const { selectedSeats, movieDetails, theaterDetails, showTime, totalAmount, seatPrices } = location.state || {};
+//     const [isLoading, setIsLoading] = useState(false);
+
+//     const handlePayment = async () => {
+//         try {
+//             setIsLoading(true);
+    
+//             if (!selectedSeats || !seatPrices || selectedSeats.length === 0) {
+//                 throw new Error("Invalid selection. Please try again.");
+//             }
+    
+//             console.log("Initiating Payment with:", { selectedSeats, seatPrices, totalAmount });
+    
+//             const paymentResult = await makePayment(selectedSeats, seatPrices);
+    
+//             console.log("Payment Result:", paymentResult);
+    
+//             toast.success("Payment successful! Redirecting...");
+//         } catch (error) {
+//             console.error("Payment Error:", error);
+//             toast.error(`Payment failed: ${error.message}`);
+//         } finally {
+//             setIsLoading(false);
+//         }
+//     };
+    
+//     return (
+//         <div className="payment-page-container">
+//             <h2>Proceed to Payment</h2>
+//             <p>Movie: {movieDetails?.title}</p>
+//             <p>Theater: {theaterDetails?.name}</p>
+//             <p>Show Time: {showTime}</p>
+//             <p>Selected Seats: {selectedSeats.join(', ')}</p>
+//             <p>Total Amount: ₹{totalAmount > 0 ? totalAmount.toFixed(2) : '0.00'}</p>
+
+//             <button
+//                 className="mt-4 bg-blue-500 text-white px-6 py-2 rounded"
+//                 onClick={handlePayment}
+//                 disabled={isLoading} // Disable button while loading
+//             >
+//                 {isLoading ? 'Processing...' : 'Pay with Stripe'}
+//             </button>
+//         </div>
+//     );
+// };
+
+
+
+
+// Frontend - Payment Page Component
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
@@ -238,32 +295,30 @@ import { makePayment } from '../../services/paymentApi';
 
 export const PaymentPage = () => {
     const location = useLocation();
-    const { selectedSeats, movieDetails, theaterDetails, showTime, totalAmount, seatPrices } = location.state || {};
+    const { selectedSeats, movieDetails, theaterDetails, showTime, totalAmount } = location.state || {};
     const [isLoading, setIsLoading] = useState(false);
 
     const handlePayment = async () => {
+        setIsLoading(true);
+
+        const products = selectedSeats.map((seat) => ({
+            movieTitle: movieDetails?.title,
+            theaterName: theaterDetails?.name,
+            showTime,
+            name: `Seat ${seat}`,
+            price: totalAmount / selectedSeats.length,
+            quantity: 1,
+            image: movieDetails?.image || '', // Replace with your actual image path
+        }));
+
         try {
-            setIsLoading(true); // Show loading state while processing payment
-
-            // Check if selectedSeats and seatPrices are defined
-            if (!selectedSeats || !seatPrices || selectedSeats.length === 0) {
-                throw new Error("Invalid selection. Please try again.");
-            }
-
-            console.log("Selected Seats:", selectedSeats);
-            console.log("Seat Prices:", seatPrices);
-            console.log("Total Amount:", totalAmount);
-
-            // Call the makePayment function to initiate the Stripe checkout session
-            await makePayment(selectedSeats, seatPrices);
-
-            // Stripe will handle the redirect, so no need for additional logic here
-            toast.success("Payment successful! Redirecting...");
+            await makePayment(products); // Pass products to makePayment
+            toast.success("Redirecting to payment...");
         } catch (error) {
-            console.error("Payment Error:", error); // Log the full error object for debugging
+            console.error("Error during payment:", error);
             toast.error(`Payment failed: ${error.message}`);
         } finally {
-            setIsLoading(false); // Reset loading state
+            setIsLoading(false);
         }
     };
 
@@ -279,7 +334,7 @@ export const PaymentPage = () => {
             <button
                 className="mt-4 bg-blue-500 text-white px-6 py-2 rounded"
                 onClick={handlePayment}
-                disabled={isLoading} // Disable button while loading
+                disabled={isLoading}
             >
                 {isLoading ? 'Processing...' : 'Pay with Stripe'}
             </button>
