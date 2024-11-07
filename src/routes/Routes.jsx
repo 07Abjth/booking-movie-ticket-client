@@ -1,8 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { UserLayout } from '../components/layouts/user/UserLayout.jsx';
 import { UserHomePage } from "../pages/user/UserHomePage.jsx"; 
-import { BookingPage } from "../pages/user/BookingPage.jsx";
-import { ProfilePage } from "../pages/user/ProfilePage.jsx";
+ import { ProfilePage } from "../pages/user/ProfilePage.jsx";
 import { PaymentPage } from "../pages/user/PaymentPage.jsx";
 import { SettingsPage } from '../pages/user/SettingsPage.jsx';
 import { WatchListPage } from '../pages/user/WatchListPage.jsx';
@@ -39,6 +38,8 @@ import { AdminAuth } from "./protectedRoutes/AdminAuth.jsx";
 // import { CheckOutForm} from "../pages/user/CheckOutForm.jsx";
 import {PaymentSuccessPage} from '../pages/payment/PaymentSuccessPage.jsx'
 import {PaymentCancelPage} from '../pages/payment/PaymentCancelPage.jsx'
+import {MyBookingPage} from "../pages/user/MyBookingPage.jsx";
+import {BookingDetailsPage} from "../pages/user/BookingDetailsPage.jsx";
 
 
 
@@ -65,12 +66,11 @@ export const router = createBrowserRouter([
     ),
     children: [
       { path: "user-homepage", element: <UserHomePage /> },
-      { path: "bookings", element: <BookingPage /> },
-      { path: "profile", element: <ProfilePage /> },
+       { path: "profile", element: <ProfilePage /> },
       { path: "theater-details/:theaterId", element: <TheaterDetailsPage /> },
       { path: "seats/:theaterId/:showId/:movieId", element: <SeatsSelectionPage /> },
-      // { path:"payment", element:<PaymentPage />},
-      // { path:"check-out", element:<CheckOutForm />},
+      {path: "my-bookings", element: <MyBookingPage />},
+      {path: "bookings/:bookingId",element:<BookingDetailsPage />},
       {path: "payment/success", element:<PaymentSuccessPage/>},
       {path: "payment/cancel", element:<PaymentCancelPage/>},
 

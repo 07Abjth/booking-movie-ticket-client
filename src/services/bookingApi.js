@@ -1,74 +1,61 @@
-import axios from 'axios';
+import { axiosInstance } from "../config/axiosInstance";
 
-// Get All Bookings
-export const getAllBookings = async () => {
-  try {
-    const response = await axios({
-      url: "http://localhost:4000/api/v1/bookings",
-      method: "GET",
-      withCredentials: true,
-    });
-    return response?.data;
-  } catch (error) {
-    if (error.response) {
-      return { error: error.response.data };
-    } else {
-      return { error: 'An error occurred while fetching bookings' };
-    }
-  }
-};
-
-// Create a Booking
+// Create a New Booking
 export const createBooking = async (data) => {
   try {
-    const response = await axios({
-      url: "http://localhost:4000/api/v1/bookings",
-      method: "POST",
-      data,
+    const response = await axiosInstance.post('/booking/create', data, {
       withCredentials: true,
     });
     return response?.data;
   } catch (error) {
-    if (error.response) {
-      return { error: error.response.data };
-    } else {
-      return { error: 'An error occurred while creating the booking' };
-    }
+    return { error: error.response?.data || 'An error occurred while creating the booking' };
   }
 };
 
-// Get Booking Details
+// Get Booking Details by ID
 export const getBookingDetails = async (bookingId) => {
   try {
-    const response = await axios({
-      url: `http://localhost:4000/api/v1/bookings/${bookingId}`,
-      method: "GET",
+    const response = await axiosInstance.get(`/booking/details/${bookingId}`, {
       withCredentials: true,
     });
     return response?.data;
   } catch (error) {
-    if (error.response) {
-      return { error: error.response.data };
-    } else {
-      return { error: 'An error occurred while fetching booking details' };
-    }
+    return { error: error.response?.data || 'Failed to fetch booking details' };
   }
 };
 
-// Cancel a Booking
-export const cancelBooking = async (bookingId) => {
+// Get All Bookings (For Admin)
+export const getAllBookings = async () => {
   try {
-    const response = await axios({
-      url: `http://localhost:4000/api/v1/bookings/${bookingId}/cancel`,
-      method: "POST",
+    const response = await axiosInstance.get('/booking/get-allBookings', {
       withCredentials: true,
     });
     return response?.data;
   } catch (error) {
-    if (error.response) {
-      return { error: error.response.data };
-    } else {
-      return { error: 'An error occurred while canceling the booking' };
-    }
+    return { error: error.response?.data || 'Failed to fetch all bookings' };
+  }
+};
+
+// Cancel Booking
+export const cancelBooking = async (bookingId) => {
+  try {
+    const response = await axiosInstance.delete(`/booking/cancel/${bookingId}`, {
+      withCredentials: true,
+    });
+    return response?.data;
+  } catch (error) {
+    return { error: error.response?.data || 'An error occurred while canceling the booking' };
+  }
+};
+
+// Update Booking Status (Admin can change booking status)
+export const updateBookingStatus = async (bookingId, status) => {
+  try {
+    const response = await axiosInstance.patch(`/booking/updateStatus/${bookingId}`, { status }, {
+      withCredentials: true,
+    });
+    return response?.data;
+  } catch (error) {
+    return { error: error.response?.data || 'An error occurred while updating the booking status' };
   }
 };
