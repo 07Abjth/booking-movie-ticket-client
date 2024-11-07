@@ -4,6 +4,8 @@ import { BriefcaseBusiness, CircleUserRound, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../../../services/userApi";
 import { toast } from 'react-hot-toast';  
+import logo from "../../../assets/logo/logo.png";
+
 
 export const UserHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -27,7 +29,15 @@ export const UserHeader = () => {
   return (
     <header className="flex items-center justify-between w-full h-16 px-8 bg-gray-800 text-white">
       {/* Logo */}
-      <h1 className="text-2xl font-bold cursor-pointer" onClick={() => navigate("/user/homepage")}>Logo</h1>
+
+      <img
+  src={logo}
+  alt="Logo"
+  className="h-11 w-16 cursor-pointer border border-red-500"
+  onClick={() => navigate("/user/homepage")}
+/>
+
+
 
       {/* Dark Mode Toggle and Business Icon */}
       <div className="flex items-center gap-4">
