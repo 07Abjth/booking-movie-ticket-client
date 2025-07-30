@@ -15,7 +15,7 @@ export const LoginPage = () => {
       
       if (response.success) {  
         toast.success('Login successful');  
-        navigate('/user/user-homepage');
+        navigate('/user/homepage');
       } else {
         toast.error(response.message || 'Login failed');  
       }

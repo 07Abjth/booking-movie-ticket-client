@@ -18,9 +18,9 @@ const MovieListPage = () => {
       const trending = await axiosInstance.get("/movie/trending");
       const newReleases = await axiosInstance.get("/movie/new-releases");
 
-      setUpcomingMovies(upcoming.data.data || []);
-      setTrendingMovies(trending.data.data || []);
-      setNewReleases(newReleases.data.data || []);
+    setNewReleases(newReleases.data.data || []);
+    setUpcomingMovies(upcoming.data.data || []);
+    setTrendingMovies(trending.data.data || []);
     } catch (error) {
       console.error("Error fetching movies:", error);
       toast.error("Failed to fetch movies.");
@@ -34,6 +34,14 @@ const MovieListPage = () => {
   }, []);
 
   const carousels = [
+
+       { 
+      title: "Fresh Releases", 
+      movies: newReleases,
+      icon: Sparkles,
+      gradient: "from-emerald-500 to-teal-500",
+      bgGradient: "from-emerald-500/10 to-teal-500/10"
+    },
     { 
       title: "Trending Now", 
       movies: trendingMovies,
@@ -48,13 +56,7 @@ const MovieListPage = () => {
       gradient: "from-blue-500 to-purple-500",
       bgGradient: "from-blue-500/10 to-purple-500/10"
     },
-    { 
-      title: "Fresh Releases", 
-      movies: newReleases,
-      icon: Sparkles,
-      gradient: "from-emerald-500 to-teal-500",
-      bgGradient: "from-emerald-500/10 to-teal-500/10"
-    },
+ 
   ];
 
   const visibleCarousels = showAll ? carousels : carousels.slice(0, 2);

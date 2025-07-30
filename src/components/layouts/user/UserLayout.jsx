@@ -3,17 +3,26 @@ import { Header } from "../../layouts/common/Header";
 import { Footer } from "../common/Footer";
  
  
+  
+
 export const UserLayout = () => {
   return (
-    <div className="">
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
+      {/* Header */}
       <Header />
-      <main className="flex-grow pt-[72px] pb-16 px-4">
+
+      {/* Main content */}
+      <main className="flex-grow pt-[72px] px-0">
         <Outlet />
       </main>
+
+      {/* Footer */}
       <Footer />
     </div>
   );
 };
+
+ 
 
 
 
