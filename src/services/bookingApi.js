@@ -1,61 +1,37 @@
+// bookingApi.js (API calls for booking)
 import { axiosInstance } from "../config/axiosInstance";
 
-// Create a New Booking
-export const createBooking = async (data) => {
+
+
+export const createBooking = async (bookingData) => {
   try {
-    const response = await axiosInstance.post('/booking/create', data, {
-      withCredentials: true,
-    });
-    return response?.data;
+    console.log("Sending booking data:", bookingData); // Log data being sent to backend
+    const response = await axiosInstance.post('/booking/create-booking', bookingData, { withCredentials: true });
+    console.log("Booking response from server:", response.data); // Log response from server
+    return response.data;
   } catch (error) {
-    return { error: error.response?.data || 'An error occurred while creating the booking' };
+    console.error("Error creating booking:", error);
+    throw error;
   }
 };
 
 // Get Booking Details by ID
 export const getBookingDetails = async (bookingId) => {
   try {
-    const response = await axiosInstance.get(`/booking/details/${bookingId}`, {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.get(`/booking/details/${bookingId}`, { withCredentials: true });
     return response?.data;
   } catch (error) {
     return { error: error.response?.data || 'Failed to fetch booking details' };
   }
 };
 
-// Get All Bookings (For Admin)
-export const getAllBookings = async () => {
+export const getUserBookings = async () => {
   try {
-    const response = await axiosInstance.get('/booking/get-allBookings', {
-      withCredentials: true,
-    });
-    return response?.data;
+    const response = await axiosInstance.get('/booking/user-bookings', { withCredentials: true });
+    // return response.data?.bookings || []; // Only return the bookings array, or empty array if undefined
+    return response.data;
   } catch (error) {
-    return { error: error.response?.data || 'Failed to fetch all bookings' };
-  }
-};
-
-// Cancel Booking
-export const cancelBooking = async (bookingId) => {
-  try {
-    const response = await axiosInstance.delete(`/booking/cancel/${bookingId}`, {
-      withCredentials: true,
-    });
-    return response?.data;
-  } catch (error) {
-    return { error: error.response?.data || 'An error occurred while canceling the booking' };
-  }
-};
-
-// Update Booking Status (Admin can change booking status)
-export const updateBookingStatus = async (bookingId, status) => {
-  try {
-    const response = await axiosInstance.patch(`/booking/updateStatus/${bookingId}`, { status }, {
-      withCredentials: true,
-    });
-    return response?.data;
-  } catch (error) {
-    return { error: error.response?.data || 'An error occurred while updating the booking status' };
+    console.error("Error in getUserBookings API:", error);
+    throw error.response?.data || { message: "Failed to fetch bookings" };
   }
 };

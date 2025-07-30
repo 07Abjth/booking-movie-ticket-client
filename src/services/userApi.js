@@ -1,60 +1,9 @@
-// import { axiosInstance } from '../config/axiosInstance';
-
-// import axios from 'axios';
-
-
-
-// const bakEndUrl = "https://cine-ticket-book-server.vercel.app/api/v1"
-
-
-// // User signup function
-// export const userSignUp = async (data) => {
-//   try {
-//     const response = await axiosInstance.post('/user/register', data);
-//     return response?.data;
-//   } catch (error) {
-//     return { error: error.response ? error.response.data : 'An error occurred during signup' };
-//   }
-// };
-
-// // User login function
-// export const userLogin = async (data) => {
-//   try {
-//     const response = await axios.post(`${bakEndUrl}/user/login`, data);
-//     return response?.data;
-//   } catch (error) {
-//     return { error: error.response ? error.response.data : 'An error occurred during login' };
-//   }
-// };
-
-// // User logout function
-// export const userLogout = async () => {
-//   try {
-//     const response = await axiosInstance.post('/user/logout');
-//     return response?.data;
-//   } catch (error) {
-//     return { error: error.response ? error.response.data : 'An error occurred during logout' };
-//   }
-// };
-
-// // Fetching user profile
-// export const fetchUserProfile = async () => {
-//   try {
-//     const response = await axiosInstance.get('/user/profile');
-//     return response?.data.user || response?.data; 
-//   } catch (error) {
-//     return { error: error.response ? error.response.data : 'An error occurred while fetching profile' };
-//   }
-// };
-
-
-
 import { axiosInstance } from '../config/axiosInstance';
 
 // User signup function
 export const userSignUp = async (data) => {
   try {
-    const response = await axiosInstance.post('/user/register', data, { withCredentials: true });
+const response = await axiosInstance.post('/user/register', data);
     return response?.data;
   } catch (error) {
     return { error: error.response?.data || 'An error occurred during signup' };
@@ -64,7 +13,11 @@ export const userSignUp = async (data) => {
 // User login function
 export const userLogin = async (data) => {
   try {
-    const response = await axiosInstance.post(`/user/login`, data, { withCredentials: true });
+    const response = await axiosInstance.post('/user/login', data, { withCredentials: true });
+    if (response?.data?.user) {
+      // Store userId in localStorage on successful login
+      localStorage.setItem('userId', response?.data?.user?._id);
+    }
     return response?.data;
   } catch (error) {
     return { error: error.response?.data || 'An error occurred during login' };
@@ -75,6 +28,8 @@ export const userLogin = async (data) => {
 export const userLogout = async () => {
   try {
     const response = await axiosInstance.post('/user/logout', {}, { withCredentials: true });
+    // Remove userId from localStorage on logout
+    localStorage.removeItem('userId');
     return response?.data;
   } catch (error) {
     return { error: error.response?.data || 'An error occurred during logout' };
@@ -88,5 +43,15 @@ export const fetchUserProfile = async () => {
     return response?.data.user || response?.data;
   } catch (error) {
     return { error: error.response?.data || 'An error occurred while fetching profile' };
+  }
+};
+
+// Fetching user profile by ID (if required)
+export const fetchUserById = async (userId) => {
+  try {
+    const response = await axiosInstance.get(`/user/${userId}`, { withCredentials: true });
+    return response?.data;
+  } catch (error) {
+    return { error: error.response?.data || 'An error occurred while fetching user by ID' };
   }
 };

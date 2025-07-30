@@ -65,7 +65,7 @@ export const LoginPage = () => {
         </div>
         <p className="text-sm text-gray-600">
         If haven't registered?{' '}
-          <Link to="/signup" className="text-blue-500 hover:text-blue-600">
+          <Link to="/sign-up" className="text-blue-500 hover:text-blue-600">
             Signup
           </Link>
         </p>

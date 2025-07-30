@@ -1,6 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
 import { UserLayout } from '../components/layouts/user/UserLayout.jsx';
-import { UserHomePage } from "../pages/user/UserHomePage.jsx"; 
  import { ProfilePage } from "../pages/user/ProfilePage.jsx";
 import { PaymentPage } from "../pages/user/PaymentPage.jsx";
 import { SettingsPage } from '../pages/user/SettingsPage.jsx';
@@ -38,10 +37,8 @@ import { AdminAuth } from "./protectedRoutes/AdminAuth.jsx";
 // import { CheckOutForm} from "../pages/user/CheckOutForm.jsx";
 import {PaymentSuccessPage} from '../pages/payment/PaymentSuccessPage.jsx'
 import {PaymentCancelPage} from '../pages/payment/PaymentCancelPage.jsx'
-import {MyBookingPage} from "../pages/user/MyBookingPage.jsx";
-import {BookingDetailsPage} from "../pages/user/BookingDetailsPage.jsx";
-
-
+import {BookingDetails} from "../pages/user/BookingDetails.jsx";
+// import {BookingDetailsPage} from "../pages/user/BookingDetailsPage.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -55,7 +52,7 @@ export const router = createBrowserRouter([
       { path: "about", element: <AboutPage /> },
     ],
   },
-  
+
   // User Routes
   {
     path: "/user",
@@ -65,16 +62,14 @@ export const router = createBrowserRouter([
       </UserAuth>
     ),
     children: [
-      { path: "user-homepage", element: <UserHomePage /> },
-       { path: "profile", element: <ProfilePage /> },
+      { path: "homepage", element: <HomePage /> },
+      { path: "profile", element: <ProfilePage /> },
       { path: "theater-details/:theaterId", element: <TheaterDetailsPage /> },
       { path: "seats/:theaterId/:showId/:movieId", element: <SeatsSelectionPage /> },
-      {path: "my-bookings", element: <MyBookingPage />},
-      {path: "bookings/:bookingId",element:<BookingDetailsPage />},
-      {path: "payment/success", element:<PaymentSuccessPage/>},
-      {path: "payment/cancel", element:<PaymentCancelPage/>},
-
-      { path:"movie-info-and-booking/:movieId", element:<MovieInfoAndBookingPage />},
+      { path: "my-bookings", element: <BookingDetails /> },
+{ path:"payment/success", element:<PaymentSuccessPage />},
+      { path: "payment/cancel", element: <PaymentCancelPage /> },
+      { path: "movie-info-and-booking/:movieId", element: <MovieInfoAndBookingPage /> },
       { path: "seats/:theaterId/:showId/:movieId/payment", element: <PaymentPage /> },
       { path: "settings", element: <SettingsPage /> },
       { path: "watch-list", element: <WatchListPage /> },

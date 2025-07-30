@@ -14,7 +14,7 @@ export const SeatSelection = () => {
   const handleSelect = (seatNumber) => {
     setSelectedSeats((prev) =>
       prev.includes(seatNumber)
-        ? prev.filter((seat) => seat !== seatNumber) // Deselect if already selected
+        ? prev.filter((seat) => seat !== seatNumber)  
         : [...prev, seatNumber]
     );
   };

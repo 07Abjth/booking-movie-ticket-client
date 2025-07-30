@@ -1,10 +1,17 @@
-import axios from 'axios';
+import axios from "axios";
 
-console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);  
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
 
-const baseURL = import.meta.env.VITE_API_URL ;  
+// Log BASE_URL only in development
+if (import.meta.env.DEV) {
+  console.log("🟡 BASE_URL:", BASE_URL);
+}
+
 export const axiosInstance = axios.create({
-  baseURL: `${baseURL}/api/v1`,
+  baseURL: BASE_URL,
   withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  timeout: 10000, // 10 seconds to prevent hanging
 });
-

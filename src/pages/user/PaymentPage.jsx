@@ -295,7 +295,7 @@ import { makePayment } from '../../services/paymentApi';
 
 export const PaymentPage = () => {
     const location = useLocation();
-    const { selectedSeats, movieDetails, theaterDetails, showTime, totalAmount } = location.state || {};
+    const { selectedSeats, movieDetails, theaterDetails, showTime, totalAmount, showId } = location.state || {};
     const [isLoading, setIsLoading] = useState(false);
 
     const handlePayment = async () => {
@@ -308,7 +308,11 @@ export const PaymentPage = () => {
             name: `Seat ${seat}`,
             price: totalAmount / selectedSeats.length,
             quantity: 1,
-            image: movieDetails?.image || '', // Replace with your actual image path
+            image: movieDetails?.image || '',
+            seatId: seat,
+            movieId: movieDetails?.id,
+            theaterId: theaterDetails?.id,
+            showId: showId, // ✅ Now this exists
         }));
 
         try {

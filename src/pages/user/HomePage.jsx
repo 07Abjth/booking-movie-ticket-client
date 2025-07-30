@@ -1,255 +1,135 @@
-// import { useNavigate } from 'react-router-dom';
-// import MovieListPage from './MovieListPage';
- 
-
-// export const HomePage = () => {
-
-  
-//   const navigate = useNavigate();
-
-//   return (
-//     <div className="home-container text-center p-8 px-20" >
-//       <h1 className="text-4xl font-bold mb-6">Welcome to CineTicketsBook</h1>
-
-//       <p className="text-lg mb-4">
-//         Your ultimate destination for booking movie tickets. Discover the latest movies and book your seats now!
-//       </p>
-//       <div className="cta-buttons mt-6">
-//         <button
-//           onClick={() => navigate('/movies')}
-//           className="bg-blue-500 text-white py-2 px-4 rounded mr-4 hover:bg-blue-600 transition"
-//         >
-//           Explore Movies
-//         </button>
-//         <button
-//           onClick={() => navigate('/book-tickets')}
-//           className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
-//         >
-//           Book Tickets
-//         </button>
-//       </div>
-//       <br />
-//       {/* Carousel */}
-//       <div className="carousel w-full">
-//         <div id="slide1" className="carousel-item relative w-full">
-//           <img
-//             src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.webp"
-//             className="w-full"
-//             alt="Slide 1"
-//           />
-//           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-//             <a href="#slide4" className="btn btn-circle">❮</a>
-//             <a href="#slide2" className="btn btn-circle">❯</a>
-//           </div>
-//         </div>
-//         <div id="slide2" className="carousel-item relative w-full">
-//           <img
-//             src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp"
-//             className="w-full"
-//             alt="Slide 2"
-//           />
-//           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-//             <a href="#slide1" className="btn btn-circle">❮</a>
-//             <a href="#slide3" className="btn btn-circle">❯</a>
-//           </div>
-//         </div>
-//         <div id="slide3" className="carousel-item relative w-full">
-//           <img
-//             src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.webp"
-//             className="w-full"
-//             alt="Slide 3"
-//           />
-//           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-//             <a href="#slide2" className="btn btn-circle">❮</a>
-//             <a href="#slide4" className="btn btn-circle">❯</a>
-//           </div>
-//         </div>
-//         <div id="slide4" className="carousel-item relative w-full">
-//           <img
-//             src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.webp"
-//             className="w-full"
-//             alt="Slide 4"
-//           />
-//           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-//             <a href="#slide3" className="btn btn-circle">❮</a>
-//             <a href="#slide1" className="btn btn-circle">❯</a>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Movie Listings */}
-//       <MovieListPage />
-//     </div>
-//   );
-// };
-
-
-// import { useNavigate } from 'react-router-dom';
-// import MovieListPage from './MovieListPage';
-
-// export const HomePage = () => {
-//   const navigate = useNavigate();
-
-//   return (
-//     <div className="home-container text-center p-8 px-20">
-//       <h1 className="text-4xl font-bold mb-6">Welcome to CineTicketsBook</h1>
-
-//       <p className="text-lg mb-4">
-//         Your ultimate destination for booking movie tickets. Discover the latest movies and book your seats now!
-//       </p>
-//       <div className="cta-buttons mt-6">
-//         <button
-//           onClick={() => navigate('/movies')}
-//           className="bg-blue-500 text-white py-2 px-4 rounded mr-4 hover:bg-blue-600 transition"
-//         >
-//           Explore Movies
-//         </button>
-//         <button
-//           onClick={() => navigate('/book-tickets')}
-//           className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
-//         >
-//           Book Tickets
-//         </button>
-//       </div>
-//       <br />
-//       {/* Carousel */}
-//       <div className="carousel w-full">
-//         <div id="slide1" className="carousel-item relative w-full">
-//           <img
-//             src="https://images.unsplash.com/photo-1491458981945-2c8ed45c6a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fG1vdmllfGVufDB8fHx8MTY4NTg5ODI1Mg&ixlib=rb-1.2.1&q=80&w=1080"
-//             className="w-full"
-//             alt="Movie Scene 1"
-//           />
-//           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-//             <a href="#slide4" className="btn btn-circle">❮</a>
-//             <a href="#slide2" className="btn btn-circle">❯</a>
-//           </div>
-//         </div>
-//         <div id="slide2" className="carousel-item relative w-full">
-//           <img
-//             src="https://images.unsplash.com/photo-1496781431441-dc6ecdf6f147?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDczfHxtb3ZpZXxlbnwwfHx8fDE2ODU4OTgyNTY&ixlib=rb-1.2.1&q=80&w=1080"
-//             className="w-full"
-//             alt="Movie Scene 2"
-//           />
-//           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-//             <a href="#slide1" className="btn btn-circle">❮</a>
-//             <a href="#slide3" className="btn btn-circle">❯</a>
-//           </div>
-//         </div>
-//         <div id="slide3" className="carousel-item relative w-full">
-//           <img
-//             src="https://images.unsplash.com/photo-1542631876-3c8cd60b5ed8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDI3fHxtb3ZpZXxlbnwwfHx8fDE2ODU4OTgyNjA&ixlib=rb-1.2.1&q=80&w=1080"
-//             className="w-full"
-//             alt="Movie Scene 3"
-//           />
-//           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-//             <a href="#slide2" className="btn btn-circle">❮</a>
-//             <a href="#slide4" className="btn btn-circle">❯</a>
-//           </div>
-//         </div>
-//         <div id="slide4" className="carousel-item relative w-full">
-//           <img
-//             src="https://images.unsplash.com/photo-1519491974734-c507ac8cc37f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDIyfHxsb2dpY2FsaXplZCUyMGJpbGxlJTIwbG9uZ3xlbnwwfHx8fDE2ODU4OTgyNzE&ixlib=rb-1.2.1&q=80&w=1080"
-//             className="w-full"
-//             alt="Movie Scene 4"
-//           />
-//           <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-//             <a href="#slide3" className="btn btn-circle">❮</a>
-//             <a href="#slide1" className="btn btn-circle">❯</a>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Movie Listings */}
-//       <MovieListPage />
-//     </div>
-//   );
-// };
-
-
-import { useNavigate } from 'react-router-dom';
-import MovieListPage from './MovieListPage';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import MovieListPage from "./MovieListPage";
 
 export const HomePage = () => {
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:4000/api/v1/user/check-user", {
+          withCredentials: true,
+        });
+        setUser(data.success);
+      } catch {
+        setUser(false);
+      }
+    };
+
+    checkUser();
+  }, []);
+
+  if (user === null) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-purple-400 mx-auto mb-4"></div>
+          <p className="text-white text-lg font-medium">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="home-container text-center p-4 sm:p-6 md:p-8 lg:px-20">
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6">
-        Welcome to CineTicketsBook
-      </h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0" style={{
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        opacity: 0.4
+      }}></div>
+      
+      {/* Hero Section */}
+      <div className="relative z-10 px-4 sm:px-8 md:px-16 py-16">
+        <div className="text-center max-w-5xl mx-auto mb-20">
+          {/* Main Heading */}
+          <div className="mb-8">
+            <h1 className="text-6xl sm:text-7xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-red-400 mb-4 leading-tight">
+              CineTickets
+            </h1>
+            <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6">
+              Book. Watch. Enjoy.
+            </div>
+          </div>
 
-      <p className="text-sm sm:text-base md:text-lg mb-4">
-        Your ultimate destination for booking movie tickets. Discover the latest movies and book your seats now!
-      </p>
+          {/* Subtitle */}
+          <p className="text-xl sm:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Experience cinema like never before. Book your favorite movies with lightning speed and premium comfort.
+          </p>
 
-      <div className="cta-buttons mt-4 flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4">
-        <button
-          onClick={() => navigate('/movies')}
-          className="w-40 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
-        >
-          Explore Movies
-        </button>
-        <button
-          onClick={() => navigate('/book-tickets')}
-          className="w-40 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
-        >
-          Book Tickets
-        </button>
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row justify-center gap-6 mb-16">
+            {user ? (
+              <>
+                <button
+                  onClick={() => navigate("/movies")}
+                  className="group relative px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-2xl shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-700 to-pink-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative flex items-center justify-center gap-3">
+                    <span className="text-2xl">🎬</span>
+                    Explore Movies
+                  </span>
+                </button>
+                <button
+                  onClick={() => navigate("/book-tickets")}
+                  className="group relative px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-lg rounded-2xl shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-700 to-teal-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative flex items-center justify-center gap-3">
+                    <span className="text-2xl">🎟️</span>
+                    Book Tickets
+                  </span>
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => navigate("/sign-up")}
+                className="group relative px-12 py-5 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white font-bold text-xl rounded-2xl shadow-2xl hover:shadow-blue-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-700 via-purple-700 to-pink-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <span className="relative flex items-center justify-center gap-3">
+                  <span className="text-2xl">✨</span>
+                  Join the Experience
+                </span>
+              </button>
+            )}
+          </div>
+
+          {/* Features */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+              <div className="text-4xl mb-4">⚡</div>
+              <h3 className="text-xl font-bold text-white mb-2">Lightning Fast</h3>
+              <p className="text-gray-300">Book tickets in seconds with our streamlined process</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+              <div className="text-4xl mb-4">🎯</div>
+              <h3 className="text-xl font-bold text-white mb-2">Best Seats</h3>
+              <p className="text-gray-300">Choose from premium seats across multiple theaters</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20">
+              <div className="text-4xl mb-4">🌟</div>
+              <h3 className="text-xl font-bold text-white mb-2">Latest Movies</h3>
+              <p className="text-gray-300">Access to the newest releases and trending films</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Floating Visual Elements */}
+        <div className="absolute top-20 left-10 w-20 h-20 bg-purple-500/20 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-32 h-32 bg-pink-500/20 rounded-full blur-xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-20 left-1/4 w-24 h-24 bg-blue-500/20 rounded-full blur-xl animate-pulse delay-2000"></div>
       </div>
 
-      <br />
-
-      {/* Carousel */}
-      <div className="carousel w-full mt-4">
-        <div id="slide1" className="carousel-item relative w-full">
-          <img
-            src="https://images.unsplash.com/photo-1491458981945-2c8ed45c6a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDJ8fG1vdmllfGVufDB8fHx8MTY4NTg5ODI1Mg&ixlib=rb-1.2.1&q=80&w=1080"
-            className="w-full object-cover h-40 sm:h-60 md:h-80 lg:h-96"
-            alt="Movie Scene 1"
-          />
-          <div className="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
-            <a href="#slide4" className="btn btn-circle text-2xl">❮</a>
-            <a href="#slide2" className="btn btn-circle text-2xl">❯</a>
-          </div>
-        </div>
-        <div id="slide2" className="carousel-item relative w-full">
-          <img
-            src="https://images.unsplash.com/photo-1496781431441-dc6ecdf6f147?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDczfHxtb3ZpZXxlbnwwfHx8fDE2ODU4OTgyNTY&ixlib=rb-1.2.1&q=80&w=1080"
-            className="w-full object-cover h-40 sm:h-60 md:h-80 lg:h-96"
-            alt="Movie Scene 2"
-          />
-          <div className="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
-            <a href="#slide1" className="btn btn-circle text-2xl">❮</a>
-            <a href="#slide3" className="btn btn-circle text-2xl">❯</a>
-          </div>
-        </div>
-        <div id="slide3" className="carousel-item relative w-full">
-          <img
-            src="https://images.unsplash.com/photo-1542631876-3c8cd60b5ed8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDI3fHxtb3ZpZXxlbnwwfHx8fDE2ODU4OTgyNjA&ixlib=rb-1.2.1&q=80&w=1080"
-            className="w-full object-cover h-40 sm:h-60 md:h-80 lg:h-96"
-            alt="Movie Scene 3"
-          />
-          <div className="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
-            <a href="#slide2" className="btn btn-circle text-2xl">❮</a>
-            <a href="#slide4" className="btn btn-circle text-2xl">❯</a>
-          </div>
-        </div>
-        <div id="slide4" className="carousel-item relative w-full">
-          <img
-            src="https://images.unsplash.com/photo-1519491974734-c507ac8cc37f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNjUyOXwwfDF8c2VhcmNofDIyfHxsb2dpY2FsaXplZCUyMGJpbGxlJTIwbG9uZ3xlbnwwfHx8fDE2ODU4OTgyNzE&ixlib=rb-1.2.1&q=80&w=1080"
-            className="w-full object-cover h-40 sm:h-60 md:h-80 lg:h-96"
-            alt="Movie Scene 4"
-          />
-          <div className="absolute left-3 right-3 top-1/2 flex -translate-y-1/2 transform justify-between">
-            <a href="#slide3" className="btn btn-circle text-2xl">❮</a>
-            <a href="#slide1" className="btn btn-circle text-2xl">❯</a>
-          </div>
-        </div>
+      {/* Movie List Section */}
+      <div className="relative z-10 bg-gradient-to-b from-transparent to-gray-900/50">
+        <MovieListPage />
       </div>
-
-      {/* Movie Listings */}
-      <MovieListPage />
     </div>
   );
 };
+
+export default HomePage;
