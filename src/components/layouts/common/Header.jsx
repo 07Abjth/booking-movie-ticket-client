@@ -16,8 +16,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../../../services/userApi";
 import { toast } from "react-hot-toast";
-import axios from "axios";
-import logo from "../../../assets/logo/logo.png";
+ import logo from "../../../assets/logo/logo.png";
 import { axiosInstance } from "../../../config/axiosInstance";
 
 export const Header = () => {
