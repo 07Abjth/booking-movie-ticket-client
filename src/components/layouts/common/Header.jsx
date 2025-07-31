@@ -1,23 +1,24 @@
 import { useState, useEffect } from "react";
 import { DarkMode } from "../../ui/DarkMode";
-import { 
-  BriefcaseBusiness, 
-  CircleUserRound, 
-  Menu, 
-  X, 
+import {
+  BriefcaseBusiness,
+  CircleUserRound,
+  Menu,
+  X,
   Home,
   Calendar,
   Heart,
   Settings,
   Bell,
   LogOut,
-  Sparkles
+  Sparkles,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { userLogout } from "../../../services/userApi";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import logo from "../../../assets/logo/logo.png";
+import { axiosInstance } from "../../../config/axiosInstance";
 
 export const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,15 +26,16 @@ export const Header = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Check user authentication status
+// Check user authentication status
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const { data } = await axios.get("http://localhost:4000/api/v1/user/check-user", {
-          withCredentials: true,
-        });
-        setUser(data.success);
-      } catch {
+        // CHANGE: Use axiosInstance instead of hardcoded axios
+        const { data } = await axiosInstance.get("/user/check-user");
+        console.log("Header auth check:", data);
+        setUser(data.success || data.isAuthenticated);
+      } catch (error) {
+        console.error("Header auth error:", error);
         setUser(false);
       } finally {
         setLoading(false);
@@ -42,6 +44,7 @@ export const Header = () => {
 
     checkUser();
   }, []);
+
 
   const handleMenuToggle = () => {
     setMenuOpen(!menuOpen);
@@ -83,7 +86,7 @@ export const Header = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo Section */}
-          <div 
+          <div
             className="flex items-center gap-3 cursor-pointer group"
             onClick={() => navigate(user ? "/user/homepage" : "/")}
           >
@@ -106,22 +109,22 @@ export const Header = () => {
           {user ? (
             // Authenticated User Navigation
             <nav className="hidden lg:flex items-center gap-8">
-              <Link 
-                to="/user/homepage" 
+              <Link
+                to="/user/homepage"
                 className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-300 hover:bg-gray-800/50 px-4 py-2 rounded-xl"
               >
                 <Home className="w-4 h-4" />
                 <span>Home</span>
               </Link>
-              <Link 
-                to="/user/my-bookings" 
+              <Link
+                to="/user/my-bookings"
                 className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-300 hover:bg-gray-800/50 px-4 py-2 rounded-xl"
               >
                 <Calendar className="w-4 h-4" />
                 <span>My Bookings</span>
               </Link>
-              <Link 
-                to="/user/watch-list" 
+              <Link
+                to="/user/watch-list"
                 className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors duration-300 hover:bg-gray-800/50 px-4 py-2 rounded-xl"
               >
                 <Heart className="w-4 h-4" />
@@ -131,20 +134,20 @@ export const Header = () => {
           ) : (
             // Public Navigation
             <nav className="hidden lg:flex items-center gap-8">
-              <Link 
-                to="/" 
+              <Link
+                to="/"
                 className="text-gray-300 hover:text-white transition-colors duration-300 hover:bg-gray-800/50 px-4 py-2 rounded-xl"
               >
                 Home
               </Link>
-              <Link 
-                to="/about" 
+              <Link
+                to="/about"
                 className="text-gray-300 hover:text-white transition-colors duration-300 hover:bg-gray-800/50 px-4 py-2 rounded-xl"
               >
                 About
               </Link>
-              <Link 
-                to="/movies" 
+              <Link
+                to="/movies"
                 className="text-gray-300 hover:text-white transition-colors duration-300 hover:bg-gray-800/50 px-4 py-2 rounded-xl"
               >
                 Movies
@@ -166,7 +169,7 @@ export const Header = () => {
                 </div>
 
                 {/* Notifications */}
-                <Link 
+                <Link
                   to="/user/notifications"
                   className="hidden md:block p-2 text-gray-400 hover:text-white transition-colors duration-300 hover:bg-gray-800/50 rounded-xl relative"
                 >
@@ -175,7 +178,7 @@ export const Header = () => {
                 </Link>
 
                 {/* Profile Icon - Desktop */}
-                <Link 
+                <Link
                   to="/user/profile"
                   className="hidden md:block p-2 text-gray-400 hover:text-white transition-colors duration-300 hover:bg-gray-800/50 rounded-xl"
                 >
@@ -187,7 +190,11 @@ export const Header = () => {
                   onClick={handleMenuToggle}
                   className="md:hidden p-2 text-gray-400 hover:text-white transition-colors duration-300 hover:bg-gray-800/50 rounded-xl"
                 >
-                  {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                  {menuOpen ? (
+                    <X className="w-5 h-5" />
+                  ) : (
+                    <Menu className="w-5 h-5" />
+                  )}
                 </button>
               </>
             ) : (
@@ -210,7 +217,11 @@ export const Header = () => {
                   onClick={handleMenuToggle}
                   className="sm:hidden p-2 text-gray-400 hover:text-white transition-colors duration-300 hover:bg-gray-800/50 rounded-xl"
                 >
-                  {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                  {menuOpen ? (
+                    <X className="w-5 h-5" />
+                  ) : (
+                    <Menu className="w-5 h-5" />
+                  )}
                 </button>
               </>
             )}
@@ -224,55 +235,55 @@ export const Header = () => {
               {user ? (
                 // Authenticated Mobile Menu
                 <div className="space-y-4">
-                  <Link 
-                    to="/user/homepage" 
+                  <Link
+                    to="/user/homepage"
                     className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors duration-300 p-3 rounded-xl hover:bg-gray-800/50"
                     onClick={closeMenu}
                   >
                     <Home className="w-5 h-5" />
                     <span className="text-lg">Home</span>
                   </Link>
-                  <Link 
-                    to="/user/my-bookings" 
+                  <Link
+                    to="/user/my-bookings"
                     className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors duration-300 p-3 rounded-xl hover:bg-gray-800/50"
                     onClick={closeMenu}
                   >
                     <Calendar className="w-5 h-5" />
                     <span className="text-lg">My Bookings</span>
                   </Link>
-                  <Link 
-                    to="/user/watch-list" 
+                  <Link
+                    to="/user/watch-list"
                     className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors duration-300 p-3 rounded-xl hover:bg-gray-800/50"
                     onClick={closeMenu}
                   >
                     <Heart className="w-5 h-5" />
                     <span className="text-lg">Watchlist</span>
                   </Link>
-                  <Link 
-                    to="/user/profile" 
+                  <Link
+                    to="/user/profile"
                     className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors duration-300 p-3 rounded-xl hover:bg-gray-800/50"
                     onClick={closeMenu}
                   >
                     <CircleUserRound className="w-5 h-5" />
                     <span className="text-lg">Profile</span>
                   </Link>
-                  <Link 
-                    to="/user/settings" 
+                  <Link
+                    to="/user/settings"
                     className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors duration-300 p-3 rounded-xl hover:bg-gray-800/50"
                     onClick={closeMenu}
                   >
                     <Settings className="w-5 h-5" />
                     <span className="text-lg">Settings</span>
                   </Link>
-                  <Link 
-                    to="/user/notifications" 
+                  <Link
+                    to="/user/notifications"
                     className="flex items-center gap-3 text-gray-300 hover:text-white transition-colors duration-300 p-3 rounded-xl hover:bg-gray-800/50"
                     onClick={closeMenu}
                   >
                     <Bell className="w-5 h-5" />
                     <span className="text-lg">Notifications</span>
                   </Link>
-                  <button 
+                  <button
                     onClick={handleLogout}
                     className="flex items-center gap-3 text-red-400 hover:text-red-300 transition-colors duration-300 p-3 rounded-xl hover:bg-red-900/20 w-full text-left"
                   >
@@ -283,40 +294,36 @@ export const Header = () => {
               ) : (
                 // Public Mobile Menu
                 <div className="space-y-4">
-                  <Link 
-                    to="/" 
+                  <Link
+                    to="/"
                     className="block text-gray-300 hover:text-white transition-colors duration-300 p-3 rounded-xl hover:bg-gray-800/50 text-lg"
                     onClick={closeMenu}
                   >
                     Home
                   </Link>
-                  <Link 
-                    to="/about" 
+                  <Link
+                    to="/about"
                     className="block text-gray-300 hover:text-white transition-colors duration-300 p-3 rounded-xl hover:bg-gray-800/50 text-lg"
                     onClick={closeMenu}
                   >
                     About
                   </Link>
-                  <Link 
-                    to="/movies" 
+                  <Link
+                    to="/movies"
                     className="block text-gray-300 hover:text-white transition-colors duration-300 p-3 rounded-xl hover:bg-gray-800/50 text-lg"
                     onClick={closeMenu}
                   >
                     Movies
                   </Link>
                   <div className="pt-4 border-t border-gray-700/50 space-y-4">
-                    <Link 
+                    <Link
                       to="/login"
                       className="block text-gray-300 hover:text-white transition-colors duration-300 p-3 rounded-xl hover:bg-gray-800/50 text-lg"
                       onClick={closeMenu}
                     >
                       Login
                     </Link>
-                    <Link 
-                      to="/sign-up"
-                      className="block"
-                      onClick={closeMenu}
-                    >
+                    <Link to="/sign-up" className="block" onClick={closeMenu}>
                       <button className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-xl shadow-lg text-lg">
                         Join Us
                       </button>
