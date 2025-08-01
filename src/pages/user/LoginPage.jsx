@@ -2,29 +2,44 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast'; 
 import { userLogin } from '../../services/userApi.js';
+import { useAuth } from '../../context/AuthContext';
 
 export const LoginPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
+  const { refreshUser } = useAuth(); // Get refreshUser from AuthContext
 
   const onSubmit = async (data) => {
     try {
       console.log(data, "====data");
       const response = await userLogin(data);
-      console.log(response);
+      console.log("Login response:", response);
       
-      if (response.success) {  
-        toast.success('Login successful');  
-        navigate('/user/homepage');
+      // Check if login was successful
+      if (response && response.success && response.token) {  
+        toast.success('Login successful');
+        
+        // Refresh the AuthContext to get user data
+        refreshUser();
+        
+        // Add a small delay to ensure token is stored and user data is fetched
+        setTimeout(() => {
+          navigate('/user/homepage', { replace: true });
+        }, 500); // Increased delay to ensure user data is loaded
+        
+      } else if (response && response.error) {
+        // Handle API error response
+        toast.error(response.error.message || 'Login failed');
       } else {
-        toast.error(response.message || 'Login failed');  
+        toast.error('Login failed - Invalid response');
       }
 
     } catch (error) {
+      console.error("Login error:", error);
       if (error.response && error.response.data) {
         toast.error(error.response.data.message || 'Login failed');
       } else {
-        toast.error('An error occurred');
+        toast.error('An error occurred during login');
       }
     }
   };
