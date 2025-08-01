@@ -2,12 +2,10 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast'; 
 import { userLogin } from '../../services/userApi.js';
-import { useAuth } from '../../context/AuthContext';
 
 export const LoginPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const navigate = useNavigate();
-  const { refreshUser } = useAuth(); // Get refreshUser from AuthContext
 
   const onSubmit = async (data) => {
     try {
@@ -19,13 +17,10 @@ export const LoginPage = () => {
       if (response && response.success && response.token) {  
         toast.success('Login successful');
         
-        // Refresh the AuthContext to get user data
-        refreshUser();
-        
-        // Add a small delay to ensure token is stored and user data is fetched
+        // Add a small delay to ensure token is stored before navigation
         setTimeout(() => {
           navigate('/user/homepage', { replace: true });
-        }, 500); // Increased delay to ensure user data is loaded
+        }, 100);
         
       } else if (response && response.error) {
         // Handle API error response

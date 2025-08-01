@@ -1,88 +1,55 @@
-// context/AuthContext.jsx
-import { createContext, useContext, useEffect, useState } from 'react';
-import { axiosInstance } from '../Config/axiosInstance'; // Import your configured axios instance
-import toast from 'react-hot-toast';
+// src/context/AuthContext.jsx
+
+import { createContext, useContext, useState, useEffect } from "react";
+import { axiosInstance } from "../config/axiosInstance";
+import { toast } from "react-hot-toast";
 
 const AuthContext = createContext();
 
+export const useAuth = () => useContext(AuthContext);
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // For initial auth check
+  const [loading, setLoading] = useState(true); // to avoid flash during check
 
-  const fetchProfile = async () => {
+  // Refresh user from backend
+  const refreshUser = async () => {
     try {
-      // Check if token exists before making the request
-      const token = localStorage.getItem('token');
-      if (!token) {
-        console.log("🔐 No token found, skipping profile fetch");
-        setUser(null);
-        setLoading(false);
-        return;
-      }
+      const res = await axiosInstance.get("/user/check-user", {
+        withCredentials: true,
+      });
 
-      console.log("🔄 Fetching user profile...");
-      
-      // Use the correct endpoint that matches your backend
-      const res = await axiosInstance.get('/user/check-user', { withCredentials: true });
-
-      console.log("🟢 Response received:", res.data);
-
-      if (res?.data?.success) {
-        console.log("✅ User data:", res.data.data);
-        setUser(res.data.data);
+      if (res.data && res.data.success) {
+        setUser(res.data.user);
       } else {
-        console.warn("⚠️ Profile fetch unsuccessful");
         setUser(null);
       }
     } catch (error) {
-      console.error('❌ Error in fetchProfile:', error.response?.data?.message || error.message);
-      
-      // Handle different error cases
-      if (error.response?.status === 401 || error.response?.status === 403) {
-        // Token expired or invalid - clear it
-        localStorage.removeItem('token');
-        localStorage.removeItem('userId');
-        setUser(null);
-        console.log("🔑 Token cleared due to auth error");
-      } else {
-        console.log("Header auth error:", error.response?.data?.message || error.message);
-        setUser(null);
-      }
+      console.error("User not authenticated:", error?.response?.data?.message);
+      setUser(null);
     } finally {
       setLoading(false);
-      console.log("✅ AuthContext loading complete");
     }
   };
 
-  // Function to manually refresh user data (call this after login)
-  const refreshUser = () => {
-    setLoading(true);
-    fetchProfile();
-  };
-
-  // Function to logout
-  const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    setUser(null);
-    toast.success('Logged out successfully');
-  };
-
+  // Load user on app load
   useEffect(() => {
-    fetchProfile();
+    refreshUser();
   }, []);
 
+  const logout = async () => {
+    try {
+      await axiosInstance.post("/user/logout", {}, { withCredentials: true });
+      setUser(null);
+      toast.success("Logged out successfully");
+    } catch (error) {
+      toast.error("Logout failed");
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      setUser, 
-      loading, 
-      refreshUser, 
-      logout 
-    }}>
-      {children}
+    <AuthContext.Provider value={{ user, setUser, refreshUser, logout, loading }}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthContext);
