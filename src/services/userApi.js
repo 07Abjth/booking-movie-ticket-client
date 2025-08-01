@@ -14,10 +14,15 @@ const response = await axiosInstance.post('/user/register', data);
 export const userLogin = async (data) => {
   try {
     const response = await axiosInstance.post('/user/login', data, { withCredentials: true });
-    if (response?.data?.user) {
-      // Store userId in localStorage on successful login
-      localStorage.setItem('userId', response?.data?.user?._id);
+    
+    if (response?.data?.success && response?.data?.token) {
+      // Store both userId and token in localStorage
+      localStorage.setItem('token', response.data.token);
+      if (response?.data?.user) {
+        localStorage.setItem('userId', response?.data?.user?._id);
+      }
     }
+    
     return response?.data;
   } catch (error) {
     return { error: error.response?.data || 'An error occurred during login' };
